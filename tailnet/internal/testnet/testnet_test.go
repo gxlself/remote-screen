@@ -251,8 +251,11 @@ func waitPeer(t *testing.T, ctx context.Context, client, peer *Peer) {
 	}
 	tick := time.NewTicker(20 * time.Millisecond)
 	defer tick.Stop()
+	// TSMP goes through WireGuard, so a reply means the handshake is done. A
+	// disco reply does not: if the first handshake initiation is lost, UDP
+	// stays dark until WireGuard retries it five seconds later.
 	for {
-		res, err := lc.Ping(ctx, peer.IP4, tailcfg.PingDisco)
+		res, err := lc.Ping(ctx, peer.IP4, tailcfg.PingTSMP)
 		if err == nil && res.Err == "" {
 			return
 		}

@@ -41,8 +41,10 @@ func dialFixture(t *testing.T, idle int) (*Node, *testnet.Peer, int) {
 	})
 	awaitRunning(t, ctx, n)
 	awaitStatus(t, ctx, n, 5*time.Second, func(s Status) bool { return len(s.Peers) == 1 })
+	// TSMP, unlike disco, needs the WireGuard handshake, so UDP sent after it
+	// is not lost to a five-second handshake retry.
 	for {
-		res, err := n.localClient().Ping(ctx, p.IP4, tailcfg.PingDisco)
+		res, err := n.localClient().Ping(ctx, p.IP4, tailcfg.PingTSMP)
 		if err == nil && res.Err == "" {
 			break
 		}
