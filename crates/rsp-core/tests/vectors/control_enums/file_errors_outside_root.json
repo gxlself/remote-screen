@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_outside_root.bin",
+  "fields": {
+    "value": "FILE_ERROR_OUTSIDE_ROOT"
+  },
+  "name": "file_errors_outside_root",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_OUTSIDE_ROOT"
+  ]
+}

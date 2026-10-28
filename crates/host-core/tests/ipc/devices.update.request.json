@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","id":1,"method":"devices.update","params":{"device_id":"d-example","permission":"control","paths":[]}}

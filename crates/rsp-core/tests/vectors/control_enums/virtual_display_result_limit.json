@@ -1,0 +1,12 @@
+{
+  "binary": "virtual_display_result_limit.bin",
+  "description": "M3 virtual display result status.",
+  "fields": {
+    "request_id": 1,
+    "status": "LIMIT"
+  },
+  "name": "virtual_display_result_limit",
+  "non_default_enums": [
+    "VirtualDisplayResult.Status::LIMIT"
+  ]
+}

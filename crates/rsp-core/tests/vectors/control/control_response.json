@@ -1,0 +1,10 @@
+{
+  "binary": "control_response.bin",
+  "description": "ControlResponse allowing device-07 to take control.",
+  "fields": {
+    "allow": true,
+    "requester_device_id": "device-07"
+  },
+  "name": "control_response",
+  "non_default_enums": []
+}

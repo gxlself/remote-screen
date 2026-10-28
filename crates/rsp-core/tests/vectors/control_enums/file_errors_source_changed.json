@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_source_changed.bin",
+  "fields": {
+    "value": "FILE_ERROR_SOURCE_CHANGED"
+  },
+  "name": "file_errors_source_changed",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_SOURCE_CHANGED"
+  ]
+}

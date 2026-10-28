@@ -1,0 +1,7 @@
+{
+  "name": "cursor_hidden",
+  "kind": "hidden",
+  "hidden": true,
+  "binary": "hidden.bin",
+  "description": "u32 length + CursorMsg(hidden = true)."
+}

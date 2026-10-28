@@ -1,0 +1,53 @@
+//! RsCore for the React Native app (docs/dev/07-app.md); each module is filled by its A16 task.
+
+pub mod api_diag;
+pub mod api_discover;
+pub mod api_identity;
+pub mod api_pairing;
+pub mod api_sessions;
+pub mod api_ssh;
+pub mod api_sshkeys;
+pub mod api_sshterm;
+pub mod api_tailnet;
+pub mod api_tsapi;
+pub mod bgwire;
+pub mod candidates;
+pub mod combos;
+pub mod crash;
+pub mod crash_hook;
+pub mod crash_native;
+pub mod discover;
+pub mod dto_core;
+pub mod error;
+pub mod events;
+pub mod ffi_session;
+pub mod ffi_signer;
+pub mod ffi_term;
+pub mod ffi_viewport;
+pub mod logging;
+pub mod manual_addrs;
+pub mod netinfo;
+pub mod runtime;
+pub mod sessmap;
+pub mod settings;
+pub mod signer;
+pub mod sshbook;
+pub mod store;
+pub mod tables;
+pub mod tailnet_ctl;
+pub mod tailnet_policy;
+pub mod tailnet_split;
+pub mod tailnet_wire;
+pub mod tsapi;
+pub mod vdisplay;
+
+pub mod api_files;
+pub mod api_sftp;
+pub mod audio;
+pub mod dto_files;
+pub mod ffi_audio;
+pub mod files_upload;
+pub mod recording;
+pub mod xfer;
+
+pub mod adapters;

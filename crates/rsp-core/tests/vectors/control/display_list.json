@@ -1,0 +1,22 @@
+{
+  "binary": "display_list.bin",
+  "description": "DisplayList containing a rotated primary display.",
+  "fields": {
+    "displays": [
+      {
+        "height_px": 2160,
+        "id": 7,
+        "name": "DELL U2723QE",
+        "primary": true,
+        "refresh_hz": 60,
+        "rotation": 90,
+        "scale": 1.5,
+        "width_px": 3840,
+        "x": -1920,
+        "y": 120
+      }
+    ]
+  },
+  "name": "display_list",
+  "non_default_enums": []
+}

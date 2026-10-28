@@ -1,0 +1,105 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 480px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.title {
+  margin: 0;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.addressRow {
+  display: flex;
+  gap: 10px;
+}
+
+.addressRow > .field:first-child {
+  flex: 1 1 auto;
+}
+
+.port {
+  flex: 0 0 120px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.label {
+  color: var(--rs-text2);
+  font-size: 12px;
+}
+
+.input {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--rs-line2);
+  border-radius: var(--rs-radius-button);
+  outline: none;
+  background: var(--rs-raised);
+  color: var(--rs-text);
+  font: inherit;
+}
+
+.input:focus {
+  border-color: var(--rs-accent);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--rs-bad);
+}
+
+.input:disabled {
+  opacity: 0.6;
+}
+
+.code {
+  width: 160px;
+  font-family: var(--rs-font-mono);
+  font-size: 18px;
+  letter-spacing: 0.3em;
+}
+
+.hint {
+  color: var(--rs-text3);
+  font-size: var(--rs-font-size-small);
+  line-height: 1.45;
+}
+
+.file {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progress {
+  margin: 0;
+  color: var(--rs-text2);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

@@ -1,0 +1,13 @@
+{"type":"start","schema":1,"t_us":1000000,"names":["sunshine"],"nic":"Ethernet","logical_cpus":16}
+{"type":"sample","t_us":2000000,"pids":[1234],"cpu_pct":0,"cpu_total_pct":0,"gpu":{},"gpu_total":{},"nic_tx_bytes":0,"nic_rx_bytes":0}
+{"type":"sample","t_us":3000000,"pids":[1234],"cpu_pct":5,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":1000000,"nic_rx_bytes":100000}
+{"type":"sample","t_us":4000000,"pids":[1234],"cpu_pct":6,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":1125000,"nic_rx_bytes":110000}
+{"type":"sample","t_us":5000000,"pids":[1234],"cpu_pct":7,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":1250000,"nic_rx_bytes":120000}
+{"type":"sample","t_us":6000000,"pids":[1234],"cpu_pct":8,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":2500000,"nic_rx_bytes":130000}
+{"type":"sample","t_us":7000000,"pids":[1234],"cpu_pct":9,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":3750000,"nic_rx_bytes":180000}
+{"type":"sample","t_us":8000000,"pids":[1234],"cpu_pct":10,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":5000000,"nic_rx_bytes":230000}
+{"type":"sample","t_us":9000000,"pids":[1234],"cpu_pct":11,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":6250000,"nic_rx_bytes":280000}
+{"type":"sample","t_us":10000000,"pids":[1234],"cpu_pct":12,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":7500000,"nic_rx_bytes":330000}
+{"type":"sample","t_us":11000000,"pids":[1234],"cpu_pct":13,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":8750000,"nic_rx_bytes":380000}
+{"type":"sample","t_us":12000000,"pids":[1234],"cpu_pct":14,"cpu_total_pct":20,"gpu":{"3D":4,"VideoEncode":20},"gpu_total":{"3D":4,"VideoEncode":20},"nic_tx_bytes":10000000,"nic_rx_bytes":430000}
+{"type":"end","t_us":13000000,"reason":"seconds"}

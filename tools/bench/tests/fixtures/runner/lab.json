@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "host": {
+    "os": "windows",
+    "ssh": "bench-win",
+    "addr": "192.168.31.20",
+    "bench_dir": "C:\\rs-bench",
+    "shell": "cmd"
+  },
+  "controller": {
+    "os": "macos",
+    "addr": "192.168.31.30",
+    "netem": "mac",
+    "rs_bench": "target/release/rs-bench",
+    "sim_device": "iPhone 17 Pro",
+    "sim_app": null
+  },
+  "link": "wired",
+  "products": {
+    "remotescreen": {
+      "host_msi": null
+    },
+    "rustdesk": {},
+    "moonlight": {}
+  }
+}

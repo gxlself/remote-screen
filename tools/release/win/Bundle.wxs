@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Burn and MSI may each appear as an entry in Apps and Features. Automatic
+  updates replace the MSI, so the Burn entry can retain the initial version.
+  Whether ARPSYSTEMCOMPONENT should hide the MSI is left for release-machine
+  testing; this bundle deliberately does not set it.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal"
+     xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+  <?include Product.wxi ?>
+
+  <Bundle Name="$(var.ProductName)"
+          Manufacturer="$(var.Manufacturer)"
+          Version="$(var.Version)"
+          UpgradeCode="$(var.BundleUpgradeCode)"
+          DisableModify="yes">
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication Theme="hyperlinkLicense" LicenseUrl="" />
+    </BootstrapperApplication>
+
+    <Variable Name="PAIRFILE" bal:Overridable="yes" />
+    <Variable Name="PAIRFILE_PERMISSION" bal:Overridable="yes" />
+    <Variable Name="PAIRFILE_LABEL" bal:Overridable="yes" />
+    <Variable Name="REMOVEDATA" bal:Overridable="yes" />
+
+    <util:RegistrySearch Id="WV2Search"
+                         Root="HKLM"
+                         Key="SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}"
+                         Value="pv"
+                         Variable="WebView2Version"
+                         Bitness="always32" />
+
+    <Chain>
+      <ExePackage Id="WebView2Runtime"
+                  SourceFile="$(var.WebView2Bootstrapper)"
+                  Permanent="yes"
+                  Vital="no"
+                  InstallArguments="/silent /install"
+                  DetectCondition="WebView2Version AND WebView2Version &lt;&gt; &quot;0.0.0.0&quot;"
+                  Compressed="yes" />
+      <MsiPackage Id="RemoteHostMsi"
+                  SourceFile="$(var.MsiPath)"
+                  Vital="yes">
+        <MsiProperty Name="PAIRFILE" Value="[PAIRFILE]" />
+        <MsiProperty Name="PAIRFILE_PERMISSION" Value="[PAIRFILE_PERMISSION]" />
+        <MsiProperty Name="PAIRFILE_LABEL" Value="[PAIRFILE_LABEL]" />
+        <MsiProperty Name="REMOVEDATA" Value="[REMOVEDATA]" />
+      </MsiPackage>
+    </Chain>
+  </Bundle>
+</Wix>

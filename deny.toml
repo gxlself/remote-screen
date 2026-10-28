@@ -1,0 +1,42 @@
+[advisories]
+# Both arrive only through IronRDP (rs-rdp) → sspi / picky; no fixed release exists.
+# Recorded in D48 (docs/dev/01-decisions.md).
+ignore = [
+    { id = "RUSTSEC-2023-0071", reason = "rsa Marvin timing attack: the RDP client only does public-key RSA (server certificate, CredSSP key binding, Standard RDP Security client random) and holds no RSA private key a network peer can time; private-key use exists only in the testkit fake server" },
+    { id = "RUSTSEC-2023-0089", reason = "atomic-polyfill unmaintained (not a vulnerability), reached via sspi's smart-card path (winscard → iso7816 → heapless 0.7), which rs-rdp never uses" },
+]
+
+[licenses]
+# A closed allowlist rejects every GPL, AGPL and LGPL license/version.
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "Unicode-3.0",
+    "CC0-1.0",
+    "MPL-2.0",
+    "BSL-1.0",
+]
+
+# webpki-roots ships Mozilla's root certificate list under the CDLA-Permissive-2.0 data
+# license (1.x); the Tailscale API client in rs-mobile needs current roots.
+[[licenses.exceptions]]
+crate = "webpki-roots"
+allow = ["CDLA-Permissive-2.0"]
+
+# Workspace crates are unpublished; dependencies still use the allowlist.
+[licenses.private]
+ignore = true
+
+[bans]
+multiple-versions = "warn"
+
+# crates.io only, plus the pinned IronRDP commit for crypto compatibility.
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-git = ["https://github.com/Devolutions/IronRDP"]

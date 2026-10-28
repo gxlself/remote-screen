@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_sha256_mismatch.bin",
+  "fields": {
+    "value": "FILE_ERROR_SHA256_MISMATCH"
+  },
+  "name": "file_errors_sha256_mismatch",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_SHA256_MISMATCH"
+  ]
+}

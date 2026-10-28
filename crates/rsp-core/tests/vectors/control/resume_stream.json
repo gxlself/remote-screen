@@ -1,0 +1,7 @@
+{
+  "binary": "resume_stream.bin",
+  "description": "Empty ResumeStream marker message.",
+  "fields": {},
+  "name": "resume_stream",
+  "non_default_enums": []
+}

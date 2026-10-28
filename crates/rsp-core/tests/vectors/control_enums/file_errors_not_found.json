@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_not_found.bin",
+  "fields": {
+    "value": "FILE_ERROR_NOT_FOUND"
+  },
+  "name": "file_errors_not_found",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_NOT_FOUND"
+  ]
+}

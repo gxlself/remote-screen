@@ -1,0 +1,42 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.controlling {
+  background: var(--rs-hostControlled);
+  color: var(--rs-onControlled);
+  font-weight: 700;
+}
+
+.neutral {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--rs-textSoft);
+}
+
+.accent {
+  background: rgba(125, 168, 255, 0.16);
+  color: var(--rs-accentSoft);
+}
+
+.relay {
+  background: rgba(244, 178, 78, 0.16);
+  color: var(--rs-relay);
+}
+
+.good {
+  background: rgba(93, 211, 154, 0.14);
+  color: var(--rs-good);
+}
+
+.bad {
+  background: rgba(255, 136, 115, 0.14);
+  color: var(--rs-bad);
+}

@@ -1,0 +1,11 @@
+{
+  "binary": "set_quality.bin",
+  "description": "SetQuality selecting the smooth quality tier.",
+  "fields": {
+    "quality": "SMOOTH"
+  },
+  "name": "set_quality",
+  "non_default_enums": [
+    "Quality::SMOOTH"
+  ]
+}

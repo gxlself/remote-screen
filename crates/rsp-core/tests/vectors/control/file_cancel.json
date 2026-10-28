@@ -1,0 +1,9 @@
+{
+  "binary": "file_cancel.bin",
+  "description": "M2 file channel contract.",
+  "fields": {
+    "transfer_id": "00112233445566778899aabbccddeeff"
+  },
+  "name": "file_cancel",
+  "non_default_enums": []
+}

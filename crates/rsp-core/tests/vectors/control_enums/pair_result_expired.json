@@ -1,0 +1,14 @@
+{
+  "binary": "pair_result_expired.bin",
+  "description": "PairResult after the pairing window expired.",
+  "fields": {
+    "attempts_left": 0,
+    "host_id": "host-42",
+    "host_name": "Studio PC",
+    "status": "EXPIRED"
+  },
+  "name": "pair_result_expired",
+  "non_default_enums": [
+    "PairResult.Status::EXPIRED"
+  ]
+}

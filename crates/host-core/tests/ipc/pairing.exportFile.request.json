@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","id":1,"method":"pairing.exportFile","params":{"permission":"control","label":"IT 分发 10 月"}}

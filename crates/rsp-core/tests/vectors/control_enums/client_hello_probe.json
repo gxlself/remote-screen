@@ -1,0 +1,36 @@
+{
+  "binary": "client_hello_probe.bin",
+  "description": "Linux probe ClientHello that only discovers a host.",
+  "fields": {
+    "app_version": "0.3.1",
+    "caps": {
+      "audio_opus": true,
+      "decode": [
+        "HEVC",
+        "H264"
+      ],
+      "max_fps": 120,
+      "max_height": 1800,
+      "max_width": 2880,
+      "screen_height_px": 1800,
+      "screen_width_px": 2880
+    },
+    "device_name": "ThinkPad X1",
+    "features": 8203,
+    "intent": "PROBE",
+    "path": "INTRANET",
+    "platform": "LINUX",
+    "protocol": 1,
+    "required_features": 1,
+    "transport": "TCP"
+  },
+  "name": "client_hello_probe",
+  "non_default_enums": [
+    "Platform::LINUX",
+    "Intent::PROBE",
+    "PathKind::INTRANET",
+    "Transport::TCP",
+    "Codec::HEVC",
+    "Codec::H264"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "k": 1,
+  "m": 1,
+  "shard_len": 16,
+  "seed": 1161981756646125696,
+  "data_sha256": "711c32d9a6ef44f0f8660c5076dc8de1910f7ce04df88eb40ba8d9c1aac22f70",
+  "parity_sha256": ["711c32d9a6ef44f0f8660c5076dc8de1910f7ce04df88eb40ba8d9c1aac22f70"]
+}

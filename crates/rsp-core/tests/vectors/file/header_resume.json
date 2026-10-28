@@ -1,0 +1,13 @@
+{
+  "binary": "header_resume.bin",
+  "description": "QUIC file resume header: u32 big-endian header length and FileHeader with offset 6; no data bytes follow.",
+  "encoding": "quic-stream",
+  "feature": "FILE_TRANSFER",
+  "mtime_us": 1735689600000000,
+  "name": "hello.txt",
+  "offset": 6,
+  "payload_hex": "",
+  "sha256": "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9",
+  "size": 11,
+  "transfer_id": "00112233445566778899aabbccddeeff"
+}

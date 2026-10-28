@@ -1,0 +1,8 @@
+.glyph {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--rs-accent);
+  color: var(--rs-onAccent);
+}

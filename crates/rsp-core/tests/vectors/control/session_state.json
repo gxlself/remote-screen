@@ -1,0 +1,30 @@
+{
+  "binary": "session_state.bin",
+  "description": "Viewer session with a controller and one additional viewer.",
+  "fields": {
+    "controller": {
+      "device_id": "device-07",
+      "device_name": "Alice's iPad",
+      "path": "TAILNET_DERP",
+      "since_us": 1726000000123456,
+      "user": "alice@"
+    },
+    "input_paused_local": true,
+    "viewers": [
+      {
+        "device_id": "device-08",
+        "device_name": "Office iPad",
+        "path": "LAN",
+        "since_us": 1726000000654321,
+        "user": "guest@"
+      }
+    ],
+    "your_role": "VIEWER"
+  },
+  "name": "session_state",
+  "non_default_enums": [
+    "Role::VIEWER",
+    "PathKind::TAILNET_DERP",
+    "PathKind::LAN"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "binary": "goodbye_background.bin",
+  "description": "Goodbye when the app stays in the background too long.",
+  "fields": {
+    "message": "app moved to background",
+    "reason": "BACKGROUND"
+  },
+  "name": "goodbye_background",
+  "non_default_enums": [
+    "Goodbye.Reason::BACKGROUND"
+  ]
+}

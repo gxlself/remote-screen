@@ -1,0 +1,11 @@
+{
+  "name": "input_mouse_button",
+  "type": "MouseButton",
+  "button": "right",
+  "down": true,
+  "x": 0.125,
+  "y": 0.5,
+  "clicks": 2,
+  "binary": "mouse_button.bin",
+  "description": "Input stream event 0x02: right button press with double-click state."
+}

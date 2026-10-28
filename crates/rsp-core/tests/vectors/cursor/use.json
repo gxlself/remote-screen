@@ -1,0 +1,7 @@
+{
+  "name": "cursor_use",
+  "kind": "use",
+  "use": 10765093563792341319,
+  "binary": "use.bin",
+  "description": "u32 length + CursorMsg(use) referencing the shape from shape.bin."
+}

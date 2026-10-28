@@ -1,0 +1,5 @@
+{"type":"state","state":"NeedsLogin","authUrl":"http://127.0.0.1:35200/auth/0123abcd"}
+{"type":"authUrl","url":"http://127.0.0.1:35200/auth/0123abcd"}
+{"type":"netmap"}
+{"type":"error","message":"invalid authkey"}
+{"type":"stopped"}

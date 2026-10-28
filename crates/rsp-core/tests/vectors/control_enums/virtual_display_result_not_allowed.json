@@ -1,0 +1,12 @@
+{
+  "binary": "virtual_display_result_not_allowed.bin",
+  "description": "M3 virtual display result status.",
+  "fields": {
+    "request_id": 1,
+    "status": "NOT_ALLOWED"
+  },
+  "name": "virtual_display_result_not_allowed",
+  "non_default_enums": [
+    "VirtualDisplayResult.Status::NOT_ALLOWED"
+  ]
+}

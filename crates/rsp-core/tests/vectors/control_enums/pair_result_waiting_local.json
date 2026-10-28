@@ -1,0 +1,14 @@
+{
+  "binary": "pair_result_waiting_local.bin",
+  "description": "PairResult waiting for local confirmation on the host.",
+  "fields": {
+    "attempts_left": 0,
+    "host_id": "host-42",
+    "host_name": "Studio PC",
+    "status": "WAITING_LOCAL"
+  },
+  "name": "pair_result_waiting_local",
+  "non_default_enums": [
+    "PairResult.Status::WAITING_LOCAL"
+  ]
+}

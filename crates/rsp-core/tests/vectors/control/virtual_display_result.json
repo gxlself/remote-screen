@@ -1,0 +1,24 @@
+{
+  "binary": "virtual_display_result.bin",
+  "description": "VirtualDisplayResult confirming a virtual display.",
+  "fields": {
+    "display": {
+      "height_px": 2048,
+      "id": 3,
+      "is_virtual": true,
+      "name": "Virtual",
+      "refresh_hz": 60,
+      "scale": 2.0,
+      "width_px": 2732,
+      "x": 1512,
+      "y": 0
+    },
+    "message": "",
+    "request_id": 1,
+    "status": "OK"
+  },
+  "name": "virtual_display_result",
+  "non_default_enums": [
+    "VirtualDisplayResult.Status::OK"
+  ]
+}

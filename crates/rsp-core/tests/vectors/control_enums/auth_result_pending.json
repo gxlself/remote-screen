@@ -1,0 +1,14 @@
+{
+  "binary": "auth_result_pending.bin",
+  "description": "AuthResult waiting for local approval with a 30 second timeout.",
+  "fields": {
+    "approval_timeout_s": 30,
+    "role": "CONTROLLER",
+    "status": "PENDING_APPROVAL"
+  },
+  "name": "auth_result_pending",
+  "non_default_enums": [
+    "AuthResult.Status::PENDING_APPROVAL",
+    "Role::CONTROLLER"
+  ]
+}

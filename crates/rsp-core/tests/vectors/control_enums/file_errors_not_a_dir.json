@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_not_a_dir.bin",
+  "fields": {
+    "value": "FILE_ERROR_NOT_A_DIR"
+  },
+  "name": "file_errors_not_a_dir",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_NOT_A_DIR"
+  ]
+}

@@ -1,0 +1,122 @@
+// 由 ubrn 生成后手工改过，勿重新生成覆盖
+
+def reactNativeArchitectures() {
+  def value = rootProject.getProperties().get("reactNativeArchitectures")
+  return value ? value.split(",") : ["arm64-v8a", "x86_64"]
+}
+
+def isNewArchitectureEnabled() {
+  return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
+}
+
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+
+if (isNewArchitectureEnabled()) {
+  apply plugin: "com.facebook.react"
+}
+
+def getExtOrDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["RsCore_" + name]
+}
+
+def getExtOrIntegerDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["RsCore_" + name]).toInteger()
+}
+
+android {
+  namespace "ai.gxlself.rscore"
+
+  ndkVersion getExtOrDefault("ndkVersion")
+  compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
+
+  defaultConfig {
+    minSdkVersion getExtOrIntegerDefault("minSdkVersion")
+    targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
+    buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+    // ubrn does not always emit this optional file; AGP 9 rejects missing rules.
+    if (file('proguard-rules.pro').exists()) {
+      consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    externalNativeBuild {
+      cmake {
+        arguments '-DANDROID_STL=c++_shared'
+        arguments "-DRS_MOBILE_LIB_DIR=" + (System.getenv("RS_MOBILE_ANDROID_LIBS") ?: file("src/main/jniLibs").absolutePath)
+        abiFilters (*reactNativeArchitectures())
+      }
+    }
+  }
+
+  externalNativeBuild {
+    cmake {
+      path "CMakeLists.txt"
+    }
+  }
+
+  buildFeatures {
+    buildConfig true
+    prefab true
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+    }
+  }
+
+  lint {
+    disable "GradleCompatible"
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+
+  kotlinOptions {
+    jvmTarget = "17"
+  }
+
+  sourceSets {
+    main {
+      jniLibs.srcDirs = []
+      def tailnetLibs = System.getenv("RS_TAILNET_ANDROID_LIBS")
+      if (tailnetLibs) {
+        if (!file(tailnetLibs).isDirectory()) {
+          throw new GradleException("RS_TAILNET_ANDROID_LIBS=" + tailnetLibs + " is not a directory; run tailnet/scripts/build-android.sh")
+        }
+        jniLibs.srcDirs = [tailnetLibs]
+      }
+      if (isNewArchitectureEnabled()) {
+          java.srcDirs += [
+            "generated/java",
+            "generated/jni"
+          ]
+      }
+    }
+  }
+}
+
+repositories {
+  mavenCentral()
+  google()
+}
+
+def kotlin_version = getExtOrDefault("kotlinVersion")
+
+dependencies {
+  // For < 0.71, this will be from the local maven repo
+  // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
+  //noinspection GradleDynamicVersion
+  implementation "com.facebook.react:react-native:+"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+if (isNewArchitectureEnabled()) {
+  react {
+    jsRootDir = file("../src/")
+    libraryName = "RsCore"
+    codegenJavaPackageName = "ai.gxlself.rscore"
+  }
+}

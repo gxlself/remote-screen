@@ -1,0 +1,11 @@
+{
+  "name": "input_scroll",
+  "type": "Scroll",
+  "dx": -3.5,
+  "dy": 12.0,
+  "phase": "changed",
+  "momentum": "ended",
+  "unit": "line",
+  "binary": "scroll.bin",
+  "description": "Input stream event 0x03: natural scrolling, line units, momentum ended."
+}

@@ -1,0 +1,7 @@
+{
+  "binary": "pause_stream.bin",
+  "description": "Empty PauseStream marker message.",
+  "fields": {},
+  "name": "pause_stream",
+  "non_default_enums": []
+}

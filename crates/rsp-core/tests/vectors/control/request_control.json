@@ -1,0 +1,7 @@
+{
+  "binary": "request_control.bin",
+  "description": "Empty RequestControl marker message.",
+  "fields": {},
+  "name": "request_control",
+  "non_default_enums": []
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shared constants for RemoteHost.wxs and Bundle.wxs. Never change the upgrade codes. -->
+<Include xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <?define ProductName = "Remote Host" ?>
+  <?define Manufacturer = "gxlself" ?>
+  <?define UpgradeCode = "3F4C2B75-8C75-49A7-9169-DBB4728F5188" ?>
+  <?define BundleUpgradeCode = "997D839F-5A62-4AF0-9195-660749D25152" ?>
+  <?define ServiceName = "RemoteHostService" ?>
+  <?define ServiceDisplayName = "Remote Host" ?>
+  <?define ServiceExe = "rs-host.exe" ?>
+  <?define ServiceArgs = "--service" ?>
+  <?define SessionExe = "rs-host-session.exe" ?>
+  <?define TrayExe = "RemoteHost.exe" ?>
+  <?define DataDirName = "RemoteHost" ?>
+  <?define ListenPort = "7400" ?>
+  <?define DeployRegKey = "SOFTWARE\Remote Host\Deploy" ?>
+</Include>

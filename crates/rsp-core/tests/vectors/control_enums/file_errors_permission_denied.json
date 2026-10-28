@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_permission_denied.bin",
+  "fields": {
+    "value": "FILE_ERROR_PERMISSION_DENIED"
+  },
+  "name": "file_errors_permission_denied",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_PERMISSION_DENIED"
+  ]
+}

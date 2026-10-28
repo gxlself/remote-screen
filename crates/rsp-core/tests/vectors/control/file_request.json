@@ -1,0 +1,15 @@
+{
+  "binary": "file_request.bin",
+  "description": "M2 file channel contract.",
+  "fields": {
+    "expect_mtime_us": 9,
+    "expect_sha256_hex": "abababababababababababababababababababababababababababababababab",
+    "expect_size": 7,
+    "offset": 3,
+    "path": "/Users/example/Downloads/hello.txt",
+    "request_id": 2,
+    "transfer_id": "00112233445566778899aabbccddeeff"
+  },
+  "name": "file_request",
+  "non_default_enums": []
+}

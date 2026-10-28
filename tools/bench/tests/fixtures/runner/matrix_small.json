@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "products": [
+    "local",
+    "remotescreen",
+    "rustdesk",
+    "moonlight"
+  ],
+  "scenes": [
+    "static",
+    "scroll"
+  ],
+  "networks": [
+    "lan",
+    "weak"
+  ],
+  "repeats": 1,
+  "seconds": 10,
+  "calib_s": 4,
+  "warmup_s": 2,
+  "timing": {
+    "baseline_idle_s": 5,
+    "connect_wait_s": 8,
+    "settle_s": 5,
+    "page_after_capture_s": 2,
+    "capture_calib_timeout_s": 30
+  }
+}

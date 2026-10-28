@@ -1,0 +1,105 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 6px 0 14px;
+  border-radius: 18px;
+  background: var(--rs-hostControlled);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  color: var(--rs-onControlled);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rs-onControlled);
+}
+
+.message {
+  min-width: 0;
+}
+
+.recording {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  color: var(--rs-dangerSoft);
+  font-size: var(--rs-font-size-small);
+  font-weight: 600;
+}
+
+.recDot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rs-bad);
+  animation: recordPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes recordPulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recDot {
+    animation: none;
+  }
+}
+
+.elapsed {
+  flex: none;
+  font-family: var(--rs-font-mono);
+  font-weight: 500;
+}
+
+.viewers {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
+  background: rgba(42, 21, 0, 0.1);
+  font-weight: 500;
+}
+
+.eye {
+  width: 14px;
+  height: 14px;
+}
+
+.disconnect {
+  flex: none;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 13px;
+  background: rgba(42, 21, 0, 0.16);
+  color: var(--rs-onControlled);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 26px;
+  white-space: nowrap;
+}
+
+.disconnect:disabled {
+  cursor: default;
+  opacity: 0.6;
+}

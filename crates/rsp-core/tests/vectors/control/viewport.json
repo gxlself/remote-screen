@@ -1,0 +1,20 @@
+{
+  "binary": "viewport.bin",
+  "description": "Viewport reporting a settled 2x zoom on a 1920x1080 display.",
+  "fields": {
+    "crop_ok": true,
+    "display_id": 1,
+    "rect": {
+      "h": 560,
+      "w": 960,
+      "x": 480,
+      "y": 256
+    },
+    "seq": 7,
+    "settled": true,
+    "view_height_px": 1170,
+    "view_width_px": 2532
+  },
+  "name": "viewport",
+  "non_default_enums": []
+}

@@ -1,0 +1,15 @@
+# buf lint for proto/ (contract files are frozen; existing names are grandfathered).
+# Baseline taken on 2026-10-22 at integration 3d61554 in CI. New .proto files are fully linted.
+version: v2
+modules:
+  - path: proto
+lint:
+  use:
+    - STANDARD
+  ignore_only:
+    ENUM_VALUE_PREFIX:
+      - proto/rsp/v1/control.proto  # 61 findings
+      - proto/rsp/v1/streams.proto  # 2 findings
+      - proto/rsp/v1/trust.proto  # 4 findings
+    ENUM_ZERO_VALUE_SUFFIX:
+      - proto/rsp/v1/control.proto  # 2 findings

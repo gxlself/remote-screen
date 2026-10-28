@@ -1,0 +1,9 @@
+{
+  "binary": "set_audio.bin",
+  "description": "SetAudio enabling remote audio.",
+  "fields": {
+    "enabled": true
+  },
+  "name": "set_audio",
+  "non_default_enums": []
+}

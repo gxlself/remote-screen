@@ -1,0 +1,38 @@
+export const terminalBarStrings = {
+  showKeyboard: '显示键盘',
+  hideKeyboard: '收起键盘',
+  esc: 'esc',
+  ctrl: 'ctrl',
+  alt: 'alt',
+  tab: 'tab',
+  pipe: '|',
+  tilde: '~',
+  pipeA11y: '竖线',
+  tildeA11y: '波浪号',
+  arrowsCollapsedA11y: '方向键，按住滑动',
+  arrowsKeyboardA11y: '方向键，按住拖动',
+  keyboardBarA11y: '特殊按键，左右滑动发送方向键',
+  arrowsTip: '方向键要按住往上下左右滑',
+  arrowActions: {
+    up: '上',
+    down: '下',
+    left: '左',
+    right: '右',
+  },
+  hintNoMods: '修饰键点两下锁定',
+  hintKeyboardSwipePrefix: '在按键行上左右滑动 = 方向键',
+  modifierA11yState: {
+    none: '未按下',
+    once: '单次，下一个键后松开',
+    lock: '已锁定',
+  },
+  modifierShortState: {
+    none: '未按下',
+    once: '单次',
+    lock: '已锁定',
+  },
+  modifierName: {
+    ctrl: 'ctrl',
+    alt: 'alt',
+  },
+} as const;

@@ -1,0 +1,13 @@
+{
+  "name": "video_tcp",
+  "binary": "tcp.bin",
+  "flags": 0,
+  "display_id": 3,
+  "epoch": 255,
+  "frame_id": 5,
+  "data_shards": 1,
+  "parity_shards": 0,
+  "shard_len": 0,
+  "frame_len": 8,
+  "capture_ts_us": 777
+}

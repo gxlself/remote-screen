@@ -1,0 +1,37 @@
+{
+  "binary": "client_hello.bin",
+  "description": "ClientHello with nested capabilities and every enum set away from its default.",
+  "fields": {
+    "app_version": "0.3.1",
+    "caps": {
+      "audio_opus": true,
+      "decode": [
+        "HEVC",
+        "H264"
+      ],
+      "max_fps": 120,
+      "max_height": 2048,
+      "max_width": 2732,
+      "screen_height_px": 2796,
+      "screen_width_px": 1290
+    },
+    "device_name": "Alice's iPhone",
+    "features": 8203,
+    "intent": "PAIR",
+    "path": "INTRANET",
+    "platform": "IOS",
+    "protocol": 1,
+    "required_features": 1,
+    "resume_token_hex": "11111111111111111111111111111111",
+    "transport": "TCP"
+  },
+  "name": "client_hello",
+  "non_default_enums": [
+    "Platform::IOS",
+    "Intent::PAIR",
+    "PathKind::INTRANET",
+    "Transport::TCP",
+    "Codec::HEVC",
+    "Codec::H264"
+  ]
+}

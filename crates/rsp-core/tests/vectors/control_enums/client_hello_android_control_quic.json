@@ -1,0 +1,36 @@
+{
+  "binary": "client_hello_android_control_quic.bin",
+  "description": "Android ClientHello over QUIC requesting a control session.",
+  "fields": {
+    "app_version": "0.3.1",
+    "caps": {
+      "audio_opus": true,
+      "decode": [
+        "HEVC",
+        "H264"
+      ],
+      "max_fps": 120,
+      "max_height": 2856,
+      "max_width": 1280,
+      "screen_height_px": 2856,
+      "screen_width_px": 1280
+    },
+    "device_name": "Pixel 9 Pro",
+    "features": 8203,
+    "intent": "CONTROL",
+    "path": "INTRANET",
+    "platform": "ANDROID",
+    "protocol": 1,
+    "required_features": 1,
+    "transport": "QUIC"
+  },
+  "name": "client_hello_android_control_quic",
+  "non_default_enums": [
+    "Platform::ANDROID",
+    "Intent::CONTROL",
+    "PathKind::INTRANET",
+    "Transport::QUIC",
+    "Codec::HEVC",
+    "Codec::H264"
+  ]
+}

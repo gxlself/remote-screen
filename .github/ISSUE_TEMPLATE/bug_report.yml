@@ -1,0 +1,62 @@
+name: Bug report
+description: Something doesn't work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report! English or Chinese are both fine. 中文或英文都可以。
+        Please don't include passwords, keys or real public IP addresses.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: error
+    attributes:
+      label: Error code
+      description: The code on the disconnect screen, e.g. RS-E104, if any.
+  - type: dropdown
+    id: path
+    attributes:
+      label: Connection type
+      options:
+        - macOS Screen Sharing (VNC)
+        - Windows Remote Desktop (RDP)
+        - SSH
+        - Remote Host (RSP)
+        - Not connection-related
+    validations:
+      required: true
+  - type: input
+    id: client
+    attributes:
+      label: Controlling device
+      description: Device, OS version and app version, e.g. iPad Air M2 · iPadOS 18.1 · Remote Screen 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: computer
+    attributes:
+      label: Controlled computer
+      description: OS and version, e.g. macOS 15.2, Windows 11 Pro 23H2, Ubuntu 24.04 (Wayland)
+    validations:
+      required: true
+  - type: dropdown
+    id: network
+    attributes:
+      label: Network
+      options:
+        - Same LAN
+        - Company VPN
+        - Tailscale / Headscale
+        - Other
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Settings › Diagnostics (设置 › 诊断) can export local logs. Remove anything private before attaching.
+      render: text

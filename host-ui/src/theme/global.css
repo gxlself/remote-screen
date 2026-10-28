@@ -1,0 +1,94 @@
+/* Design tokens mirror src/theme/tokens.ts. Keep values in sync with H17A. */
+:root {
+  --rs-bg: #0d1114;
+  --rs-card: #151a1e;
+  --rs-cardLine: #232b31;
+  --rs-raised: #1c2328;
+  --rs-selected: #2e3840;
+  --rs-text: #ecf0f2;
+  --rs-text2: #a9b4bb;
+  --rs-text3: #86929a;
+  --rs-accent: #7da8ff;
+  --rs-onAccent: #0a1630;
+  --rs-good: #5dd39a;
+  --rs-relay: #f4b24e;
+  --rs-bad: #ff8873;
+  --rs-hostControlled: #ff9f43;
+  --rs-winAccent: #4cc2ff;
+  --rs-onControlled: #2a1500;
+  --rs-windowBg: #1e2226;
+  --rs-titleBar: #262b30;
+  --rs-sidebar: #191d21;
+  --rs-listPane: #1b1f23;
+  --rs-line: #2a3036;
+  --rs-line2: #2e343a;
+  --rs-menuBg: rgba(30, 34, 38, 0.94);
+  --rs-dialogBg: rgba(32, 36, 40, 0.96);
+  --rs-macBlue: #3d7bea;
+  --rs-textSoft: #c2cbd1;
+  --rs-textStrong: #d5dce0;
+  --rs-muted: #4e5a63;
+  --rs-switchOff: #4a545c;
+  --rs-iconTile: #2a3036;
+  --rs-accentSoft: #a9c3ff;
+  --rs-dangerSoft: #ffb3a6;
+  --rs-dangerBg: rgba(255, 136, 115, 0.2);
+  --rs-controlledBg: rgba(255, 159, 67, 0.12);
+  --rs-controlledLine: rgba(255, 159, 67, 0.35);
+  --rs-font: 'Geist Variable', 'Geist', 'PingFang SC', 'Hiragino Sans GB', system-ui, sans-serif;
+  --rs-font-mono: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
+  --rs-radius-menu: 12px;
+  --rs-radius-card: 10px;
+  --rs-radius-button: 7px;
+  --rs-radius-row: 6px;
+  --rs-radius-pill: 18px;
+  --rs-font-size: 13px;
+  --rs-font-size-small: 11.5px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--rs-windowBg);
+  color: var(--rs-text);
+  font-family: var(--rs-font);
+  font-size: var(--rs-font-size);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  color: var(--rs-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--rs-accent);
+  outline-offset: 2px;
+}
+
+html[data-page='capsule'] body,
+html[data-page='border'] body,
+html[data-page='bg'] body,
+html[data-page='menu'] body,
+html[data-page='confirm'] body {
+  background: transparent;
+}

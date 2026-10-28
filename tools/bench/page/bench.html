@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RS Bench</title>
+<style>
+  html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; cursor: none; }
+  canvas { display: block; width: 100vw; height: 100vh; }
+</style>
+</head>
+<body>
+<canvas id="bench"></canvas>
+<script src="tc.js"></script>
+<script src="scenes.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var canvas = document.getElementById("bench");
+  var ctx = canvas.getContext("2d", { alpha: false });
+  var tc = window.RSBenchTC;
+  var scenes = window.RSBenchScenes;
+  var params = scenes.parseParams(window.location.hash);
+  var width = 1;
+  var height = 1;
+  var bgCanvas = null;
+  var bgCtx = null;
+  var t0 = null;
+  var wasEnd = false;
+
+  function makeCanvas(w, h) {
+    if (typeof OffscreenCanvas === "function") {
+      return new OffscreenCanvas(w, h);
+    }
+    var result = document.createElement("canvas");
+    result.width = w;
+    result.height = h;
+    return result;
+  }
+
+  function fillBlack() {
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  function resize() {
+    var ratio = window.devicePixelRatio || 1;
+    width = Math.max(1, Math.round(window.innerWidth * ratio));
+    height = Math.max(1, Math.round(window.innerHeight * ratio));
+    canvas.width = width;
+    canvas.height = height;
+    if (params.ok && (params.scene === "static" || params.scene === "drag")) {
+      bgCanvas = makeCanvas(width, height);
+      bgCtx = bgCanvas.getContext("2d", { alpha: false });
+      scenes.drawStatic(bgCtx, width, height);
+    }
+    if (!params.ok) {
+      fillBlack();
+      ctx.fillStyle = "#f22";
+      ctx.font = "32px sans-serif";
+      ctx.textBaseline = "top";
+      ctx.fillText(params.error, 24, 24);
+    }
+  }
+
+  function requestWakeLock() {
+    if (!navigator.wakeLock || typeof navigator.wakeLock.request !== "function") {
+      return;
+    }
+    try {
+      var request = navigator.wakeLock.request("screen");
+      if (request && typeof request.catch === "function") {
+        request.catch(function () {});
+      }
+    } catch (error) {
+      // Wake lock is optional and may be rejected synchronously by a browser.
+    }
+  }
+
+  function toggleFullscreen() {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      var exit = document.exitFullscreen || document.webkitExitFullscreen;
+      if (exit) {
+        var exited = exit.call(document);
+        if (exited && typeof exited.catch === "function") {
+          exited.catch(function () {});
+        }
+      }
+      return;
+    }
+    var request = document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen;
+    if (request) {
+      var entered = request.call(document.documentElement);
+      if (entered && typeof entered.catch === "function") {
+        entered.catch(function () {});
+      }
+    }
+  }
+
+  function onKeyDown(event) {
+    if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.repeat && (event.key === "f" || event.key === "F")) {
+      event.preventDefault();
+      toggleFullscreen();
+    }
+  }
+
+  function drawPhase(ph, now) {
+    if (ph.phase === "delay") {
+      fillBlack();
+      return;
+    }
+    if (ph.phase === "calib") {
+      ctx.fillStyle = ph.white ? "#fff" : "#000";
+      ctx.fillRect(0, 0, width, height);
+      tc.drawCode(ctx, tc.encodeCalib(width, height), width, height);
+      return;
+    }
+    if (ph.phase === "scene") {
+      if (params.scene === "static") {
+        ctx.drawImage(bgCanvas, 0, 0);
+      } else if (params.scene === "scroll") {
+        scenes.drawScroll(ctx, width, height, ph.sceneT);
+      } else if (params.scene === "video") {
+        scenes.drawVideo(ctx, width, height, ph.sceneT);
+      } else if (params.scene === "drag") {
+        scenes.drawDrag(ctx, width, height, ph.sceneT, bgCanvas);
+      }
+      var wallMs = Math.floor(performance.timeOrigin + performance.now());
+      tc.drawCode(ctx, tc.encodeTime(wallMs), width, height);
+      return;
+    }
+    fillBlack();
+    tc.drawCode(ctx, tc.encodeEnd(), width, height);
+    if (!wasEnd) {
+      wasEnd = true;
+      document.title = "RS Bench END";
+    }
+  }
+
+  function frame() {
+    var now = performance.now();
+    if (t0 === null) {
+      t0 = now;
+    }
+    if (params.ok) {
+      drawPhase(scenes.phaseAt((now - t0) / 1000, params), now);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener("resize", resize, { passive: true });
+  window.addEventListener("keydown", onKeyDown);
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+      requestWakeLock();
+    }
+  });
+  resize();
+  requestWakeLock();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_io.bin",
+  "fields": {
+    "value": "FILE_ERROR_IO"
+  },
+  "name": "file_errors_io",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_IO"
+  ]
+}

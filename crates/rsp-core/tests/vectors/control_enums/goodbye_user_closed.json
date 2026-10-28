@@ -1,0 +1,12 @@
+{
+  "binary": "goodbye_user_closed.bin",
+  "description": "Goodbye when the app user closes the session.",
+  "fields": {
+    "message": "closed by app",
+    "reason": "USER_CLOSED"
+  },
+  "name": "goodbye_user_closed",
+  "non_default_enums": [
+    "Goodbye.Reason::USER_CLOSED"
+  ]
+}

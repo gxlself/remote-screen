@@ -1,0 +1,36 @@
+#!/bin/sh
+set -eu
+
+if [ -z "${APPDIR:-}" ]; then
+    APPDIR=$(dirname "$(readlink -f "$0")")
+fi
+
+usage() {
+    echo "Usage: AppRun host [args...] | ctl [args...] | --version" >&2
+}
+
+if [ "$#" -eq 0 ]; then
+    if [ -n "${APPIMAGE:-}" ]; then
+        exec "$APPDIR/usr/bin/remote-host-ctl" install --from "$APPIMAGE"
+    fi
+    usage
+    exit 2
+fi
+
+case "$1" in
+    host)
+        shift
+        exec "$APPDIR/usr/bin/rs-host" "$@"
+        ;;
+    ctl)
+        shift
+        exec "$APPDIR/usr/bin/remote-host-ctl" "$@"
+        ;;
+    --version)
+        cat "$APPDIR/usr/share/remote-host/VERSION"
+        ;;
+    *)
+        usage
+        exit 2
+        ;;
+esac

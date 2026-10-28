@@ -1,0 +1,11 @@
+{
+  "binary": "set_quality_clear.bin",
+  "description": "SetQuality selecting the clear quality tier.",
+  "fields": {
+    "quality": "CLEAR"
+  },
+  "name": "set_quality_clear",
+  "non_default_enums": [
+    "Quality::CLEAR"
+  ]
+}

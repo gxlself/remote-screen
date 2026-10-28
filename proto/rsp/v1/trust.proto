@@ -1,0 +1,21 @@
+syntax = "proto3";
+package rsp.v1;
+
+message Statement {
+  enum Kind { KIND_UNSPECIFIED = 0; REVOKE_DEVICE = 1; APPROVE_DEVICE = 2; REQUIRE_CONFIRM = 3; BIND_NODE = 4; }
+  Kind   kind            = 1;
+  string user            = 2;   // "alice@"
+  bytes  subject_fp      = 3;   // 被作废 / 被批准 / 登记第二节点的设备
+  bytes  subject_cert    = 4;   // 仅 APPROVE：新设备证书 DER
+  string subject_name    = 5;
+  uint64 issued_at_us    = 6;
+  bytes  nonce           = 7;   // 16 字节随机
+  string subject_node    = 8;   // 仅 BIND_NODE：设备第二个 tailnet 节点的 StableID
+}
+message SignedStatement {
+  bytes statement  = 1;         // Statement 编码后的字节
+  bytes signer_fp  = 2;         // 签发设备的 SPKI SHA-256 指纹
+  bytes signature  = 3;         // ECDSA-P256-SHA256，签 "rsp-trust-v1\0" ‖ statement
+  reserved 4;
+  reserved "hub_seq";
+}

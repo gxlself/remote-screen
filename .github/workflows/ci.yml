@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: "0"
+  RS_LINT_TOOLS_DIR: ${{ github.workspace }}/target/ci-cache/lint-tools/bin
+
+jobs:
+  rust:
+    name: Rust · fmt, clippy, tests, deny
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the pinned Rust toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest,cargo-deny
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: tailnet/go.mod
+          cache-dependency-path: tailnet/go.sum
+      - name: Install pinned lint tools (golangci-lint, buf)
+        run: bash tools/ci/install-lint-tools.sh
+      - name: Linux gate
+        env:
+          RS_REQUIRE_LINT_TOOLS: "1"
+        run: bash tools/ci/check-linux.sh --only fmt,clippy,tests,deny,desktop-lock,rustls-provider,golint,buflint,bench
+
+  tailnet:
+    name: Embedded tailnet
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: tailnet/go.mod
+          cache-dependency-path: tailnet/go.sum
+      - name: Go tests and rs-tailnet integration
+        env:
+          RS_REQUIRE_TAILNET_CHECKS: "1"
+        run: bash tools/ci/check-linux.sh --only tailnet
+
+  frontend:
+    name: Frontend · ${{ matrix.project }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [app, host-ui, desktop]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: ${{ matrix.project }}/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: ${{ matrix.project }}/pnpm-lock.yaml
+      - name: Install, typecheck, lint and test
+        env:
+          RS_REQUIRE_APP_CHECKS: "1"
+        run: bash tools/ci/check-linux.sh --only ${{ matrix.project }}
+
+  bindings:
+    name: uniffi bindings are current
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install
+      - uses: Swatinem/rust-cache@v2
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: app/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - name: Compare committed bindings with freshly generated ones
+        env:
+          RS_REQUIRE_APP_CHECKS: "1"
+        run: bash tools/ci/check-linux.sh --only "app install,bindings"

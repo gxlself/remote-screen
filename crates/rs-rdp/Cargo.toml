@@ -1,0 +1,50 @@
+[package]
+name = "rs-rdp"
+description = "RDP client over IronRDP for the built-in Windows Remote Desktop adapter (M3 V4)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[features]
+# Test helper: local fake RDP server built on ironrdp-server. Never enabled in app builds.
+testkit = ["dep:ironrdp-server", "dep:rcgen"]
+
+[dependencies]
+async-trait.workspace = true
+ironrdp-cliprdr.workspace = true
+ironrdp-connector.workspace = true
+ironrdp-core.workspace = true
+ironrdp-displaycontrol.workspace = true
+ironrdp-dvc.workspace = true
+ironrdp-egfx.workspace = true
+ironrdp-graphics.workspace = true
+ironrdp-input.workspace = true
+ironrdp-pdu.workspace = true
+ironrdp-rdpsnd.workspace = true
+ironrdp-session.workspace = true
+ironrdp-svc.workspace = true
+ironrdp-tokio.workspace = true
+rustls.workspace = true
+rustls-pki-types.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tokio-rustls.workspace = true
+tracing.workspace = true
+x509-parser.workspace = true
+zeroize.workspace = true
+ironrdp-server = { workspace = true, optional = true, features = ["egfx"] }
+rcgen = { workspace = true, optional = true }
+
+[target.'cfg(any(target_os = "android", target_os = "ios", target_os = "macos"))'.dependencies]
+ironrdp-egfx = { workspace = true, features = ["openh264-bundled"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util"] }
+host-core.workspace = true
+
+[target.'cfg(target_os = "macos")'.dev-dependencies]
+openh264 = { workspace = true, features = ["source"] }

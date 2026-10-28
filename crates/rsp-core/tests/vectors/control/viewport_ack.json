@@ -1,0 +1,12 @@
+{
+  "binary": "viewport_ack.bin",
+  "description": "ViewportAck confirming crop mode.",
+  "fields": {
+    "mode": "CROP",
+    "seq": 7
+  },
+  "name": "viewport_ack",
+  "non_default_enums": [
+    "ViewportAck.Mode::CROP"
+  ]
+}

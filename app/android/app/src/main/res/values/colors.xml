@@ -1,0 +1,4 @@
+<resources>
+    <color name="rs_bg">#0D1114</color>      <!-- 同 tokens.bg -->
+    <color name="rs_accent">#7DA8FF</color>  <!-- 同 tokens.accent -->
+</resources>

@@ -1,0 +1,268 @@
+.layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  height: 100%;
+  min-height: 100%;
+}
+
+.listPane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 24px 12px 20px 20px;
+  border-right: 1px solid var(--rs-line);
+  background: var(--rs-listPane);
+}
+
+.listHeader {
+  display: flex;
+  flex: none;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 8px 12px;
+}
+
+.listTitle {
+  margin: 0;
+  color: var(--rs-text);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.count {
+  color: var(--rs-text3);
+  font-size: 11.5px;
+}
+
+.list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 11px;
+  min-height: 0;
+  padding: 1px;
+  overflow-y: auto;
+}
+
+.deviceButton {
+  display: flex;
+  flex: none;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 9px;
+  color: var(--rs-text);
+  text-align: left;
+}
+
+.deviceButton:hover {
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.deviceSelected,
+.deviceSelected:hover {
+  background: rgba(61, 123, 234, 0.24);
+  box-shadow: inset 0 0 0 1px rgba(125, 168, 255, 0.45);
+}
+
+.deviceCopy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.deviceTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.deviceName {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lastConnected {
+  flex: none;
+  color: var(--rs-text3);
+  font-size: 11.5px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.deviceId,
+.mono {
+  font-family: var(--rs-font-mono);
+}
+
+.deviceId {
+  overflow: hidden;
+  color: var(--rs-text3);
+  font-size: 11.5px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tagLine {
+  display: flex;
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.empty {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 10px 8px;
+  color: var(--rs-text3);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.listFooter {
+  flex: none;
+  padding: 16px 8px 0;
+}
+
+.pairHint {
+  margin: 9px 0 0;
+  color: var(--rs-text3);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.detail {
+  min-width: 0;
+  padding: 24px 28px 28px;
+  overflow-y: auto;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.detailIdentity {
+  min-width: 0;
+}
+
+.detailName {
+  margin: 0;
+  color: var(--rs-text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.detailMeta {
+  margin: 4px 0 0;
+  color: var(--rs-text3);
+  font-size: 11.5px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.detailBanner {
+  margin-bottom: 16px;
+}
+
+.group {
+  max-width: 500px;
+}
+
+.group + .group {
+  margin-top: 24px;
+}
+
+.groupTitle {
+  margin: 0 0 8px;
+  color: var(--rs-text2);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.pathList {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--rs-line);
+}
+
+.pathList > * {
+  padding: 12px 14px;
+}
+
+.pathList > * + * {
+  border-top: 1px solid var(--rs-line);
+}
+
+.intranetRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 4px 10px;
+}
+
+.linkButton {
+  margin-left: 26px;
+  padding: 0;
+  color: var(--rs-accent);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.linkButton:hover {
+  text-decoration: underline;
+}
+
+.pathError {
+  margin: 7px 0 0;
+  color: var(--rs-bad);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.revokeBlock {
+  max-width: 500px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rs-line);
+}
+
+.revokeHint {
+  margin: 9px 0 0;
+  color: var(--rs-text3);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.revokeConfirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: var(--rs-text);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.revokeBanner {
+  margin-bottom: 12px;
+}

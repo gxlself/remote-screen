@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Remote Host
+Exec=remote-host-ctl status
+Icon=remote-host
+Categories=Network;RemoteAccess;
+Terminal=true
+NoDisplay=true

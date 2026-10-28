@@ -1,0 +1,10 @@
+{
+  "binary": "file_kinds_symlink.bin",
+  "fields": {
+    "value": "SYMLINK"
+  },
+  "name": "file_kinds_symlink",
+  "non_default_enums": [
+    "FileEntry.Kind::SYMLINK"
+  ]
+}

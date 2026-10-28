@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_not_allowed.bin",
+  "fields": {
+    "value": "FILE_ERROR_NOT_ALLOWED"
+  },
+  "name": "file_errors_not_allowed",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_NOT_ALLOWED"
+  ]
+}

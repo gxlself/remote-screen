@@ -1,0 +1,79 @@
+[package]
+name = "host-linux"
+description = "Linux platform layer for Remote Screen (PipeWire, xdg-desktop-portal, X11)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[features]
+default = []
+# 需要真实 PipeWire / X 服务器 / 合成器的集成测试；先用 tests/desktop/run.sh 起环境。
+desktop-it = []
+# 测试时从源码编 openh264，需要 C++ 编译器，所以默认关。
+# 发布包运行时加载 Cisco 二进制。
+openh264-source = ["openh264/source"]
+
+# 纯逻辑模块在所有目标上编译（Linux、macOS 上都能跑单测）；
+# PipeWire / portal / X11 / FFmpeg 胶水在 lib.rs 里用 cfg(target_os = "linux") 限定。
+[dependencies]
+host-core.workspace = true
+rsp-core.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+png.workspace = true
+sha2.workspace = true
+libc.workspace = true
+# 下面三个只给 bin remote-host-ctl 用。
+anyhow.workspace = true
+clap.workspace = true
+qrcode.workspace = true
+
+[target.'cfg(target_os = "linux")'.dependencies]
+zbus.workspace = true
+x11rb.workspace = true
+openh264 = { workspace = true, features = ["libloading"] }
+if-addrs.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util"] }
+
+[target.'cfg(target_os = "linux")'.dev-dependencies]
+zbus = { workspace = true, features = ["bus-impl"] }
+
+[[bin]]
+name = "remote-host-ctl"
+path = "src/bin/remote-host-ctl.rs"
+
+[[test]]
+name = "it_pw"
+required-features = ["desktop-it"]
+[[test]]
+name = "it_audio"
+required-features = ["desktop-it"]
+[[test]]
+name = "it_x11_capture"
+required-features = ["desktop-it"]
+[[test]]
+name = "it_x11_input"
+required-features = ["desktop-it"]
+[[test]]
+name = "it_x11_clip"
+required-features = ["desktop-it"]
+[[test]]
+name = "it_wl_capture"
+required-features = ["desktop-it"]
+[[test]]
+name = "it_ffmpeg"
+required-features = ["desktop-it"]
+[[test]]
+name = "it_ffencode"
+required-features = ["desktop-it"]
+[[test]]
+name = "it_platform"
+required-features = ["desktop-it"]

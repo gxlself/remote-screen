@@ -1,0 +1,12 @@
+{
+  "binary": "goodbye_idle_timeout.bin",
+  "description": "Goodbye after the session idle timeout.",
+  "fields": {
+    "message": "idle for 30 minutes",
+    "reason": "IDLE_TIMEOUT"
+  },
+  "name": "goodbye_idle_timeout",
+  "non_default_enums": [
+    "Goodbye.Reason::IDLE_TIMEOUT"
+  ]
+}

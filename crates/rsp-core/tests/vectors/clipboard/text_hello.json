@@ -1,0 +1,11 @@
+{
+  "name": "clipboard_text_hello",
+  "feature": "CLIPBOARD_TEXT",
+  "encoding": "quic-stream",
+  "kind": "text",
+  "text": "hello, Remote Screen 你好",
+  "size": 27,
+  "sha256": "a44d38b60214f2fbdd147b1bc66f260eb5f35e8a8affc7109f90277f644b33a3",
+  "binary": "text_hello.bin",
+  "description": "Complete QUIC clipboard stream: u32 big-endian header length, ClipboardHeader (kind=TEXT, size=27, SHA-256), then 27 UTF-8 bytes."
+}

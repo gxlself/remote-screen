@@ -1,0 +1,135 @@
+// versionCode = major * 1_000_000 + minor * 10_000 + patch * 100 + build (0..99).
+// Re-release the same version by increasing build; reset build to 0 for a new version.
+// Never publish a versionCode lower than a previously published APK or Play build.
+
+import groovy.json.JsonOutput
+import java.util.Properties
+
+def versionOverride = project.findProperty("rsVersionName")
+def versionSource = versionOverride != null ? "-PrsVersionName" : "Cargo.toml [workspace.package] version"
+def versionValue = versionOverride?.toString()
+if (versionOverride == null) {
+    def cargoFile = rootProject.file("../../Cargo.toml")
+    if (!cargoFile.isFile()) {
+        throw new GradleException("Invalid rsVersionName '<missing>' from ${versionSource}: Cargo.toml not found.")
+    }
+    def inWorkspacePackage = false
+    cargoFile.eachLine("UTF-8") { line ->
+        if (line ==~ /\s*\[workspace\.package\]\s*(#.*)?/) {
+            inWorkspacePackage = true
+        } else if (line ==~ /\s*\[.*\].*/) {
+            inWorkspacePackage = false
+        } else if (inWorkspacePackage) {
+            def match = line =~ /^\s*version\s*=\s*"([^"]*)"\s*(?:#.*)?$/
+            if (match.matches()) {
+                versionValue = match.group(1)
+            }
+        }
+    }
+}
+
+if (versionValue == null || !(versionValue ==~ /\d+\.\d+\.\d+/)) {
+    throw new GradleException("Invalid rsVersionName '${versionValue == null ? '<missing>' : versionValue}' from ${versionSource}: expected x.y.z with minor and patch <= 99.")
+}
+def versionParts = versionValue.split(/\./).collect { new BigInteger(it) }
+if (versionParts[1] > 99 || versionParts[2] > 99) {
+    throw new GradleException("Invalid rsVersionName '${versionValue}' from ${versionSource}: minor and patch must be <= 99.")
+}
+
+def buildOverride = project.findProperty("rsBuildNumber")
+def buildSource = buildOverride != null ? "-PrsBuildNumber" : "default"
+def buildValue = buildOverride != null ? buildOverride.toString() : "0"
+if (!(buildValue ==~ /\d+/) || new BigInteger(buildValue) > 99) {
+    throw new GradleException("Invalid rsBuildNumber '${buildValue}' from ${buildSource}: expected an integer in 0..99.")
+}
+def buildNumber = new BigInteger(buildValue).intValue()
+def versionCode = versionParts[0] * 1_000_000 + versionParts[1] * 10_000 + versionParts[2] * 100 + buildNumber
+if (versionCode > 2_100_000_000) {
+    throw new GradleException("rsVersionCode exceeds Play limit 2100000000 for rsVersionName '${versionValue}' from ${versionSource} and rsBuildNumber '${buildValue}' from ${buildSource}.")
+}
+ext.rsVersionName = versionValue
+ext.rsVersionCode = versionCode.intValue()
+ext.rsBuildNumber = buildNumber
+
+def signingKeys = [
+    "MYAPP_UPLOAD_STORE_FILE",
+    "MYAPP_UPLOAD_KEY_ALIAS",
+    "MYAPP_UPLOAD_STORE_PASSWORD",
+    "MYAPP_UPLOAD_KEY_PASSWORD",
+]
+def signingOverride = project.findProperty("rsKeystoreProperties")
+def signingFile = null
+ext.rsSigningSource = "none"
+if (signingOverride != null) {
+    signingFile = rootProject.file(signingOverride.toString())
+    rsSigningSource = "property"
+} else {
+    for (name in ["keystore.local.properties", "keystore.properties"]) {
+        def candidate = rootProject.file(name)
+        if (candidate.exists()) {
+            signingFile = candidate
+            rsSigningSource = name
+            break
+        }
+    }
+}
+
+def signingProperties = new Properties()
+ext.rsSigningMissing = []
+if (signingFile != null) {
+    if (!signingFile.isFile()) {
+        rsSigningMissing.add("${signingFile.name} (not found)".toString())
+    } else {
+        try {
+            signingFile.withInputStream { signingProperties.load(it) }
+        } catch (IOException | IllegalArgumentException ignored) {
+            // Do not expose a malformed property value or prevent debug builds.
+            signingProperties.clear()
+            rsSigningMissing.add("${signingFile.name} (could not read)".toString())
+        }
+    }
+}
+signingKeys.each { key ->
+    def value = signingProperties.getProperty(key)?.trim()
+    if (value) {
+        signingProperties.setProperty(key, value)
+    } else {
+        rsSigningMissing.add(key)
+    }
+}
+def storeFileValue = signingProperties.getProperty("MYAPP_UPLOAD_STORE_FILE")?.trim()
+def signingStoreFile = storeFileValue ? rootProject.file(storeFileValue) : null
+if (signingStoreFile != null && !signingStoreFile.isFile()) {
+    rsSigningMissing.add("MYAPP_UPLOAD_STORE_FILE (file not found)")
+}
+ext.rsSigning = rsSigningMissing.isEmpty() ? [
+    storeFile: signingStoreFile,
+    storePassword: signingProperties.getProperty("MYAPP_UPLOAD_STORE_PASSWORD"),
+    keyAlias: signingProperties.getProperty("MYAPP_UPLOAD_KEY_ALIAS"),
+    keyPassword: signingProperties.getProperty("MYAPP_UPLOAD_KEY_PASSWORD"),
+] : null
+
+def appProject = project
+def releaseTasks = [
+    "assembleRelease", "bundleRelease", "installRelease", "packageRelease",
+    "packageReleaseBundle", "signReleaseBundle",
+] as Set
+gradle.taskGraph.whenReady { graph ->
+    if (appProject.rsSigning == null && graph.allTasks.any { it.project == appProject && releaseTasks.contains(it.name) }) {
+        throw new GradleException("Release signing is not configured (${appProject.rsSigningSource}): missing ${appProject.rsSigningMissing.join(', ')}. Prepare app/android/keystore.local.properties and its keystore, or pass -PrsKeystoreProperties=<file>. For optional Nacos sync, configure NACOS_* and run 'bash app/scripts/nacos-build-secrets.sh pull --platform android --require-android-signing'.")
+    }
+}
+
+tasks.register("rsPrintVersion") {
+    group = "help"
+    description = "Print the Android version and release signing availability without secrets."
+    doLast {
+        println "RS-VERSION " + JsonOutput.toJson([
+            versionName: appProject.rsVersionName,
+            versionCode: appProject.rsVersionCode,
+            buildNumber: appProject.rsBuildNumber,
+            signing: appProject.rsSigning != null ? "ready" : "missing",
+            signingSource: appProject.rsSigningSource,
+        ])
+    }
+}

@@ -1,0 +1,6 @@
+.border {
+  position: fixed;
+  inset: 0;
+  box-shadow: inset 0 0 0 4px var(--rs-hostControlled);
+  pointer-events: none;
+}

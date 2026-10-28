@@ -1,0 +1,9 @@
+{
+  "binary": "select_display.bin",
+  "description": "SelectDisplay targeting display 7.",
+  "fields": {
+    "display_id": 7
+  },
+  "name": "select_display",
+  "non_default_enums": []
+}

@@ -1,0 +1,11 @@
+{
+  "binary": "file_list.bin",
+  "description": "M2 file channel contract.",
+  "fields": {
+    "offset": 1000,
+    "path": "/Users/example/Downloads",
+    "request_id": 1
+  },
+  "name": "file_list",
+  "non_default_enums": []
+}

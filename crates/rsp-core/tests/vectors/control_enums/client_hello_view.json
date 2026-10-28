@@ -1,0 +1,36 @@
+{
+  "binary": "client_hello_view.bin",
+  "description": "ClientHello for a view-only session.",
+  "fields": {
+    "app_version": "0.3.1",
+    "caps": {
+      "audio_opus": true,
+      "decode": [
+        "HEVC",
+        "H264"
+      ],
+      "max_fps": 120,
+      "max_height": 2622,
+      "max_width": 1206,
+      "screen_height_px": 2622,
+      "screen_width_px": 1206
+    },
+    "device_name": "iPhone 16 Pro",
+    "features": 8203,
+    "intent": "VIEW",
+    "path": "INTRANET",
+    "platform": "IOS",
+    "protocol": 1,
+    "required_features": 1,
+    "transport": "TCP"
+  },
+  "name": "client_hello_view",
+  "non_default_enums": [
+    "Platform::IOS",
+    "Intent::VIEW",
+    "PathKind::INTRANET",
+    "Transport::TCP",
+    "Codec::HEVC",
+    "Codec::H264"
+  ]
+}

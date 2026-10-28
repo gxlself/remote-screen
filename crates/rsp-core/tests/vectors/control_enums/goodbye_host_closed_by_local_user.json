@@ -1,0 +1,12 @@
+{
+  "binary": "goodbye_host_closed_by_local_user.bin",
+  "description": "Goodbye when someone at the host closes the session.",
+  "fields": {
+    "message": "closed on host",
+    "reason": "HOST_CLOSED_BY_LOCAL_USER"
+  },
+  "name": "goodbye_host_closed_by_local_user",
+  "non_default_enums": [
+    "Goodbye.Reason::HOST_CLOSED_BY_LOCAL_USER"
+  ]
+}

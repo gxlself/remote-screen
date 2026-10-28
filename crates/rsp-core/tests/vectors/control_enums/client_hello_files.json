@@ -1,0 +1,11 @@
+{
+  "binary": "client_hello_files.bin",
+  "fields": {
+    "intent": "FILES",
+    "required_features": 2097152
+  },
+  "name": "client_hello_files",
+  "non_default_enums": [
+    "Intent::FILES"
+  ]
+}

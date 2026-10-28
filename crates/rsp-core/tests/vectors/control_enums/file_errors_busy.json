@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_busy.bin",
+  "fields": {
+    "value": "FILE_ERROR_BUSY"
+  },
+  "name": "file_errors_busy",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_BUSY"
+  ]
+}

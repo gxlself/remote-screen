@@ -1,0 +1,10 @@
+{
+  "binary": "file_states_completed.bin",
+  "fields": {
+    "value": "COMPLETED"
+  },
+  "name": "file_states_completed",
+  "non_default_enums": [
+    "FileStatus.State::COMPLETED"
+  ]
+}

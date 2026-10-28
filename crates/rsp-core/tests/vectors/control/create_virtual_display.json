@@ -1,0 +1,14 @@
+{
+  "binary": "create_virtual_display.bin",
+  "description": "CreateVirtualDisplay requesting an iPad-sized virtual display.",
+  "fields": {
+    "height_px": 2048,
+    "refresh_hz": 60,
+    "request_id": 1,
+    "scale": 2.0,
+    "select": true,
+    "width_px": 2732
+  },
+  "name": "create_virtual_display",
+  "non_default_enums": []
+}

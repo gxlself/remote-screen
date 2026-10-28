@@ -1,0 +1,24 @@
+{
+  "binary": "file_listing.bin",
+  "description": "M2 file channel contract.",
+  "fields": {
+    "entries": [
+      {
+        "child_count": -1,
+        "kind": "FILE",
+        "mtime_us": 9,
+        "name": "hello.txt",
+        "size": 7
+      }
+    ],
+    "error": "FILE_ERROR_NONE",
+    "next_offset": 1,
+    "parent": "",
+    "path": "/Users/example/Downloads",
+    "request_id": 1
+  },
+  "name": "file_listing",
+  "non_default_enums": [
+    "FileEntry.Kind::FILE"
+  ]
+}

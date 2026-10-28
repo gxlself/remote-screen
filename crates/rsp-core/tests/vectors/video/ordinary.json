@@ -1,0 +1,13 @@
+{
+  "name": "video_ordinary",
+  "binary": "ordinary.bin",
+  "flags": 0,
+  "display_id": 1,
+  "epoch": 2,
+  "frame_id": 10,
+  "data_shards": 1,
+  "parity_shards": 0,
+  "shard_len": 16,
+  "frame_len": 14,
+  "capture_ts_us": 123456789
+}

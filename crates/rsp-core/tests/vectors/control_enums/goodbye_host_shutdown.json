@@ -1,0 +1,12 @@
+{
+  "binary": "goodbye_host_shutdown.bin",
+  "description": "Goodbye while the host shuts down.",
+  "fields": {
+    "message": "host shutting down",
+    "reason": "HOST_SHUTDOWN"
+  },
+  "name": "goodbye_host_shutdown",
+  "non_default_enums": [
+    "Goodbye.Reason::HOST_SHUTDOWN"
+  ]
+}

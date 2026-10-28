@@ -1,0 +1,14 @@
+{
+  "binary": "pair_result.bin",
+  "description": "PairResult reporting a locked pairing attempt.",
+  "fields": {
+    "attempts_left": 2,
+    "host_id": "host-42",
+    "host_name": "Studio Mac mini",
+    "status": "LOCKED"
+  },
+  "name": "pair_result",
+  "non_default_enums": [
+    "PairResult.Status::LOCKED"
+  ]
+}

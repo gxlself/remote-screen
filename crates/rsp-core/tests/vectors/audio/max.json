@@ -1,0 +1,8 @@
+{
+  "name": "audio_max",
+  "seq": 65535,
+  "capture_ts_us": 0,
+  "payload_len": 1275,
+  "binary": "max.bin",
+  "description": "Maximum-size 1286-byte audio datagram: type 0x11, sequence 65535, timestamp 0, and the largest RFC 6716 single-frame payload of 1275 bytes filled with 0xAB."
+}

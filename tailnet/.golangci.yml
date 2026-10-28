@@ -1,0 +1,38 @@
+# golangci-lint v2. Baseline recorded on 2026-10-22.
+# Existing findings are excluded file-by-file below; do not add new exclusions
+# for new code. When you fix an excluded finding, delete its rule.
+# Use the standard std-error-handling preset to match golangci-lint defaults; probes use calls it does not exempt.
+version: "2"
+run:
+  relative-path-mode: cfg
+  tests: true
+linters:
+  default: standard
+  exclusions:
+    generated: lax
+    presets:
+      - common-false-positives
+      - std-error-handling
+    paths:
+      - internal/testcontrol/      # upstream copy, see that directory README
+    rules:
+      # ---- baseline : errcheck 15 findings / 5 files ----
+      - path: ^internal/node/dial_test\.go$
+        linters: [errcheck]        # 4 findings
+      - path: ^internal/node/node_test\.go$
+        linters: [errcheck]        # 1 findings
+      - path: ^internal/testnet/serve_test\.go$
+        linters: [errcheck]        # 1 findings
+      - path: ^internal/testnet/testnet\.go$
+        linters: [errcheck]        # 5 findings
+      - path: ^internal/testnet/testnet_test\.go$
+        linters: [errcheck]        # 4 findings
+formatters:
+  enable:
+    - gofmt
+  exclusions:
+    generated: lax
+    paths: []
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

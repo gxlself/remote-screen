@@ -1,0 +1,10 @@
+{
+  "binary": "file_query.bin",
+  "description": "M2 file channel contract.",
+  "fields": {
+    "request_id": 3,
+    "transfer_id": "00112233445566778899aabbccddeeff"
+  },
+  "name": "file_query",
+  "non_default_enums": []
+}

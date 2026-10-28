@@ -1,0 +1,15 @@
+{
+  "name": "cursor_shape",
+  "kind": "shape",
+  "shape": {
+    "id": 10765093563792341319,
+    "width": 64,
+    "height": 48,
+    "hot_x": 5,
+    "hot_y": 7,
+    "scale": 2.0,
+    "png_hex": "89504e470d0a1a0a"
+  },
+  "binary": "shape.bin",
+  "description": "u32 length + CursorMsg(shape), including CursorShape metadata and png bytes."
+}

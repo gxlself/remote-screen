@@ -1,0 +1,12 @@
+{
+  "binary": "session_action_lock_screen.bin",
+  "description": "SessionAction asking the host to lock its screen.",
+  "fields": {
+    "enable": false,
+    "kind": "LOCK_SCREEN"
+  },
+  "name": "session_action_lock_screen",
+  "non_default_enums": [
+    "SessionAction.Kind::LOCK_SCREEN"
+  ]
+}

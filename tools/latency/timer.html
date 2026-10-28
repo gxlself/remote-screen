@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Glass-to-glass 毫秒计时器</title>
+<style>
+  :root {
+    --bg: #000;
+    --fg: #fff;
+    --muted: #a9b0b8;
+    --accent: #ffd000;
+    --stripe-light: #f4f4f4;
+    --stripe-dark: #181818;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Cascadia Mono", "Liberation Mono",
+                 "DejaVu Sans Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    cursor: none;
+  }
+
+  body { user-select: none; }
+
+  .stage {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
+  }
+
+  .readout-panel {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    min-height: 0;
+    padding: clamp(8px, 1.4vh, 20px) clamp(12px, 2vw, 40px);
+    border-bottom: 2px solid #2b2b2b;
+  }
+
+  .readout-line {
+    display: flex;
+    align-items: center;
+    min-height: 0;
+    gap: clamp(8px, 1.2vw, 24px);
+  }
+
+  #clock {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    font-size: clamp(64px, 36vh, 100vh);
+    font-weight: 700;
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+    overflow: hidden;
+    color: var(--fg);
+  }
+
+  .flip-block {
+    flex: 0 0 auto;
+    position: relative;
+    width: clamp(78px, 18vh, 250px);
+    aspect-ratio: 1;
+    border-radius: 0.08em;
+    background: #fff;
+    color: #000;
+    transition: none;
+  }
+
+  .flip-block.is-black {
+    background: #000;
+    color: #fff;
+  }
+
+  .frame-number {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: clamp(28px, 8vh, 112px);
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5em 2em;
+    padding-top: clamp(4px, 0.8vh, 12px);
+    color: var(--muted);
+    font-size: clamp(12px, 2.2vh, 30px);
+    line-height: 1.25;
+  }
+
+  .meta b {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .state { white-space: nowrap; }
+  .state.on { color: var(--accent); }
+
+  .scroll-panel {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--bg);
+    transition: none;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1em;
+    color: #6f7680;
+    font-size: clamp(14px, 2.4vh, 32px);
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .scroll-panel.scrolling .scroll-hint { visibility: hidden; }
+
+  .stripes {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 200%;
+    will-change: transform;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--stripe-light) 0,
+      var(--stripe-light) var(--stripe-width),
+      var(--stripe-dark) var(--stripe-width),
+      var(--stripe-dark) calc(var(--stripe-width) * 2)
+    );
+  }
+
+  .scroll-panel:not(.scrolling) .stripes { visibility: hidden; }
+
+</style>
+</head>
+<body>
+<main class="stage">
+  <section class="readout-panel" aria-label="主机计时读数">
+    <div class="readout-line">
+      <div id="clock" role="timer" aria-live="off">000.000</div>
+      <div id="flip" class="flip-block" aria-label="逐帧翻转色块">
+        <span id="frame-number" class="frame-number">00</span>
+      </div>
+    </div>
+    <div class="meta">
+      <span>刷新率 <b id="fps">--</b> Hz</span>
+      <span>帧号 <b id="frame-id">00</b></span>
+      <span id="scroll-state" class="state">静止 · S 滚动 · F 全屏</span>
+    </div>
+  </section>
+
+  <section id="scroll-panel" class="scroll-panel" aria-label="滚动测试区">
+    <div id="stripes" class="stripes"></div>
+    <span class="scroll-hint">静止样本区 · 按 S 开启滚动条纹</span>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var clockEl = document.getElementById("clock");
+  var flipEl = document.getElementById("flip");
+  var frameNumberEl = document.getElementById("frame-number");
+  var frameIdEl = document.getElementById("frame-id");
+  var fpsEl = document.getElementById("fps");
+  var scrollStateEl = document.getElementById("scroll-state");
+  var scrollPanelEl = document.getElementById("scroll-panel");
+  var stripesEl = document.getElementById("stripes");
+
+  var SCROLL_PIXELS_PER_SECOND = 180;
+  var stripeWidth = 0;
+  var frameNumber = -1;
+  var scrolling = false;
+  var scrollPosition = 0;
+  var scrollLastTimestamp = null;
+
+  function pad(value, width) {
+    return String(value).padStart(width, "0");
+  }
+
+  function wallClockMs() {
+    return performance.timeOrigin + performance.now();
+  }
+
+  function renderClock(wallMs) {
+    var totalMs = Math.floor(wallMs);
+    var seconds = Math.floor(totalMs / 1000) % 60;
+    clockEl.textContent = pad(seconds, 2) + "." + pad(totalMs % 1000, 3);
+  }
+
+  function setScrolling(enabled) {
+    scrolling = enabled;
+    scrollLastTimestamp = null;
+    scrollPanelEl.classList.toggle("scrolling", scrolling);
+    scrollStateEl.classList.toggle("on", scrolling);
+    scrollStateEl.textContent = (scrolling ? "滚动" : "静止") + " · S 滚动 · F 全屏";
+  }
+
+  function sizeStripes() {
+    stripeWidth = Math.max(16, Math.round(window.innerHeight * 0.1));
+    stripesEl.style.setProperty("--stripe-width", stripeWidth + "px");
+  }
+
+  function toggleFullscreen() {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      var exit = document.exitFullscreen || document.webkitExitFullscreen;
+      if (exit) {
+        var exitResult = exit.call(document);
+        if (exitResult && exitResult.catch) {
+          exitResult.catch(function () {});
+        }
+      }
+      return;
+    }
+    var root = document.documentElement;
+    var request = root.requestFullscreen || root.webkitRequestFullscreen;
+    if (request) {
+      var requestResult = request.call(root);
+      if (requestResult && requestResult.catch) {
+        requestResult.catch(function () {});
+      }
+    }
+  }
+
+  function onKeyDown(event) {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.repeat) {
+      return;
+    }
+    if (event.key === "s" || event.key === "S") {
+      event.preventDefault();
+      setScrolling(!scrolling);
+    } else if (event.key === "f" || event.key === "F") {
+      event.preventDefault();
+      toggleFullscreen();
+    }
+  }
+
+  sizeStripes();
+  window.addEventListener("resize", sizeStripes, { passive: true });
+  window.addEventListener("keydown", onKeyDown);
+
+  var fpsWindow = [];
+  function animate(timestamp) {
+    // performance.now() advances after the frame's callbacks are scheduled.
+    // Use it (rather than rAF's timestamp) for the displayed clock.
+    renderClock(wallClockMs());
+
+    frameNumber = (frameNumber + 1) % 100;
+    flipEl.classList.toggle("is-black", frameNumber % 2 === 0);
+    frameNumberEl.textContent = pad(frameNumber, 2);
+    frameIdEl.textContent = pad(frameNumber, 2);
+
+    fpsWindow.push(timestamp);
+    while (fpsWindow.length > 0 && timestamp - fpsWindow[0] > 1000) {
+      fpsWindow.shift();
+    }
+    if (fpsWindow.length >= 2) {
+      fpsEl.textContent = fpsWindow.length.toFixed(0);
+    }
+
+    if (scrolling) {
+      var elapsedMs = scrollLastTimestamp === null ? 0 : timestamp - scrollLastTimestamp;
+      scrollPosition += SCROLL_PIXELS_PER_SECOND * elapsedMs / 1000;
+      var cycle = stripeWidth * 2;
+      if (cycle > 0 && scrollPosition >= cycle) {
+        scrollPosition -= Math.floor(scrollPosition / cycle) * cycle;
+      }
+      stripesEl.style.transform = "translate3d(" + (-scrollPosition).toFixed(1) + "px,0,0)";
+      scrollLastTimestamp = timestamp;
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  renderClock(wallClockMs());
+  requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>

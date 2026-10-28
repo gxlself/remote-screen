@@ -1,0 +1,12 @@
+{
+  "binary": "session_action_lock_on_end.bin",
+  "description": "SessionAction enabling lock-on-end for the session.",
+  "fields": {
+    "enable": true,
+    "kind": "LOCK_ON_END"
+  },
+  "name": "session_action_lock_on_end",
+  "non_default_enums": [
+    "SessionAction.Kind::LOCK_ON_END"
+  ]
+}

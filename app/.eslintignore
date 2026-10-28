@@ -1,0 +1,5 @@
+native/core/src/
+ios/build/
+ios/Pods/
+artifacts/
+src/native/generated/

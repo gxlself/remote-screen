@@ -1,0 +1,1553 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A5E7C0DE00000000000000A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5E7C0DE00000000000000A1 /* Assets.xcassets */; };
+		C15998916EB9BCE916EE91E5 /* WindowActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88B8945628890AF45DD3C2F /* WindowActivity.swift */; };
+		97759EF373BB0FE54D4E97E5 /* RsReactRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CB3D378A192B74BBEA035D /* RsReactRuntime.swift */; };
+		0F2D59507902B5E67DC9D393 /* RsWindowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D4FDFEDDAEB8AAB0DDCBB /* RsWindowCoordinator.swift */; };
+		1B5F45226B53E420B8364E51 /* RsWindowModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = D72724F7D5B4F671EE4B45B5 /* RsWindowModule.mm */; };
+		002E9F63A6CEC9557F6F4B1C /* TrackpadHostCursorArbiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942FD523CE2A7E39F0B6F406 /* TrackpadHostCursorArbiter.swift */; };
+		00ABCB1D075A1141AFAB22A1 /* AppIcon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FD54E5CD7725D96349519D3 /* AppIcon-1024.png */; };
+		03323AF871FAE0F509B4D420 /* RsDevLogModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5113E4C6846C1723B9337918 /* RsDevLogModule.mm */; };
+		06957AB2D443B03663D2036D /* RsKeyCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018AAA59218D7A1A5A53B9B /* RsKeyCaptureView.swift */; };
+		070081D8C41D7D3D4D32ED27 /* PointerEdgeEscape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B862F8D31B8753AEF3886A /* PointerEdgeEscape.swift */; };
+		07E7EB3B8CD8E2AB0C976C3C /* RsAudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B14A57050D4F290DB9C0D /* RsAudioSession.swift */; };
+		08E84AADAB4BBD00B45953D0 /* KeyboardPassthrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3C2990AD360E80AE33A948 /* KeyboardPassthrough.swift */; };
+		F47A9505E684B6E154E53BD3 /* KeyboardRepeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE72D21E3C2B801D0691789 /* KeyboardRepeat.swift */; };
+		CAD972C2152459598B49BC19 /* KeyboardFocusPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A979AF88A7D363E0DA7A9EDD /* KeyboardFocusPolicy.swift */; };
+		0A5BB38DE87EB8BB62556333 /* RawFramePuller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBAE12F80F254684BC9AB71 /* RawFramePuller.swift */; };
+		0A75E52D169B44D2FA655378 /* LocalAuthErrorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D03FE6FB693B5C75DDC5B1 /* LocalAuthErrorMap.swift */; };
+		0B248B0DBED95AD904C9B8DE /* SecureKeySignBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D42490642FC7194A282934C /* SecureKeySignBuffer.swift */; };
+		0C80B921A6F3F58F76C31292 /* libPods-RemoteScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-RemoteScreen.a */; };
+		0CD71F6746A01B704EB58BC5 /* GeistMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F8B14BF89174736E782C9E7 /* GeistMono-Regular.ttf */; };
+		0CE13759CFD48B97BE5D1477 /* LifecycleBackgroundBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103E65BDC9B6A875197D2CE6 /* LifecycleBackgroundBudget.swift */; };
+		0E2C7DB70A78617464083AF5 /* PencilStrokeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77449EEB1C5D92800C37EBC /* PencilStrokeMapper.swift */; };
+		11164DA55D59D2684E29C77E /* KeyboardModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95404A767ED437AB8DD7E3F5 /* KeyboardModifiers.swift */; };
+		1198AFE79294FEC630E802E8 /* RsSecureKeyModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = 88C75C750C969BC56B3D9981 /* RsSecureKeyModule.mm */; };
+		11E9FA8B4FF91651B23703CC /* LifecycleExitMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DA36612E2CBEDB20CDB969 /* LifecycleExitMarker.swift */; };
+		161CF857450ACD73A3FF2CA6 /* AudioPlaybackMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA8FE4D4C446885F335D08 /* AudioPlaybackMachine.swift */; };
+		1663A65EA046EB25B3A43800 /* RsLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A648061B1AEAEED145BBF1B8 /* RsLog.swift */; };
+		16C55E37B3CE3D7E15B3AEF3 /* PointerGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC731D25EDF6BDA35076EA7B /* PointerGestureController.swift */; };
+		1799C1BC0E331BFAA83BA930 /* SecureKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B563426C0B92A4AA51FA8A /* SecureKeyStore.swift */; };
+		192A09B8FF5A301B70E5B98C /* RsSecretShim.c in Sources */ = {isa = PBXBuildFile; fileRef = 698ACC0BA3605C3F9E25264E /* RsSecretShim.c */; };
+		1B908B3A8B2B5268DC27A914 /* KeyboardCommitPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B5440B884CD3636300B25E /* KeyboardCommitPlanner.swift */; };
+		1BE00ED6B8DDBD0B63C61FCE /* RemoteSessionSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BA15DA97EE0467E3F2B4F /* RemoteSessionSurface.swift */; };
+		1F82B3B26D7A5604DDC7F4D7 /* SessionCursorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A820AE619C7E1F9AE016AAF9 /* SessionCursorController.swift */; };
+		1FA65BA123F3EEAF82F6C855 /* SecureKeySigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BF3197A384FB83FFD1A47A /* SecureKeySigner.swift */; };
+		21FD902999A181C5BC47E1C8 /* UniqueName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D437FEB7C3BA438B13937E7 /* UniqueName.swift */; };
+		24049DE13078A4FC57C7D8E8 /* NetInfoDebouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD399C29481E7996138CC8C /* NetInfoDebouncer.swift */; };
+		24B66965018DD75B325BD97F /* SessionKeyframeRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC73F67298476734E482CA4 /* SessionKeyframeRequester.swift */; };
+		47A5CC5ABB25B092F5260939 /* SessionSnapshotStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F673D41141CBF87CD51D7E1F /* SessionSnapshotStore.swift */; };
+		27B62EA287C0778DAB65F195 /* Geist-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B149E816DACFC412FDCC4EBD /* Geist-SemiBold.ttf */; };
+		2A8B324A13CC35AD2DE9E6F5 /* LifecyclePowerPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035B8F2C179BC6A30CAC13B2 /* LifecyclePowerPolicy.swift */; };
+		2C28A8061BD8424ADF8C82C9 /* BackgroundTaskGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BB034C9462938D4558B71 /* BackgroundTaskGate.swift */; };
+		2CABF0A0E04CF8A391CEBE8D /* DisplayFrameRatePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E43785283A50DB3F394EA /* DisplayFrameRatePolicy.swift */; };
+		2CF4F372C94D634E99A5477B /* RsNativeBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB4F0214E161F095EB744B9 /* RsNativeBootstrap.swift */; };
+		31197A8B24F5A1ED6CC7E340 /* SessionAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585BEF3D3C8541AD8ED95E33 /* SessionAttachment.swift */; };
+		31D6556E52A03B23B196992A /* PointerButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CB1721F738DE788ABC315A /* PointerButtons.swift */; };
+		336816DAEF5AAB8BA261B019 /* SessionPipCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C33574EC819588A6F99BB1 /* SessionPipCoordinator.swift */; };
+		337AA5D974F9C111B7A3FB99 /* RsKeyCaptureComponentView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 836DA9F9D1FD3D1D2E60A2DF /* RsKeyCaptureComponentView.mm */; };
+		3530A711A5B2F01E915DBD38 /* FilesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E7C95F9CFD91F51E2EE18 /* FilesService.swift */; };
+		387947738FA6FE7FABB16933 /* LaunchMark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2F41E04CDAB3995D5F49F1 /* LaunchMark@3x.png */; };
+		398F0318DA3A9000B6489B1C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		3A0C80A84B64BAF6F59CA08E /* TerminalPasteEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642DB5582B6A98A6135AA941 /* TerminalPasteEncoder.swift */; };
+		3CB543FFD379B734FD98B1C2 /* NetInfoCidr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6D55A2662650D80FEC6F70 /* NetInfoCidr.swift */; };
+		3F3C27721AABA2AA593F6460 /* AdapterKeychainLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42996C680507FD0CA5EEE066 /* AdapterKeychainLogic.swift */; };
+		42C3E957B5B6353207F6F262 /* RsLifecycleModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = 397F94D3226DF82AEBFDC3F0 /* RsLifecycleModule.mm */; };
+		43674A36A5BEA3461DDFEB5A /* Geist-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 897D760E2D65EE15FE2138A8 /* Geist-Medium.ttf */; };
+		47B257DC6EB36BC1486D2F5D /* NetInfoSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B0E2CB2CD6D81CA5A6D5A3 /* NetInfoSnapshot.swift */; };
+		4984FEF400CE63EA0FCA5097 /* RecordingKeyBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C60E316D791DC73D856673 /* RecordingKeyBridge.swift */; };
+		4BCA09D64A1D5ED399846442 /* PipMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4162ADB314F10E53E31CCBAE /* PipMachine.swift */; };
+		4C9CF06EFCD26CDBCC8E9338 /* KeyboardTextSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3775B433725E2832264D2D /* KeyboardTextSplitter.swift */; };
+		4DA823AFC993D9C412629D2A /* SessionMagnifierLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD792E3C03915F4239077D /* SessionMagnifierLayer.swift */; };
+		4DD40845993A53A5797D3ED4 /* SessionMagnifierGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4B7C55B6A01A239C63DA25 /* SessionMagnifierGeometry.swift */; };
+		4E4FD8774B7C354AC235815D /* TerminalOutputCoalescer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE904FEAC2DC77AD05E3FA5 /* TerminalOutputCoalescer.swift */; };
+		511CA77343D7D4877FA1A580 /* ScannerPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAD2D1A8DCE187A0BE74792 /* ScannerPermission.swift */; };
+		51696A29BE8013A042AEBFDB /* RsMarkerLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CBDFE6B2F18E6A5292A576 /* RsMarkerLine.swift */; };
+		517F0CCA2F74761D0AE28B00 /* PipRenderSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51DF5DB4A1A7493E8012086 /* PipRenderSwitch.swift */; };
+		5196961B1326803318D7FC79 /* PointerLockCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642D6E899F289C80E22F976B /* PointerLockCoordinator.swift */; };
+		522CD679A74A35E5739F74D2 /* SessionPencilHoverLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F35976D37DDE78AECFD662 /* SessionPencilHoverLayer.swift */; };
+		52640177FF2ABF87B31170B5 /* SecureKeyRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE8DE933A65A1A44F47699A /* SecureKeyRotation.swift */; };
+		532AC927973595851F4DAC5F /* QrScanThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2688B010B63B8D769AEF955B /* QrScanThrottle.swift */; };
+		5898E3637065F343C41C5A4A /* PrivacyCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F06A52B090482DAF6A58C6 /* PrivacyCover.swift */; };
+		58A6861201CEAD40CA39F219 /* TrackpadScrollMomentum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23E0A65F14B10CC667CD04 /* TrackpadScrollMomentum.swift */; };
+		C4F12CC8E38EDF565AA20013 /* SpaceSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED536682A611890785B1D7 /* SpaceSwipe.swift */; };
+		59F286FCB18C718302BA460D /* RsNetInfoModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = 72B27E9A60E99691F7CC2C5D /* RsNetInfoModule.mm */; };
+		5A478065F9A9C7C2240A6240 /* SessionZoomMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C70990BB03661C64C5424FD /* SessionZoomMath.swift */; };
+		5C2609FD19C1A5DE93593E2F /* SecureKeyStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DABB6870715251AD179259 /* SecureKeyStats.swift */; };
+		5F49EA6B2FEBC937DA088A98 /* GeistMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C4525EF8CD28A905743B215 /* GeistMono-Medium.ttf */; };
+		5F73AD2E604324E321DCA0E7 /* SessionGesturePrefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D820FE602DCD4000EB0409A /* SessionGesturePrefs.swift */; };
+		5FA2ADF34A901D8B5A9A8718 /* RsAudioModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD8066D4CE9A6925964FB59C /* RsAudioModule.mm */; };
+		68671F3EDEFAB1F4BC992111 /* TerminalInputSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0FF989604CF92E0F5AB845 /* TerminalInputSender.swift */; };
+		6962F6D121506CE7A420442C /* RsTerminalViewComponentView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7548602F26AA9F53E83F1450 /* RsTerminalViewComponentView.mm */; };
+		6FF3893A737A0069C85E6919 /* SessionZoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D9B4D81C3B0B4D6F8BFC28 /* SessionZoomController.swift */; };
+		715DD22ACA9A9DF9FB61147D /* RsSystemModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86314ABEABB90BBC806C60BB /* RsSystemModule.mm */; };
+		73E1B5CA8C0C2BC25AE39BB5 /* RsRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7BACE0970E45EBF4A4B57C /* RsRootViewController.swift */; };
+		74257F5C8A7E9B553EE3B044 /* SecureKeySpki.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7787FFB847D26EA34B102445 /* SecureKeySpki.swift */; };
+		755F0C851895C11FE692C26C /* RsQrScannerComponentView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 22D5CC1E20126AA4E01C890F /* RsQrScannerComponentView.mm */; };
+		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+		761780EF2CA45674006654EF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EE2CA45674006654EF /* SceneDelegate.swift */; };
+		76D5058089A39585E2F5AA4F /* AdapterRawPacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191A91ABF58053E660A3ED24 /* AdapterRawPacing.swift */; };
+		7A99641F87052910BA715354 /* SessionPipController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F61E7E2097573E6D562A48 /* SessionPipController.swift */; };
+		7A9ADDA92FD01966E275B47C /* Geist-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F83EBA09A25267BFAF9E1207 /* Geist-Regular.ttf */; };
+		7D121FFFF7E6F31CD2885855 /* LocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F4042B1DB662AFBC1B5F3B /* LocalAuthService.swift */; };
+		80CF9B1A9E8666706EBB09E6 /* TerminalTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABBE48E37D47226B6C6297D /* TerminalTheme.swift */; };
+		833D4FE76E58B4F89CC8F454 /* SessionFrameRateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ABB6B7FFA5C1FD74F7813 /* SessionFrameRateController.swift */; };
+		84961BA1D9249D3D87A279AD /* SessionDecodeStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7225A09CB9A83CFC49001D09 /* SessionDecodeStats.swift */; };
+		84AB7826C99E3156DEC024A6 /* SessionInputSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D52588331EC7B1C64C7588A /* SessionInputSender.swift */; };
+		84F236FCDF3D974220D033BF /* TrackpadClickCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636BDE38F4950DA983BC11B7 /* TrackpadClickCounter.swift */; };
+		8A9A63FADF266B1D4A5D0A98 /* CrashInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB12DAA6E78A7557093C1BDE /* CrashInbox.swift */; };
+		8DA9B3F8CEDDF79C81D9F086 /* SystemServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF43CB85FC53BB8046A5ADB1 /* SystemServices.swift */; };
+		8E3A23089E3EEDE62498FCAF /* SessionFrameGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF2544B829741BCA4E51437 /* SessionFrameGate.swift */; };
+		2BEAD0792F94B58772E2BFDC /* SessionSnapshotLRU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689E798B89DC9E38F34127D1 /* SessionSnapshotLRU.swift */; };
+		9120B2BCB9B4BA33027CB9CB /* RsPipModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = 94F8584777A8362F4CB315F0 /* RsPipModule.mm */; };
+		926B735AA25E4EB009ED5823 /* LocalNetworkProbeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E860B249B933E5DFD6FE5B /* LocalNetworkProbeState.swift */; };
+		9661BBCC6707F53461423BEB /* KeyboardHidMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E05F33D2A464049ADC9A56F /* KeyboardHidMap.swift */; };
+		981129F5B6527F5DA874A2F6 /* NetInfoClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14CD3EE219A6B1776EB643E /* NetInfoClassifier.swift */; };
+		993B3F6199BAB5942492B879 /* TouchGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D51341E7E2787196FDADA /* TouchGestureController.swift */; };
+		8D8946F483D1AB7C965A9586 /* SpaceSwipeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C506A1B13B096AFB07885975 /* SpaceSwipeController.swift */; };
+		9BF85FBE699683393A244CF3 /* RsAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3092FD840EA953B512CA21 /* RsAudioPlayer.swift */; };
+		9C36F989B46D5526C15B506C /* SessionViewport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3386EAB12454D7F8A306A /* SessionViewport.swift */; };
+		9CDC686C4B2466DB5A915825 /* RecordingKeyWrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACF2EA174BB288B9910B822 /* RecordingKeyWrap.swift */; };
+		9D088869A675AB62D71D59E2 /* TrackpadGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E3117DE657EFBC79702D4C /* TrackpadGestureController.swift */; };
+		A063CE4C4728FB5643B9D4F0 /* PointerLockPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCBAF4597A9EA695F3AFD65 /* PointerLockPolicy.swift */; };
+		A11F876CD681209B6B3F0054 /* RemoteSessionViewComponentView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54BA633FBDBF75F206AB3B3C /* RemoteSessionViewComponentView.mm */; };
+		A1B2C3D4E5F60718293A4B5E /* BonjourLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5B /* BonjourLogic.swift */; };
+		A1B2C3D4E5F60718293A4B5F /* RsBonjour.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* RsBonjour.swift */; };
+		A1B2C3D4E5F60718293A4B60 /* RsBonjour.mm in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5D /* RsBonjour.mm */; };
+		A3BEA06B59E0AEF6F081D037 /* GeistMono-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B955F9FEEBF4BE431FB83272 /* GeistMono-SemiBold.ttf */; };
+		A44C188C414A38A02FC9BEE8 /* HardwareKeyboardMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D077C10ED67F8B5D5E04417 /* HardwareKeyboardMonitor.swift */; };
+		A495179BE51E836F3BD58001 /* NetInfoInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B6C23FB478E828C45C08 /* NetInfoInterfaces.swift */; };
+		A5A4F9847270656DC057ECFF /* KeyboardOsMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A905CF453A24DD89A245BA85 /* KeyboardOsMap.swift */; };
+		A8BAEE33DCFD386694315F04 /* CrashNativeCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD8B66506E6EB8BC9FCFCE7 /* CrashNativeCollector.swift */; };
+		A980778432F72C3EEFBE1852 /* SessionVideoStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08704E389A9EE2FF813C2A61 /* SessionVideoStats.swift */; };
+		AA242DBDD8EF8B9877209692 /* TerminalModifierApply.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AD55FA87FAF9F117BC0D4C /* TerminalModifierApply.swift */; };
+		AB40B84BA858995A1339B9D4 /* NetInfoMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF556C3B8D67EEAAEA3A982 /* NetInfoMonitor.swift */; };
+		AB7669EDA1550B3A7EAA30CC /* IncomingURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE8B02A494EE6A0F573483F /* IncomingURL.swift */; };
+		AE27BC32732042E8BBEDFED7 /* AdapterRawRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8B52019656762E369E429E /* AdapterRawRing.swift */; };
+		B1344C4F3532A531E7214060 /* PointerMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1277890A45CCD4EF88C21ECF /* PointerMotion.swift */; };
+		B1DCF8843891E803F7B98F16 /* SystemHapticKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04247AB86BF14C4771097CCE /* SystemHapticKind.swift */; };
+		B6FCA4B467809EEC4F28000F /* TerminalAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831FA8C8F70CC2FF9F201BD7 /* TerminalAttachment.swift */; };
+		B7340FA34BB2A75D902A0602 /* LockedMouseInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = D424DE6B6FF680F8723F84A7 /* LockedMouseInput.swift */; };
+		B75B43F4800AB082C4D46744 /* RsKeyCaptureTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05372C92846ECEE63EAABB8 /* RsKeyCaptureTextView.swift */; };
+		B8E7CD91E19CF8D52774046F /* RsFilesModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD0563C74668F3E257CE5B5C /* RsFilesModule.mm */; };
+		BDD1663FB24D536D9EF223E1 /* RecordingKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443A3A6BF9D438CF43D4C655 /* RecordingKeyStore.swift */; };
+		C39C046D5216BD3E7E730CE9 /* SessionVideoDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E9A969C99DB674E95A0ECA /* SessionVideoDecoder.swift */; };
+		C581FE0223002F9B90EF3F6D /* TouchTapMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB3364E2F905DE6AB90325 /* TouchTapMapper.swift */; };
+		C7BE0DD03233CA838F3FFB4B /* PencilGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96326C544ED12FCC064C7D88 /* PencilGestureController.swift */; };
+		C92D2B038FF08B72C44291D1 /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D773051A4219B649C2EBCA7E /* LaunchArguments.swift */; };
+		CAA904E92E39EE13C9CA704A /* RsTerminalSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D3991D574DFCE765BF659E /* RsTerminalSurface.swift */; };
+		CD129CDCEBE0F20E187EA75F /* RsLifecycleMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2DDDDB2EC220D25B6459B0 /* RsLifecycleMonitor.swift */; };
+		CF7FB2C31968E2C306CFA2F1 /* AdapterSecretStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10943E0761D7E86976BCADC0 /* AdapterSecretStore.swift */; };
+		D1F0478BE5259BF14243E0B9 /* QrScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031CC7D8D4C8E58A39893CEC /* QrScannerController.swift */; };
+		D38B288D5C329C9410DF4431 /* SessionLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF695D6903E944D77150F63 /* SessionLogic.swift */; };
+		DCEB54AAD1C23FE1B0211288 /* TrackpadCursorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C67C68C4D6128E9EB42F55 /* TrackpadCursorModel.swift */; };
+		E37DB2D987DD68C2E5F50F2A /* ViewportGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0255573FB1E11EEA19E1A0DF /* ViewportGeometry.swift */; };
+		E583E10100E13F6BB68A0D63 /* PointerScrollSynth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6CFA67837899EDD5299656 /* PointerScrollSynth.swift */; };
+		E681E280214FFBAB8A52D2C3 /* SessionCursorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C452D1A457E8831263D1AA /* SessionCursorLayer.swift */; };
+		F4006966A4C989EBE219D281 /* TerminalFontSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DBE15264F38FFB91635CAF /* TerminalFontSize.swift */; };
+		F7EA774F38F6D4D763D6A901 /* Geist-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 582A1E99062E5D03A2A62750 /* Geist-Bold.ttf */; };
+		F7F7892FD2AC4207993F5F91 /* RsLocalAuthModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CFC4721CEA672CC1035E038 /* RsLocalAuthModule.mm */; };
+		FCCF24695173B545F2C21745 /* LocalNetworkProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5999E547DBB20950843D35 /* LocalNetworkProbe.swift */; };
+		FD1B5154B98A335919F2C23F /* RsSignerShim.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B6925E367C060E84522E52B /* RsSignerShim.c */; };
+		FDD46476D97B5015C3A5F4B5 /* TerminalKeySequences.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA6A9775109B8FB45A5E94 /* TerminalKeySequences.swift */; };
+		FE7137894B9280E4D5771A7B /* SessionVideoPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42F8FF2BE0B11CA3047C126 /* SessionVideoPipeline.swift */; };
+		FFF7ABDA3C815609770F6B20 /* TrackpadPointerThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6C1A6B39D6B75B42869ACD /* TrackpadPointerThrottle.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A5E7C0DE00000000000000A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = RemoteScreen/Assets.xcassets; sourceTree = "<group>"; };
+		E88B8945628890AF45DD3C2F /* WindowActivity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WindowActivity.swift; path = WindowActivity.swift; sourceTree = "<group>"; };
+		20CB3D378A192B74BBEA035D /* RsReactRuntime.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsReactRuntime.swift; path = RsReactRuntime.swift; sourceTree = "<group>"; };
+		BF2D4FDFEDDAEB8AAB0DDCBB /* RsWindowCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsWindowCoordinator.swift; path = RsWindowCoordinator.swift; sourceTree = "<group>"; };
+		B59AC758FFC6D5A580E4CA52 /* RsWindowModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsWindowModule.h; path = RsWindowModule.h; sourceTree = "<group>"; };
+		D72724F7D5B4F671EE4B45B5 /* RsWindowModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsWindowModule.mm; path = RsWindowModule.mm; sourceTree = "<group>"; };
+		00F35976D37DDE78AECFD662 /* SessionPencilHoverLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionPencilHoverLayer.swift; path = SessionPencilHoverLayer.swift; sourceTree = "<group>"; };
+		0255573FB1E11EEA19E1A0DF /* ViewportGeometry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ViewportGeometry.swift; path = ViewportGeometry.swift; sourceTree = "<group>"; };
+		031CC7D8D4C8E58A39893CEC /* QrScannerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QrScannerController.swift; path = QrScannerController.swift; sourceTree = "<group>"; };
+		035B8F2C179BC6A30CAC13B2 /* LifecyclePowerPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LifecyclePowerPolicy.swift; path = LifecyclePowerPolicy.swift; sourceTree = "<group>"; };
+		04247AB86BF14C4771097CCE /* SystemHapticKind.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SystemHapticKind.swift; path = SystemHapticKind.swift; sourceTree = "<group>"; };
+		05B0E2CB2CD6D81CA5A6D5A3 /* NetInfoSnapshot.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetInfoSnapshot.swift; path = NetInfoSnapshot.swift; sourceTree = "<group>"; };
+		08704E389A9EE2FF813C2A61 /* SessionVideoStats.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionVideoStats.swift; path = SessionVideoStats.swift; sourceTree = "<group>"; };
+		08BF3197A384FB83FFD1A47A /* SecureKeySigner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecureKeySigner.swift; path = SecureKeySigner.swift; sourceTree = "<group>"; };
+		09DABB6870715251AD179259 /* SecureKeyStats.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecureKeyStats.swift; path = SecureKeyStats.swift; sourceTree = "<group>"; };
+		0C3C2990AD360E80AE33A948 /* KeyboardPassthrough.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardPassthrough.swift; path = KeyboardPassthrough.swift; sourceTree = "<group>"; };
+		9FE72D21E3C2B801D0691789 /* KeyboardRepeat.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardRepeat.swift; path = KeyboardRepeat.swift; sourceTree = "<group>"; };
+		A979AF88A7D363E0DA7A9EDD /* KeyboardFocusPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardFocusPolicy.swift; path = KeyboardFocusPolicy.swift; sourceTree = "<group>"; };
+		103E65BDC9B6A875197D2CE6 /* LifecycleBackgroundBudget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LifecycleBackgroundBudget.swift; path = LifecycleBackgroundBudget.swift; sourceTree = "<group>"; };
+		10943E0761D7E86976BCADC0 /* AdapterSecretStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdapterSecretStore.swift; path = AdapterSecretStore.swift; sourceTree = "<group>"; };
+		110541752AF9813FBC5DF2FA /* RsKeyCaptureComponentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsKeyCaptureComponentView.h; path = RsKeyCaptureComponentView.h; sourceTree = "<group>"; };
+		1277890A45CCD4EF88C21ECF /* PointerMotion.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PointerMotion.swift; path = PointerMotion.swift; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* RemoteScreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteScreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RemoteScreen/Info.plist; sourceTree = "<group>"; };
+		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = RemoteScreen/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		155E43785283A50DB3F394EA /* DisplayFrameRatePolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DisplayFrameRatePolicy.swift; path = DisplayFrameRatePolicy.swift; sourceTree = "<group>"; };
+		15B563426C0B92A4AA51FA8A /* SecureKeyStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecureKeyStore.swift; path = SecureKeyStore.swift; sourceTree = "<group>"; };
+		18B862F8D31B8753AEF3886A /* PointerEdgeEscape.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PointerEdgeEscape.swift; path = PointerEdgeEscape.swift; sourceTree = "<group>"; };
+		191A91ABF58053E660A3ED24 /* AdapterRawPacing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdapterRawPacing.swift; path = AdapterRawPacing.swift; sourceTree = "<group>"; };
+		1B73A4051D23F1CDE8B5DD1A /* RsPipModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsPipModule.h; path = RsPipModule.h; sourceTree = "<group>"; };
+		1B7BACE0970E45EBF4A4B57C /* RsRootViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsRootViewController.swift; path = RsRootViewController.swift; sourceTree = "<group>"; };
+		1BE904FEAC2DC77AD05E3FA5 /* TerminalOutputCoalescer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TerminalOutputCoalescer.swift; path = TerminalOutputCoalescer.swift; sourceTree = "<group>"; };
+		1C0BA15DA97EE0467E3F2B4F /* RemoteSessionSurface.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RemoteSessionSurface.swift; path = RemoteSessionSurface.swift; sourceTree = "<group>"; };
+		1C70990BB03661C64C5424FD /* SessionZoomMath.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionZoomMath.swift; path = SessionZoomMath.swift; sourceTree = "<group>"; };
+		1D52588331EC7B1C64C7588A /* SessionInputSender.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionInputSender.swift; path = SessionInputSender.swift; sourceTree = "<group>"; };
+		22D5CC1E20126AA4E01C890F /* RsQrScannerComponentView.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsQrScannerComponentView.mm; path = RsQrScannerComponentView.mm; sourceTree = "<group>"; };
+		2688B010B63B8D769AEF955B /* QrScanThrottle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QrScanThrottle.swift; path = QrScanThrottle.swift; sourceTree = "<group>"; };
+		26DA8FE4D4C446885F335D08 /* AudioPlaybackMachine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudioPlaybackMachine.swift; path = AudioPlaybackMachine.swift; sourceTree = "<group>"; };
+		2D42490642FC7194A282934C /* SecureKeySignBuffer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecureKeySignBuffer.swift; path = SecureKeySignBuffer.swift; sourceTree = "<group>"; };
+		2E2DDDDB2EC220D25B6459B0 /* RsLifecycleMonitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsLifecycleMonitor.swift; path = RsLifecycleMonitor.swift; sourceTree = "<group>"; };
+		2F8B14BF89174736E782C9E7 /* GeistMono-Regular.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = "GeistMono-Regular.ttf"; sourceTree = "<group>"; };
+		397F94D3226DF82AEBFDC3F0 /* RsLifecycleModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsLifecycleModule.mm; path = RsLifecycleModule.mm; sourceTree = "<group>"; };
+		3ABBE48E37D47226B6C6297D /* TerminalTheme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TerminalTheme.swift; path = TerminalTheme.swift; sourceTree = "<group>"; };
+		3B4392A12AC88292D35C810B /* Pods-RemoteScreen.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemoteScreen.debug.xcconfig"; path = "Target Support Files/Pods-RemoteScreen/Pods-RemoteScreen.debug.xcconfig"; sourceTree = "<group>"; };
+		4018AAA59218D7A1A5A53B9B /* RsKeyCaptureView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsKeyCaptureView.swift; path = RsKeyCaptureView.swift; sourceTree = "<group>"; };
+		4162ADB314F10E53E31CCBAE /* PipMachine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PipMachine.swift; path = PipMachine.swift; sourceTree = "<group>"; };
+		41FD792E3C03915F4239077D /* SessionMagnifierLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionMagnifierLayer.swift; path = SessionMagnifierLayer.swift; sourceTree = "<group>"; };
+		42996C680507FD0CA5EEE066 /* AdapterKeychainLogic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdapterKeychainLogic.swift; path = AdapterKeychainLogic.swift; sourceTree = "<group>"; };
+		443A3A6BF9D438CF43D4C655 /* RecordingKeyStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecordingKeyStore.swift; path = RecordingKeyStore.swift; sourceTree = "<group>"; };
+		45C452D1A457E8831263D1AA /* SessionCursorLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionCursorLayer.swift; path = SessionCursorLayer.swift; sourceTree = "<group>"; };
+		49DB3364E2F905DE6AB90325 /* TouchTapMapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TouchTapMapper.swift; path = TouchTapMapper.swift; sourceTree = "<group>"; };
+		4B6925E367C060E84522E52B /* RsSignerShim.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = RsSignerShim.c; path = RsSignerShim.c; sourceTree = "<group>"; };
+		4C4525EF8CD28A905743B215 /* GeistMono-Medium.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = "GeistMono-Medium.ttf"; sourceTree = "<group>"; };
+		4D077C10ED67F8B5D5E04417 /* HardwareKeyboardMonitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HardwareKeyboardMonitor.swift; path = HardwareKeyboardMonitor.swift; sourceTree = "<group>"; };
+		4E05F33D2A464049ADC9A56F /* KeyboardHidMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardHidMap.swift; path = KeyboardHidMap.swift; sourceTree = "<group>"; };
+		4F7E7C95F9CFD91F51E2EE18 /* FilesService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FilesService.swift; path = FilesService.swift; sourceTree = "<group>"; };
+		4FD399C29481E7996138CC8C /* NetInfoDebouncer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetInfoDebouncer.swift; path = NetInfoDebouncer.swift; sourceTree = "<group>"; };
+		4FD54E5CD7725D96349519D3 /* AppIcon-1024.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "AppIcon-1024.png"; sourceTree = "<group>"; };
+		50E9A969C99DB674E95A0ECA /* SessionVideoDecoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionVideoDecoder.swift; path = SessionVideoDecoder.swift; sourceTree = "<group>"; };
+		5113E4C6846C1723B9337918 /* RsDevLogModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsDevLogModule.mm; path = RsDevLogModule.mm; sourceTree = "<group>"; };
+		54BA633FBDBF75F206AB3B3C /* RemoteSessionViewComponentView.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RemoteSessionViewComponentView.mm; path = RemoteSessionViewComponentView.mm; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-RemoteScreen.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemoteScreen.release.xcconfig"; path = "Target Support Files/Pods-RemoteScreen/Pods-RemoteScreen.release.xcconfig"; sourceTree = "<group>"; };
+		582A1E99062E5D03A2A62750 /* Geist-Bold.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = "Geist-Bold.ttf"; sourceTree = "<group>"; };
+		585BEF3D3C8541AD8ED95E33 /* SessionAttachment.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionAttachment.swift; path = SessionAttachment.swift; sourceTree = "<group>"; };
+		5B6CFA67837899EDD5299656 /* PointerScrollSynth.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PointerScrollSynth.swift; path = PointerScrollSynth.swift; sourceTree = "<group>"; };
+		5D437FEB7C3BA438B13937E7 /* UniqueName.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UniqueName.swift; path = UniqueName.swift; sourceTree = "<group>"; };
+		5DA2DE36D610526B59A9B77F /* RsLifecycleModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsLifecycleModule.h; path = RsLifecycleModule.h; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-RemoteScreen.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RemoteScreen.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E6D55A2662650D80FEC6F70 /* NetInfoCidr.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetInfoCidr.swift; path = NetInfoCidr.swift; sourceTree = "<group>"; };
+		636BDE38F4950DA983BC11B7 /* TrackpadClickCounter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TrackpadClickCounter.swift; path = TrackpadClickCounter.swift; sourceTree = "<group>"; };
+		642D6E899F289C80E22F976B /* PointerLockCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PointerLockCoordinator.swift; path = PointerLockCoordinator.swift; sourceTree = "<group>"; };
+		642DB5582B6A98A6135AA941 /* TerminalPasteEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TerminalPasteEncoder.swift; path = TerminalPasteEncoder.swift; sourceTree = "<group>"; };
+		65CB1721F738DE788ABC315A /* PointerButtons.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PointerButtons.swift; path = PointerButtons.swift; sourceTree = "<group>"; };
+		67B5440B884CD3636300B25E /* KeyboardCommitPlanner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardCommitPlanner.swift; path = KeyboardCommitPlanner.swift; sourceTree = "<group>"; };
+		67D3386EAB12454D7F8A306A /* SessionViewport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionViewport.swift; path = SessionViewport.swift; sourceTree = "<group>"; };
+		698ACC0BA3605C3F9E25264E /* RsSecretShim.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = RsSecretShim.c; path = RsSecretShim.c; sourceTree = "<group>"; };
+		6BF2544B829741BCA4E51437 /* SessionFrameGate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionFrameGate.swift; path = SessionFrameGate.swift; sourceTree = "<group>"; };
+		689E798B89DC9E38F34127D1 /* SessionSnapshotLRU.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionSnapshotLRU.swift; path = SessionSnapshotLRU.swift; sourceTree = "<group>"; };
+		6D820FE602DCD4000EB0409A /* SessionGesturePrefs.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionGesturePrefs.swift; path = SessionGesturePrefs.swift; sourceTree = "<group>"; };
+		6DD7B6C23FB478E828C45C08 /* NetInfoInterfaces.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetInfoInterfaces.swift; path = NetInfoInterfaces.swift; sourceTree = "<group>"; };
+		6E2F41E04CDAB3995D5F49F1 /* LaunchMark@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "LaunchMark@3x.png"; sourceTree = "<group>"; };
+		6FBAE12F80F254684BC9AB71 /* RawFramePuller.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RawFramePuller.swift; path = RawFramePuller.swift; sourceTree = "<group>"; };
+		7225A09CB9A83CFC49001D09 /* SessionDecodeStats.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionDecodeStats.swift; path = SessionDecodeStats.swift; sourceTree = "<group>"; };
+		72B27E9A60E99691F7CC2C5D /* RsNetInfoModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsNetInfoModule.mm; path = RsNetInfoModule.mm; sourceTree = "<group>"; };
+		7548602F26AA9F53E83F1450 /* RsTerminalViewComponentView.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsTerminalViewComponentView.mm; path = RsTerminalViewComponentView.mm; sourceTree = "<group>"; };
+		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = RemoteScreen/AppDelegate.swift; sourceTree = "<group>"; };
+		761780EE2CA45674006654EF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = RemoteScreen/SceneDelegate.swift; sourceTree = "<group>"; };
+		7787FFB847D26EA34B102445 /* SecureKeySpki.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecureKeySpki.swift; path = SecureKeySpki.swift; sourceTree = "<group>"; };
+		7DAD2D1A8DCE187A0BE74792 /* ScannerPermission.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScannerPermission.swift; path = ScannerPermission.swift; sourceTree = "<group>"; };
+		7EE658150594B02EA114405D /* RsQrScannerComponentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsQrScannerComponentView.h; path = RsQrScannerComponentView.h; sourceTree = "<group>"; };
+		80C60E316D791DC73D856673 /* RecordingKeyBridge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecordingKeyBridge.swift; path = RecordingKeyBridge.swift; sourceTree = "<group>"; };
+		81F06A52B090482DAF6A58C6 /* PrivacyCover.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PrivacyCover.swift; path = PrivacyCover.swift; sourceTree = "<group>"; };
+		831FA8C8F70CC2FF9F201BD7 /* TerminalAttachment.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TerminalAttachment.swift; path = TerminalAttachment.swift; sourceTree = "<group>"; };
+		836DA9F9D1FD3D1D2E60A2DF /* RsKeyCaptureComponentView.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsKeyCaptureComponentView.mm; path = RsKeyCaptureComponentView.mm; sourceTree = "<group>"; };
+		86314ABEABB90BBC806C60BB /* RsSystemModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsSystemModule.mm; path = RsSystemModule.mm; sourceTree = "<group>"; };
+		86E860B249B933E5DFD6FE5B /* LocalNetworkProbeState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalNetworkProbeState.swift; path = LocalNetworkProbeState.swift; sourceTree = "<group>"; };
+		88C75C750C969BC56B3D9981 /* RsSecureKeyModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsSecureKeyModule.mm; path = RsSecureKeyModule.mm; sourceTree = "<group>"; };
+		897D760E2D65EE15FE2138A8 /* Geist-Medium.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = "Geist-Medium.ttf"; sourceTree = "<group>"; };
+		8C0FF989604CF92E0F5AB845 /* TerminalInputSender.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TerminalInputSender.swift; path = TerminalInputSender.swift; sourceTree = "<group>"; };
+		8D70A5E09C85BFADE5D9CC82 /* RsSignerShim.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsSignerShim.h; path = RsSignerShim.h; sourceTree = "<group>"; };
+		942FD523CE2A7E39F0B6F406 /* TrackpadHostCursorArbiter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TrackpadHostCursorArbiter.swift; path = TrackpadHostCursorArbiter.swift; sourceTree = "<group>"; };
+		94F8584777A8362F4CB315F0 /* RsPipModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsPipModule.mm; path = RsPipModule.mm; sourceTree = "<group>"; };
+		95404A767ED437AB8DD7E3F5 /* KeyboardModifiers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardModifiers.swift; path = KeyboardModifiers.swift; sourceTree = "<group>"; };
+		96326C544ED12FCC064C7D88 /* PencilGestureController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PencilGestureController.swift; path = PencilGestureController.swift; sourceTree = "<group>"; };
+		98B6808D938E5238FC13E637 /* RsNetInfoModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsNetInfoModule.h; path = RsNetInfoModule.h; sourceTree = "<group>"; };
+		9B23E0A65F14B10CC667CD04 /* TrackpadScrollMomentum.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TrackpadScrollMomentum.swift; path = TrackpadScrollMomentum.swift; sourceTree = "<group>"; };
+		97ED536682A611890785B1D7 /* SpaceSwipe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceSwipe.swift; path = SpaceSwipe.swift; sourceTree = "<group>"; };
+		9B3092FD840EA953B512CA21 /* RsAudioPlayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsAudioPlayer.swift; path = RsAudioPlayer.swift; sourceTree = "<group>"; };
+		9B30BDDEB38861DD4B2F60F5 /* RemoteSessionViewComponentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RemoteSessionViewComponentView.h; path = RemoteSessionViewComponentView.h; sourceTree = "<group>"; };
+		9BE8DE933A65A1A44F47699A /* SecureKeyRotation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecureKeyRotation.swift; path = SecureKeyRotation.swift; sourceTree = "<group>"; };
+		9BF695D6903E944D77150F63 /* SessionLogic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionLogic.swift; path = SessionLogic.swift; sourceTree = "<group>"; };
+		9CFC4721CEA672CC1035E038 /* RsLocalAuthModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsLocalAuthModule.mm; path = RsLocalAuthModule.mm; sourceTree = "<group>"; };
+		9DCBAF4597A9EA695F3AFD65 /* PointerLockPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PointerLockPolicy.swift; path = PointerLockPolicy.swift; sourceTree = "<group>"; };
+		9DE8B02A494EE6A0F573483F /* IncomingURL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IncomingURL.swift; path = IncomingURL.swift; sourceTree = "<group>"; };
+		9E2AB02AE3DFA80F8A1400F0 /* RsSecretShim.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsSecretShim.h; path = RsSecretShim.h; sourceTree = "<group>"; };
+		9E5999E547DBB20950843D35 /* LocalNetworkProbe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalNetworkProbe.swift; path = LocalNetworkProbe.swift; sourceTree = "<group>"; };
+		A14CD3EE219A6B1776EB643E /* NetInfoClassifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetInfoClassifier.swift; path = NetInfoClassifier.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5B /* BonjourLogic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BonjourLogic.swift; path = BonjourLogic.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5C /* RsBonjour.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsBonjour.swift; path = RsBonjour.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5D /* RsBonjour.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsBonjour.mm; path = RsBonjour.mm; sourceTree = "<group>"; };
+		A1D03FE6FB693B5C75DDC5B1 /* LocalAuthErrorMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalAuthErrorMap.swift; path = LocalAuthErrorMap.swift; sourceTree = "<group>"; };
+		A31EBF8ED71DC96BAF0BA295 /* RsDevLogModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsDevLogModule.h; path = RsDevLogModule.h; sourceTree = "<group>"; };
+		A42F8FF2BE0B11CA3047C126 /* SessionVideoPipeline.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionVideoPipeline.swift; path = SessionVideoPipeline.swift; sourceTree = "<group>"; };
+		A648061B1AEAEED145BBF1B8 /* RsLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsLog.swift; path = RsLog.swift; sourceTree = "<group>"; };
+		A820AE619C7E1F9AE016AAF9 /* SessionCursorController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionCursorController.swift; path = SessionCursorController.swift; sourceTree = "<group>"; };
+		A905CF453A24DD89A245BA85 /* KeyboardOsMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardOsMap.swift; path = KeyboardOsMap.swift; sourceTree = "<group>"; };
+		AE88948F8CF5E10370F6CE0D /* RsLocalAuthModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsLocalAuthModule.h; path = RsLocalAuthModule.h; sourceTree = "<group>"; };
+		B01D51341E7E2787196FDADA /* TouchGestureController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TouchGestureController.swift; path = TouchGestureController.swift; sourceTree = "<group>"; };
+		C506A1B13B096AFB07885975 /* SpaceSwipeController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceSwipeController.swift; path = SpaceSwipeController.swift; sourceTree = "<group>"; };
+		B0FF386F2D9D8E91D6F86F32 /* RsSystemModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsSystemModule.h; path = RsSystemModule.h; sourceTree = "<group>"; };
+		B149E816DACFC412FDCC4EBD /* Geist-SemiBold.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = "Geist-SemiBold.ttf"; sourceTree = "<group>"; };
+		B764F6A8D1EAB07239383F64 /* RsFilesModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsFilesModule.h; path = RsFilesModule.h; sourceTree = "<group>"; };
+		B7C33574EC819588A6F99BB1 /* SessionPipCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionPipCoordinator.swift; path = SessionPipCoordinator.swift; sourceTree = "<group>"; };
+		B955F9FEEBF4BE431FB83272 /* GeistMono-SemiBold.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = "GeistMono-SemiBold.ttf"; sourceTree = "<group>"; };
+		B99BB034C9462938D4558B71 /* BackgroundTaskGate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BackgroundTaskGate.swift; path = BackgroundTaskGate.swift; sourceTree = "<group>"; };
+		BACF2EA174BB288B9910B822 /* RecordingKeyWrap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecordingKeyWrap.swift; path = RecordingKeyWrap.swift; sourceTree = "<group>"; };
+		BD0563C74668F3E257CE5B5C /* RsFilesModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsFilesModule.mm; path = RsFilesModule.mm; sourceTree = "<group>"; };
+		C4EA6A9775109B8FB45A5E94 /* TerminalKeySequences.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TerminalKeySequences.swift; path = TerminalKeySequences.swift; sourceTree = "<group>"; };
+		C4F4042B1DB662AFBC1B5F3B /* LocalAuthService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalAuthService.swift; path = LocalAuthService.swift; sourceTree = "<group>"; };
+		C51DF5DB4A1A7493E8012086 /* PipRenderSwitch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PipRenderSwitch.swift; path = PipRenderSwitch.swift; sourceTree = "<group>"; };
+		C7860D9163B9B7006048B95E /* RsTerminalViewComponentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsTerminalViewComponentView.h; path = RsTerminalViewComponentView.h; sourceTree = "<group>"; };
+		C9D3991D574DFCE765BF659E /* RsTerminalSurface.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsTerminalSurface.swift; path = RsTerminalSurface.swift; sourceTree = "<group>"; };
+		CC731D25EDF6BDA35076EA7B /* PointerGestureController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PointerGestureController.swift; path = PointerGestureController.swift; sourceTree = "<group>"; };
+		CD8066D4CE9A6925964FB59C /* RsAudioModule.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RsAudioModule.mm; path = RsAudioModule.mm; sourceTree = "<group>"; };
+		D0E3117DE657EFBC79702D4C /* TrackpadGestureController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TrackpadGestureController.swift; path = TrackpadGestureController.swift; sourceTree = "<group>"; };
+		D1CBDFE6B2F18E6A5292A576 /* RsMarkerLine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsMarkerLine.swift; path = RsMarkerLine.swift; sourceTree = "<group>"; };
+		D1D9B4D81C3B0B4D6F8BFC28 /* SessionZoomController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionZoomController.swift; path = SessionZoomController.swift; sourceTree = "<group>"; };
+		D424DE6B6FF680F8723F84A7 /* LockedMouseInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LockedMouseInput.swift; path = LockedMouseInput.swift; sourceTree = "<group>"; };
+		D773051A4219B649C2EBCA7E /* LaunchArguments.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LaunchArguments.swift; path = LaunchArguments.swift; sourceTree = "<group>"; };
+		D8AD55FA87FAF9F117BC0D4C /* TerminalModifierApply.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TerminalModifierApply.swift; path = TerminalModifierApply.swift; sourceTree = "<group>"; };
+		DA3775B433725E2832264D2D /* KeyboardTextSplitter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardTextSplitter.swift; path = KeyboardTextSplitter.swift; sourceTree = "<group>"; };
+		DBC73F67298476734E482CA4 /* SessionKeyframeRequester.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionKeyframeRequester.swift; path = SessionKeyframeRequester.swift; sourceTree = "<group>"; };
+		F673D41141CBF87CD51D7E1F /* SessionSnapshotStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionSnapshotStore.swift; path = SessionSnapshotStore.swift; sourceTree = "<group>"; };
+		DC6C1A6B39D6B75B42869ACD /* TrackpadPointerThrottle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TrackpadPointerThrottle.swift; path = TrackpadPointerThrottle.swift; sourceTree = "<group>"; };
+		DF43CB85FC53BB8046A5ADB1 /* SystemServices.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SystemServices.swift; path = SystemServices.swift; sourceTree = "<group>"; };
+		DFD8B66506E6EB8BC9FCFCE7 /* CrashNativeCollector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CrashNativeCollector.swift; path = CrashNativeCollector.swift; sourceTree = "<group>"; };
+		E05372C92846ECEE63EAABB8 /* RsKeyCaptureTextView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsKeyCaptureTextView.swift; path = RsKeyCaptureTextView.swift; sourceTree = "<group>"; };
+		E3829989D333E17A087CF269 /* RsSecureKeyModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsSecureKeyModule.h; path = RsSecureKeyModule.h; sourceTree = "<group>"; };
+		E59B14A57050D4F290DB9C0D /* RsAudioSession.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsAudioSession.swift; path = RsAudioSession.swift; sourceTree = "<group>"; };
+		E69A2B837E8DF4E69563DB76 /* RemoteScreen-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "RemoteScreen-Bridging-Header.h"; path = "RemoteScreen-Bridging-Header.h"; sourceTree = "<group>"; };
+		E8C67C68C4D6128E9EB42F55 /* TrackpadCursorModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TrackpadCursorModel.swift; path = TrackpadCursorModel.swift; sourceTree = "<group>"; };
+		E9F61E7E2097573E6D562A48 /* SessionPipController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionPipController.swift; path = SessionPipController.swift; sourceTree = "<group>"; };
+		EB12DAA6E78A7557093C1BDE /* CrashInbox.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CrashInbox.swift; path = CrashInbox.swift; sourceTree = "<group>"; };
+		EB8B52019656762E369E429E /* AdapterRawRing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdapterRawRing.swift; path = AdapterRawRing.swift; sourceTree = "<group>"; };
+		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F01FB7354802E27814470EE9 /* RsAudioModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RsAudioModule.h; path = RsAudioModule.h; sourceTree = "<group>"; };
+		F1DA36612E2CBEDB20CDB969 /* LifecycleExitMarker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LifecycleExitMarker.swift; path = LifecycleExitMarker.swift; sourceTree = "<group>"; };
+		F2DBE15264F38FFB91635CAF /* TerminalFontSize.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TerminalFontSize.swift; path = TerminalFontSize.swift; sourceTree = "<group>"; };
+		F42ABB6B7FFA5C1FD74F7813 /* SessionFrameRateController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionFrameRateController.swift; path = SessionFrameRateController.swift; sourceTree = "<group>"; };
+		F77449EEB1C5D92800C37EBC /* PencilStrokeMapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PencilStrokeMapper.swift; path = PencilStrokeMapper.swift; sourceTree = "<group>"; };
+		F83EBA09A25267BFAF9E1207 /* Geist-Regular.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = "Geist-Regular.ttf"; sourceTree = "<group>"; };
+		FAF556C3B8D67EEAAEA3A982 /* NetInfoMonitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetInfoMonitor.swift; path = NetInfoMonitor.swift; sourceTree = "<group>"; };
+		FD4B7C55B6A01A239C63DA25 /* SessionMagnifierGeometry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionMagnifierGeometry.swift; path = SessionMagnifierGeometry.swift; sourceTree = "<group>"; };
+		FDB4F0214E161F095EB744B9 /* RsNativeBootstrap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RsNativeBootstrap.swift; path = RsNativeBootstrap.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C80B921A6F3F58F76C31292 /* libPods-RemoteScreen.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2F512297D85CBF8BC98F6389 /* Window */ = {
+			isa = PBXGroup;
+			children = (
+				E88B8945628890AF45DD3C2F /* WindowActivity.swift */,
+			);
+			name = Window;
+			path = Window;
+			sourceTree = "<group>";
+		};
+		026EB150C281A84C10BC8794 /* Window */ = {
+			isa = PBXGroup;
+			children = (
+				20CB3D378A192B74BBEA035D /* RsReactRuntime.swift */,
+				BF2D4FDFEDDAEB8AAB0DDCBB /* RsWindowCoordinator.swift */,
+				B59AC758FFC6D5A580E4CA52 /* RsWindowModule.h */,
+				D72724F7D5B4F671EE4B45B5 /* RsWindowModule.mm */,
+			);
+			name = Window;
+			path = Window;
+			sourceTree = "<group>";
+		};
+		06939F368503D2A750F8F4B9 /* Lifecycle */ = {
+			isa = PBXGroup;
+			children = (
+				5DA2DE36D610526B59A9B77F /* RsLifecycleModule.h */,
+				397F94D3226DF82AEBFDC3F0 /* RsLifecycleModule.mm */,
+				2E2DDDDB2EC220D25B6459B0 /* RsLifecycleMonitor.swift */,
+			);
+			name = Lifecycle;
+			path = Lifecycle;
+			sourceTree = "<group>";
+		};
+		0E96A0BAA4EBA3F2277FFFAD /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				026EB150C281A84C10BC8794 /* Window */,
+				E69A2B837E8DF4E69563DB76 /* RemoteScreen-Bridging-Header.h */,
+				8E85E0D594AF20DF08E56E6F /* Bootstrap */,
+				374902B61E4DEEAD214C9719 /* Common */,
+				254C73AA6561C959B544A9B2 /* DevLog */,
+				8117442DB9CB0EDDC0323E9B /* NetInfo */,
+				3DDC882B2A2C311403F8E479 /* LocalAuth */,
+				2D72AC5BF0A1827D027F5BEB /* SecureKey */,
+				A1DA14A92AA5CC3C6FE4DD2D /* Keyboard */,
+				2C941FC8CDE8104CC1B29AA7 /* Session */,
+				06939F368503D2A750F8F4B9 /* Lifecycle */,
+				901D3209AFCA0EA8F115ABB9 /* Scanner */,
+				69E86936EBDE92A268802316 /* System */,
+				F669899F8239A91287D0CAE2 /* Terminal */,
+				F679C136CEAA2BAC8B614B89 /* Audio */,
+				39605928F4B6BE018FB0D114 /* Files */,
+				841868DE73CB3FA04E609E7B /* Crash */,
+				FE56E8DFF7845D641470FE7D /* Pointer */,
+				ED1F85755F6F676F47E76EE8 /* Recording */,
+			);
+			name = Native;
+			path = RemoteScreen/Native;
+			sourceTree = "<group>";
+		};
+		10BF188136AA0361C67952F6 /* Terminal */ = {
+			isa = PBXGroup;
+			children = (
+				F2DBE15264F38FFB91635CAF /* TerminalFontSize.swift */,
+				C4EA6A9775109B8FB45A5E94 /* TerminalKeySequences.swift */,
+				D8AD55FA87FAF9F117BC0D4C /* TerminalModifierApply.swift */,
+				1BE904FEAC2DC77AD05E3FA5 /* TerminalOutputCoalescer.swift */,
+				642DB5582B6A98A6135AA941 /* TerminalPasteEncoder.swift */,
+				3ABBE48E37D47226B6C6297D /* TerminalTheme.swift */,
+			);
+			name = Terminal;
+			path = Terminal;
+			sourceTree = "<group>";
+		};
+		128DEB9A3270CF3063830576 /* SecureKey */ = {
+			isa = PBXGroup;
+			children = (
+				9BE8DE933A65A1A44F47699A /* SecureKeyRotation.swift */,
+				2D42490642FC7194A282934C /* SecureKeySignBuffer.swift */,
+				7787FFB847D26EA34B102445 /* SecureKeySpki.swift */,
+				09DABB6870715251AD179259 /* SecureKeyStats.swift */,
+			);
+			name = SecureKey;
+			path = SecureKey;
+			sourceTree = "<group>";
+		};
+		13B07FAE1A68108700A75B9A /* RemoteScreen */ = {
+			isa = PBXGroup;
+			children = (
+				761780EC2CA45674006654EE /* AppDelegate.swift */,
+				761780EE2CA45674006654EF /* SceneDelegate.swift */,
+				13B07FB61A68108700A75B9A /* Info.plist */,
+				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				A5E7C0DE00000000000000A1 /* Assets.xcassets */,
+				0E96A0BAA4EBA3F2277FFFAD /* Native */,
+				63BDB7A1E627F770239387EC /* Fonts */,
+				B12F585785C510FE3468E9EB /* Placeholders */,
+			);
+			name = RemoteScreen;
+			sourceTree = "<group>";
+		};
+		23D82961712C5851F688C8BF /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D1CBDFE6B2F18E6A5292A576 /* RsMarkerLine.swift */,
+			);
+			name = Common;
+			path = Common;
+			sourceTree = "<group>";
+		};
+		254C73AA6561C959B544A9B2 /* DevLog */ = {
+			isa = PBXGroup;
+			children = (
+				A31EBF8ED71DC96BAF0BA295 /* RsDevLogModule.h */,
+				5113E4C6846C1723B9337918 /* RsDevLogModule.mm */,
+			);
+			name = DevLog;
+			path = DevLog;
+			sourceTree = "<group>";
+		};
+		2C941FC8CDE8104CC1B29AA7 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				1C0BA15DA97EE0467E3F2B4F /* RemoteSessionSurface.swift */,
+				9B30BDDEB38861DD4B2F60F5 /* RemoteSessionViewComponentView.h */,
+				54BA633FBDBF75F206AB3B3C /* RemoteSessionViewComponentView.mm */,
+				585BEF3D3C8541AD8ED95E33 /* SessionAttachment.swift */,
+				50E9A969C99DB674E95A0ECA /* SessionVideoDecoder.swift */,
+				A42F8FF2BE0B11CA3047C126 /* SessionVideoPipeline.swift */,
+				990BB29DD76B22A4401C245D /* Gestures */,
+				DBC73F67298476734E482CA4 /* SessionKeyframeRequester.swift */,
+				F673D41141CBF87CD51D7E1F /* SessionSnapshotStore.swift */,
+				08704E389A9EE2FF813C2A61 /* SessionVideoStats.swift */,
+				F42ABB6B7FFA5C1FD74F7813 /* SessionFrameRateController.swift */,
+				734BF4F503B1F1B3493DF6DD /* Pip */,
+				B624F6719299ACD8D34E329C /* Adapters */,
+			);
+			name = Session;
+			path = Session;
+			sourceTree = "<group>";
+		};
+		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-RemoteScreen.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2D72AC5BF0A1827D027F5BEB /* SecureKey */ = {
+			isa = PBXGroup;
+			children = (
+				E3829989D333E17A087CF269 /* RsSecureKeyModule.h */,
+				88C75C750C969BC56B3D9981 /* RsSecureKeyModule.mm */,
+				8D70A5E09C85BFADE5D9CC82 /* RsSignerShim.h */,
+				08BF3197A384FB83FFD1A47A /* SecureKeySigner.swift */,
+				15B563426C0B92A4AA51FA8A /* SecureKeyStore.swift */,
+				4B6925E367C060E84522E52B /* RsSignerShim.c */,
+			);
+			name = SecureKey;
+			path = SecureKey;
+			sourceTree = "<group>";
+		};
+		2E36CA2E1E9A9AE3DAE0BA83 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				191A91ABF58053E660A3ED24 /* AdapterRawPacing.swift */,
+				EB8B52019656762E369E429E /* AdapterRawRing.swift */,
+				42996C680507FD0CA5EEE066 /* AdapterKeychainLogic.swift */,
+			);
+			name = Adapters;
+			path = Adapters;
+			sourceTree = "<group>";
+		};
+		374902B61E4DEEAD214C9719 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				A648061B1AEAEED145BBF1B8 /* RsLog.swift */,
+			);
+			name = Common;
+			path = Common;
+			sourceTree = "<group>";
+		};
+		37D4F9F23AE67B28C9182FFC /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				67B5440B884CD3636300B25E /* KeyboardCommitPlanner.swift */,
+				4E05F33D2A464049ADC9A56F /* KeyboardHidMap.swift */,
+				95404A767ED437AB8DD7E3F5 /* KeyboardModifiers.swift */,
+				A905CF453A24DD89A245BA85 /* KeyboardOsMap.swift */,
+				DA3775B433725E2832264D2D /* KeyboardTextSplitter.swift */,
+				0C3C2990AD360E80AE33A948 /* KeyboardPassthrough.swift */,
+				9FE72D21E3C2B801D0691789 /* KeyboardRepeat.swift */,
+				A979AF88A7D363E0DA7A9EDD /* KeyboardFocusPolicy.swift */,
+			);
+			name = Keyboard;
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
+		39605928F4B6BE018FB0D114 /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				4F7E7C95F9CFD91F51E2EE18 /* FilesService.swift */,
+				B764F6A8D1EAB07239383F64 /* RsFilesModule.h */,
+				BD0563C74668F3E257CE5B5C /* RsFilesModule.mm */,
+			);
+			name = Files;
+			path = Files;
+			sourceTree = "<group>";
+		};
+		3DDC882B2A2C311403F8E479 /* LocalAuth */ = {
+			isa = PBXGroup;
+			children = (
+				C4F4042B1DB662AFBC1B5F3B /* LocalAuthService.swift */,
+				81F06A52B090482DAF6A58C6 /* PrivacyCover.swift */,
+				AE88948F8CF5E10370F6CE0D /* RsLocalAuthModule.h */,
+				9CFC4721CEA672CC1035E038 /* RsLocalAuthModule.mm */,
+			);
+			name = LocalAuth;
+			path = LocalAuth;
+			sourceTree = "<group>";
+		};
+		4437F4BCA505A94B0A62AD50 /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				B99BB034C9462938D4558B71 /* BackgroundTaskGate.swift */,
+				9DE8B02A494EE6A0F573483F /* IncomingURL.swift */,
+				5D437FEB7C3BA438B13937E7 /* UniqueName.swift */,
+			);
+			name = Files;
+			path = Files;
+			sourceTree = "<group>";
+		};
+		455BAD1909F6F08CB952209A /* NativeLogic */ = {
+			isa = PBXGroup;
+			children = (
+				2F512297D85CBF8BC98F6389 /* Window */,
+				23D82961712C5851F688C8BF /* Common */,
+				7CEEF94357CD8732702E9E1E /* NetInfo */,
+				D053D9042051D0958231F7E4 /* LocalAuth */,
+				128DEB9A3270CF3063830576 /* SecureKey */,
+				37D4F9F23AE67B28C9182FFC /* Keyboard */,
+				CD9BDED950CD16D08F2C4BEF /* Session */,
+				B92248559D761B11976E9E77 /* Launch */,
+				7A6EBAA70C802F26AF4F292C /* Lifecycle */,
+				6FEEB693BCDCB389D600B2A3 /* Scanner */,
+				EDE4C188BF69B45D294AF080 /* System */,
+				986951854E935929C25777E0 /* Gestures */,
+				10BF188136AA0361C67952F6 /* Terminal */,
+				BDBB0CAAC5F1359C914D1F33 /* Audio */,
+				4437F4BCA505A94B0A62AD50 /* Files */,
+				A1B1FC891DC881B05CC3A77E /* Display */,
+				D1497F8123B82D9F4D4EFAB3 /* Crash */,
+				E18A0CCB7A497D09949FB487 /* Pointer */,
+				54EA1A2A2F6BA312FE71AA14 /* Pip */,
+				E253EBFE9F8EC0D3E9A97331 /* Viewport */,
+				2E36CA2E1E9A9AE3DAE0BA83 /* Adapters */,
+				F349141D43DD42AC6CF1EA5C /* Recording */,
+			);
+			name = NativeLogic;
+			path = NativeLogic/Sources/NativeLogic;
+			sourceTree = "<group>";
+		};
+		54EA1A2A2F6BA312FE71AA14 /* Pip */ = {
+			isa = PBXGroup;
+			children = (
+				4162ADB314F10E53E31CCBAE /* PipMachine.swift */,
+				C51DF5DB4A1A7493E8012086 /* PipRenderSwitch.swift */,
+			);
+			name = Pip;
+			path = Pip;
+			sourceTree = "<group>";
+		};
+		63BDB7A1E627F770239387EC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F83EBA09A25267BFAF9E1207 /* Geist-Regular.ttf */,
+				2F8B14BF89174736E782C9E7 /* GeistMono-Regular.ttf */,
+				582A1E99062E5D03A2A62750 /* Geist-Bold.ttf */,
+				897D760E2D65EE15FE2138A8 /* Geist-Medium.ttf */,
+				B149E816DACFC412FDCC4EBD /* Geist-SemiBold.ttf */,
+				4C4525EF8CD28A905743B215 /* GeistMono-Medium.ttf */,
+				B955F9FEEBF4BE431FB83272 /* GeistMono-SemiBold.ttf */,
+			);
+			name = Fonts;
+			path = RemoteScreen/Fonts;
+			sourceTree = "<group>";
+		};
+		69E86936EBDE92A268802316 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				9E5999E547DBB20950843D35 /* LocalNetworkProbe.swift */,
+				A1B2C3D4E5F60718293A4B5C /* RsBonjour.swift */,
+				A1B2C3D4E5F60718293A4B5D /* RsBonjour.mm */,
+				B0FF386F2D9D8E91D6F86F32 /* RsSystemModule.h */,
+				86314ABEABB90BBC806C60BB /* RsSystemModule.mm */,
+				DF43CB85FC53BB8046A5ADB1 /* SystemServices.swift */,
+			);
+			name = System;
+			path = System;
+			sourceTree = "<group>";
+		};
+		6FEEB693BCDCB389D600B2A3 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				2688B010B63B8D769AEF955B /* QrScanThrottle.swift */,
+				7DAD2D1A8DCE187A0BE74792 /* ScannerPermission.swift */,
+			);
+			name = Scanner;
+			path = Scanner;
+			sourceTree = "<group>";
+		};
+		734BF4F503B1F1B3493DF6DD /* Pip */ = {
+			isa = PBXGroup;
+			children = (
+				1B73A4051D23F1CDE8B5DD1A /* RsPipModule.h */,
+				94F8584777A8362F4CB315F0 /* RsPipModule.mm */,
+				B7C33574EC819588A6F99BB1 /* SessionPipCoordinator.swift */,
+				E9F61E7E2097573E6D562A48 /* SessionPipController.swift */,
+			);
+			name = Pip;
+			path = Pip;
+			sourceTree = "<group>";
+		};
+		7A6EBAA70C802F26AF4F292C /* Lifecycle */ = {
+			isa = PBXGroup;
+			children = (
+				103E65BDC9B6A875197D2CE6 /* LifecycleBackgroundBudget.swift */,
+				F1DA36612E2CBEDB20CDB969 /* LifecycleExitMarker.swift */,
+				035B8F2C179BC6A30CAC13B2 /* LifecyclePowerPolicy.swift */,
+			);
+			name = Lifecycle;
+			path = Lifecycle;
+			sourceTree = "<group>";
+		};
+		7CEEF94357CD8732702E9E1E /* NetInfo */ = {
+			isa = PBXGroup;
+			children = (
+				5E6D55A2662650D80FEC6F70 /* NetInfoCidr.swift */,
+				A14CD3EE219A6B1776EB643E /* NetInfoClassifier.swift */,
+				4FD399C29481E7996138CC8C /* NetInfoDebouncer.swift */,
+				05B0E2CB2CD6D81CA5A6D5A3 /* NetInfoSnapshot.swift */,
+			);
+			name = NetInfo;
+			path = NetInfo;
+			sourceTree = "<group>";
+		};
+		8117442DB9CB0EDDC0323E9B /* NetInfo */ = {
+			isa = PBXGroup;
+			children = (
+				6DD7B6C23FB478E828C45C08 /* NetInfoInterfaces.swift */,
+				FAF556C3B8D67EEAAEA3A982 /* NetInfoMonitor.swift */,
+				98B6808D938E5238FC13E637 /* RsNetInfoModule.h */,
+				72B27E9A60E99691F7CC2C5D /* RsNetInfoModule.mm */,
+			);
+			name = NetInfo;
+			path = NetInfo;
+			sourceTree = "<group>";
+		};
+		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		83CBB9F61A601CBA00E9B192 = {
+			isa = PBXGroup;
+			children = (
+				13B07FAE1A68108700A75B9A /* RemoteScreen */,
+				832341AE1AAA6A7D00B99B32 /* Libraries */,
+				83CBBA001A601CBA00E9B192 /* Products */,
+				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				455BAD1909F6F08CB952209A /* NativeLogic */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
+		};
+		83CBBA001A601CBA00E9B192 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				13B07F961A680F5B00A75B9A /* RemoteScreen.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		841868DE73CB3FA04E609E7B /* Crash */ = {
+			isa = PBXGroup;
+			children = (
+				DFD8B66506E6EB8BC9FCFCE7 /* CrashNativeCollector.swift */,
+			);
+			name = Crash;
+			path = Crash;
+			sourceTree = "<group>";
+		};
+		8E85E0D594AF20DF08E56E6F /* Bootstrap */ = {
+			isa = PBXGroup;
+			children = (
+				FDB4F0214E161F095EB744B9 /* RsNativeBootstrap.swift */,
+			);
+			name = Bootstrap;
+			path = Bootstrap;
+			sourceTree = "<group>";
+		};
+		901D3209AFCA0EA8F115ABB9 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				031CC7D8D4C8E58A39893CEC /* QrScannerController.swift */,
+				7EE658150594B02EA114405D /* RsQrScannerComponentView.h */,
+				22D5CC1E20126AA4E01C890F /* RsQrScannerComponentView.mm */,
+			);
+			name = Scanner;
+			path = Scanner;
+			sourceTree = "<group>";
+		};
+		986951854E935929C25777E0 /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				67D3386EAB12454D7F8A306A /* SessionViewport.swift */,
+				636BDE38F4950DA983BC11B7 /* TrackpadClickCounter.swift */,
+				E8C67C68C4D6128E9EB42F55 /* TrackpadCursorModel.swift */,
+				942FD523CE2A7E39F0B6F406 /* TrackpadHostCursorArbiter.swift */,
+				DC6C1A6B39D6B75B42869ACD /* TrackpadPointerThrottle.swift */,
+				9B23E0A65F14B10CC667CD04 /* TrackpadScrollMomentum.swift */,
+				97ED536682A611890785B1D7 /* SpaceSwipe.swift */,
+				FD4B7C55B6A01A239C63DA25 /* SessionMagnifierGeometry.swift */,
+				1C70990BB03661C64C5424FD /* SessionZoomMath.swift */,
+				49DB3364E2F905DE6AB90325 /* TouchTapMapper.swift */,
+				6D820FE602DCD4000EB0409A /* SessionGesturePrefs.swift */,
+			);
+			name = Gestures;
+			path = Gestures;
+			sourceTree = "<group>";
+		};
+		990BB29DD76B22A4401C245D /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				A820AE619C7E1F9AE016AAF9 /* SessionCursorController.swift */,
+				45C452D1A457E8831263D1AA /* SessionCursorLayer.swift */,
+				1D52588331EC7B1C64C7588A /* SessionInputSender.swift */,
+				D0E3117DE657EFBC79702D4C /* TrackpadGestureController.swift */,
+				41FD792E3C03915F4239077D /* SessionMagnifierLayer.swift */,
+				D1D9B4D81C3B0B4D6F8BFC28 /* SessionZoomController.swift */,
+				B01D51341E7E2787196FDADA /* TouchGestureController.swift */,
+				C506A1B13B096AFB07885975 /* SpaceSwipeController.swift */,
+				96326C544ED12FCC064C7D88 /* PencilGestureController.swift */,
+				CC731D25EDF6BDA35076EA7B /* PointerGestureController.swift */,
+				00F35976D37DDE78AECFD662 /* SessionPencilHoverLayer.swift */,
+			);
+			name = Gestures;
+			path = Gestures;
+			sourceTree = "<group>";
+		};
+		A1B1FC891DC881B05CC3A77E /* Display */ = {
+			isa = PBXGroup;
+			children = (
+				155E43785283A50DB3F394EA /* DisplayFrameRatePolicy.swift */,
+			);
+			name = Display;
+			path = Display;
+			sourceTree = "<group>";
+		};
+		A1DA14A92AA5CC3C6FE4DD2D /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				110541752AF9813FBC5DF2FA /* RsKeyCaptureComponentView.h */,
+				836DA9F9D1FD3D1D2E60A2DF /* RsKeyCaptureComponentView.mm */,
+				E05372C92846ECEE63EAABB8 /* RsKeyCaptureTextView.swift */,
+				4018AAA59218D7A1A5A53B9B /* RsKeyCaptureView.swift */,
+				4D077C10ED67F8B5D5E04417 /* HardwareKeyboardMonitor.swift */,
+			);
+			name = Keyboard;
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
+		B12F585785C510FE3468E9EB /* Placeholders */ = {
+			isa = PBXGroup;
+			children = (
+				4FD54E5CD7725D96349519D3 /* AppIcon-1024.png */,
+				6E2F41E04CDAB3995D5F49F1 /* LaunchMark@3x.png */,
+			);
+			name = Placeholders;
+			path = RemoteScreen/Placeholders;
+			sourceTree = "<group>";
+		};
+		B624F6719299ACD8D34E329C /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				6FBAE12F80F254684BC9AB71 /* RawFramePuller.swift */,
+				10943E0761D7E86976BCADC0 /* AdapterSecretStore.swift */,
+			);
+			name = Adapters;
+			path = Adapters;
+			sourceTree = "<group>";
+		};
+		B92248559D761B11976E9E77 /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				D773051A4219B649C2EBCA7E /* LaunchArguments.swift */,
+			);
+			name = Launch;
+			path = Launch;
+			sourceTree = "<group>";
+		};
+		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3B4392A12AC88292D35C810B /* Pods-RemoteScreen.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-RemoteScreen.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		BDBB0CAAC5F1359C914D1F33 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				26DA8FE4D4C446885F335D08 /* AudioPlaybackMachine.swift */,
+			);
+			name = Audio;
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		CD9BDED950CD16D08F2C4BEF /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				9BF695D6903E944D77150F63 /* SessionLogic.swift */,
+				7225A09CB9A83CFC49001D09 /* SessionDecodeStats.swift */,
+				6BF2544B829741BCA4E51437 /* SessionFrameGate.swift */,
+				689E798B89DC9E38F34127D1 /* SessionSnapshotLRU.swift */,
+			);
+			name = Session;
+			path = Session;
+			sourceTree = "<group>";
+		};
+		D053D9042051D0958231F7E4 /* LocalAuth */ = {
+			isa = PBXGroup;
+			children = (
+				A1D03FE6FB693B5C75DDC5B1 /* LocalAuthErrorMap.swift */,
+			);
+			name = LocalAuth;
+			path = LocalAuth;
+			sourceTree = "<group>";
+		};
+		D1497F8123B82D9F4D4EFAB3 /* Crash */ = {
+			isa = PBXGroup;
+			children = (
+				EB12DAA6E78A7557093C1BDE /* CrashInbox.swift */,
+			);
+			name = Crash;
+			path = Crash;
+			sourceTree = "<group>";
+		};
+		E18A0CCB7A497D09949FB487 /* Pointer */ = {
+			isa = PBXGroup;
+			children = (
+				F77449EEB1C5D92800C37EBC /* PencilStrokeMapper.swift */,
+				65CB1721F738DE788ABC315A /* PointerButtons.swift */,
+				18B862F8D31B8753AEF3886A /* PointerEdgeEscape.swift */,
+				9DCBAF4597A9EA695F3AFD65 /* PointerLockPolicy.swift */,
+				1277890A45CCD4EF88C21ECF /* PointerMotion.swift */,
+				5B6CFA67837899EDD5299656 /* PointerScrollSynth.swift */,
+			);
+			name = Pointer;
+			path = Pointer;
+			sourceTree = "<group>";
+		};
+		E253EBFE9F8EC0D3E9A97331 /* Viewport */ = {
+			isa = PBXGroup;
+			children = (
+				0255573FB1E11EEA19E1A0DF /* ViewportGeometry.swift */,
+			);
+			name = Viewport;
+			path = Viewport;
+			sourceTree = "<group>";
+		};
+		ED1F85755F6F676F47E76EE8 /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+				80C60E316D791DC73D856673 /* RecordingKeyBridge.swift */,
+				443A3A6BF9D438CF43D4C655 /* RecordingKeyStore.swift */,
+				698ACC0BA3605C3F9E25264E /* RsSecretShim.c */,
+				9E2AB02AE3DFA80F8A1400F0 /* RsSecretShim.h */,
+			);
+			name = Recording;
+			path = Recording;
+			sourceTree = "<group>";
+		};
+		EDE4C188BF69B45D294AF080 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D4E5F60718293A4B5B /* BonjourLogic.swift */,
+				86E860B249B933E5DFD6FE5B /* LocalNetworkProbeState.swift */,
+				04247AB86BF14C4771097CCE /* SystemHapticKind.swift */,
+			);
+			name = System;
+			path = System;
+			sourceTree = "<group>";
+		};
+		F349141D43DD42AC6CF1EA5C /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+				BACF2EA174BB288B9910B822 /* RecordingKeyWrap.swift */,
+			);
+			name = Recording;
+			path = Recording;
+			sourceTree = "<group>";
+		};
+		F669899F8239A91287D0CAE2 /* Terminal */ = {
+			isa = PBXGroup;
+			children = (
+				C9D3991D574DFCE765BF659E /* RsTerminalSurface.swift */,
+				C7860D9163B9B7006048B95E /* RsTerminalViewComponentView.h */,
+				7548602F26AA9F53E83F1450 /* RsTerminalViewComponentView.mm */,
+				831FA8C8F70CC2FF9F201BD7 /* TerminalAttachment.swift */,
+				8C0FF989604CF92E0F5AB845 /* TerminalInputSender.swift */,
+			);
+			name = Terminal;
+			path = Terminal;
+			sourceTree = "<group>";
+		};
+		F679C136CEAA2BAC8B614B89 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				F01FB7354802E27814470EE9 /* RsAudioModule.h */,
+				CD8066D4CE9A6925964FB59C /* RsAudioModule.mm */,
+				9B3092FD840EA953B512CA21 /* RsAudioPlayer.swift */,
+				E59B14A57050D4F290DB9C0D /* RsAudioSession.swift */,
+			);
+			name = Audio;
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		FE56E8DFF7845D641470FE7D /* Pointer */ = {
+			isa = PBXGroup;
+			children = (
+				D424DE6B6FF680F8723F84A7 /* LockedMouseInput.swift */,
+				642D6E899F289C80E22F976B /* PointerLockCoordinator.swift */,
+				1B7BACE0970E45EBF4A4B57C /* RsRootViewController.swift */,
+			);
+			name = Pointer;
+			path = Pointer;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		13B07F861A680F5B00A75B9A /* RemoteScreen */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RemoteScreen" */;
+			buildPhases = (
+				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				13B07F871A680F5B00A75B9A /* Sources */,
+				13B07F8C1A680F5B00A75B9A /* Frameworks */,
+				13B07F8E1A680F5B00A75B9A /* Resources */,
+				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
+				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RemoteScreen;
+			productName = RemoteScreen;
+			productReference = 13B07F961A680F5B00A75B9A /* RemoteScreen.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		83CBB9F71A601CBA00E9B192 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1210;
+				TargetAttributes = {
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1120;
+					};
+				};
+			};
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RemoteScreen" */;
+			compatibilityVersion = "Xcode 12.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 83CBB9F61A601CBA00E9B192;
+			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				13B07F861A680F5B00A75B9A /* RemoteScreen */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		13B07F8E1A680F5B00A75B9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				398F0318DA3A9000B6489B1C /* PrivacyInfo.xcprivacy in Resources */,
+				A5E7C0DE00000000000000A2 /* Assets.xcassets in Resources */,
+				7A9ADDA92FD01966E275B47C /* Geist-Regular.ttf in Resources */,
+				0CD71F6746A01B704EB58BC5 /* GeistMono-Regular.ttf in Resources */,
+				00ABCB1D075A1141AFAB22A1 /* AppIcon-1024.png in Resources */,
+				387947738FA6FE7FABB16933 /* LaunchMark@3x.png in Resources */,
+				F7EA774F38F6D4D763D6A901 /* Geist-Bold.ttf in Resources */,
+				43674A36A5BEA3461DDFEB5A /* Geist-Medium.ttf in Resources */,
+				27B62EA287C0778DAB65F195 /* Geist-SemiBold.ttf in Resources */,
+				5F49EA6B2FEBC937DA088A98 /* GeistMono-Medium.ttf in Resources */,
+				A3BEA06B59E0AEF6F081D037 /* GeistMono-SemiBold.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/.xcode.env",
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"\\\"$WITH_ENVIRONMENT\\\" \\\"$REACT_NATIVE_XCODE\\\"\"\n";
+		};
+		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RemoteScreen/Pods-RemoteScreen-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RemoteScreen/Pods-RemoteScreen-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RemoteScreen/Pods-RemoteScreen-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RemoteScreen-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RemoteScreen/Pods-RemoteScreen-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RemoteScreen/Pods-RemoteScreen-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RemoteScreen/Pods-RemoteScreen-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		13B07F871A680F5B00A75B9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C15998916EB9BCE916EE91E5 /* WindowActivity.swift in Sources */,
+				97759EF373BB0FE54D4E97E5 /* RsReactRuntime.swift in Sources */,
+				0F2D59507902B5E67DC9D393 /* RsWindowCoordinator.swift in Sources */,
+				1B5F45226B53E420B8364E51 /* RsWindowModule.mm in Sources */,
+				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+				761780EF2CA45674006654EF /* SceneDelegate.swift in Sources */,
+				2CF4F372C94D634E99A5477B /* RsNativeBootstrap.swift in Sources */,
+				1663A65EA046EB25B3A43800 /* RsLog.swift in Sources */,
+				03323AF871FAE0F509B4D420 /* RsDevLogModule.mm in Sources */,
+				51696A29BE8013A042AEBFDB /* RsMarkerLine.swift in Sources */,
+				A495179BE51E836F3BD58001 /* NetInfoInterfaces.swift in Sources */,
+				AB40B84BA858995A1339B9D4 /* NetInfoMonitor.swift in Sources */,
+				59F286FCB18C718302BA460D /* RsNetInfoModule.mm in Sources */,
+				3CB543FFD379B734FD98B1C2 /* NetInfoCidr.swift in Sources */,
+				981129F5B6527F5DA874A2F6 /* NetInfoClassifier.swift in Sources */,
+				24049DE13078A4FC57C7D8E8 /* NetInfoDebouncer.swift in Sources */,
+				47B257DC6EB36BC1486D2F5D /* NetInfoSnapshot.swift in Sources */,
+				7D121FFFF7E6F31CD2885855 /* LocalAuthService.swift in Sources */,
+				5898E3637065F343C41C5A4A /* PrivacyCover.swift in Sources */,
+				F7F7892FD2AC4207993F5F91 /* RsLocalAuthModule.mm in Sources */,
+				0A75E52D169B44D2FA655378 /* LocalAuthErrorMap.swift in Sources */,
+				1198AFE79294FEC630E802E8 /* RsSecureKeyModule.mm in Sources */,
+				1FA65BA123F3EEAF82F6C855 /* SecureKeySigner.swift in Sources */,
+				1799C1BC0E331BFAA83BA930 /* SecureKeyStore.swift in Sources */,
+				52640177FF2ABF87B31170B5 /* SecureKeyRotation.swift in Sources */,
+				0B248B0DBED95AD904C9B8DE /* SecureKeySignBuffer.swift in Sources */,
+				74257F5C8A7E9B553EE3B044 /* SecureKeySpki.swift in Sources */,
+				5C2609FD19C1A5DE93593E2F /* SecureKeyStats.swift in Sources */,
+				FD1B5154B98A335919F2C23F /* RsSignerShim.c in Sources */,
+				337AA5D974F9C111B7A3FB99 /* RsKeyCaptureComponentView.mm in Sources */,
+				B75B43F4800AB082C4D46744 /* RsKeyCaptureTextView.swift in Sources */,
+				06957AB2D443B03663D2036D /* RsKeyCaptureView.swift in Sources */,
+				1B908B3A8B2B5268DC27A914 /* KeyboardCommitPlanner.swift in Sources */,
+				9661BBCC6707F53461423BEB /* KeyboardHidMap.swift in Sources */,
+				11164DA55D59D2684E29C77E /* KeyboardModifiers.swift in Sources */,
+				A5A4F9847270656DC057ECFF /* KeyboardOsMap.swift in Sources */,
+				4C9CF06EFCD26CDBCC8E9338 /* KeyboardTextSplitter.swift in Sources */,
+				1BE00ED6B8DDBD0B63C61FCE /* RemoteSessionSurface.swift in Sources */,
+				A11F876CD681209B6B3F0054 /* RemoteSessionViewComponentView.mm in Sources */,
+				31197A8B24F5A1ED6CC7E340 /* SessionAttachment.swift in Sources */,
+				C39C046D5216BD3E7E730CE9 /* SessionVideoDecoder.swift in Sources */,
+				FE7137894B9280E4D5771A7B /* SessionVideoPipeline.swift in Sources */,
+				D38B288D5C329C9410DF4431 /* SessionLogic.swift in Sources */,
+				42C3E957B5B6353207F6F262 /* RsLifecycleModule.mm in Sources */,
+				CD129CDCEBE0F20E187EA75F /* RsLifecycleMonitor.swift in Sources */,
+				D1F0478BE5259BF14243E0B9 /* QrScannerController.swift in Sources */,
+				755F0C851895C11FE692C26C /* RsQrScannerComponentView.mm in Sources */,
+				FCCF24695173B545F2C21745 /* LocalNetworkProbe.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5F /* RsBonjour.swift in Sources */,
+				A1B2C3D4E5F60718293A4B60 /* RsBonjour.mm in Sources */,
+				715DD22ACA9A9DF9FB61147D /* RsSystemModule.mm in Sources */,
+				8DA9B3F8CEDDF79C81D9F086 /* SystemServices.swift in Sources */,
+				C92D2B038FF08B72C44291D1 /* LaunchArguments.swift in Sources */,
+				0CE13759CFD48B97BE5D1477 /* LifecycleBackgroundBudget.swift in Sources */,
+				11E9FA8B4FF91651B23703CC /* LifecycleExitMarker.swift in Sources */,
+				2A8B324A13CC35AD2DE9E6F5 /* LifecyclePowerPolicy.swift in Sources */,
+				532AC927973595851F4DAC5F /* QrScanThrottle.swift in Sources */,
+				511CA77343D7D4877FA1A580 /* ScannerPermission.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5E /* BonjourLogic.swift in Sources */,
+				926B735AA25E4EB009ED5823 /* LocalNetworkProbeState.swift in Sources */,
+				B1DCF8843891E803F7B98F16 /* SystemHapticKind.swift in Sources */,
+				1F82B3B26D7A5604DDC7F4D7 /* SessionCursorController.swift in Sources */,
+				E681E280214FFBAB8A52D2C3 /* SessionCursorLayer.swift in Sources */,
+				84AB7826C99E3156DEC024A6 /* SessionInputSender.swift in Sources */,
+				9D088869A675AB62D71D59E2 /* TrackpadGestureController.swift in Sources */,
+				9C36F989B46D5526C15B506C /* SessionViewport.swift in Sources */,
+				84F236FCDF3D974220D033BF /* TrackpadClickCounter.swift in Sources */,
+				DCEB54AAD1C23FE1B0211288 /* TrackpadCursorModel.swift in Sources */,
+				002E9F63A6CEC9557F6F4B1C /* TrackpadHostCursorArbiter.swift in Sources */,
+				FFF7ABDA3C815609770F6B20 /* TrackpadPointerThrottle.swift in Sources */,
+				58A6861201CEAD40CA39F219 /* TrackpadScrollMomentum.swift in Sources */,
+				C4F12CC8E38EDF565AA20013 /* SpaceSwipe.swift in Sources */,
+				CAA904E92E39EE13C9CA704A /* RsTerminalSurface.swift in Sources */,
+				6962F6D121506CE7A420442C /* RsTerminalViewComponentView.mm in Sources */,
+				B6FCA4B467809EEC4F28000F /* TerminalAttachment.swift in Sources */,
+				68671F3EDEFAB1F4BC992111 /* TerminalInputSender.swift in Sources */,
+				F4006966A4C989EBE219D281 /* TerminalFontSize.swift in Sources */,
+				FDD46476D97B5015C3A5F4B5 /* TerminalKeySequences.swift in Sources */,
+				AA242DBDD8EF8B9877209692 /* TerminalModifierApply.swift in Sources */,
+				4E4FD8774B7C354AC235815D /* TerminalOutputCoalescer.swift in Sources */,
+				3A0C80A84B64BAF6F59CA08E /* TerminalPasteEncoder.swift in Sources */,
+				80CF9B1A9E8666706EBB09E6 /* TerminalTheme.swift in Sources */,
+				4DA823AFC993D9C412629D2A /* SessionMagnifierLayer.swift in Sources */,
+				6FF3893A737A0069C85E6919 /* SessionZoomController.swift in Sources */,
+				993B3F6199BAB5942492B879 /* TouchGestureController.swift in Sources */,
+				8D8946F483D1AB7C965A9586 /* SpaceSwipeController.swift in Sources */,
+				4DD40845993A53A5797D3ED4 /* SessionMagnifierGeometry.swift in Sources */,
+				5A478065F9A9C7C2240A6240 /* SessionZoomMath.swift in Sources */,
+				C581FE0223002F9B90EF3F6D /* TouchTapMapper.swift in Sources */,
+				5FA2ADF34A901D8B5A9A8718 /* RsAudioModule.mm in Sources */,
+				9BF85FBE699683393A244CF3 /* RsAudioPlayer.swift in Sources */,
+				07E7EB3B8CD8E2AB0C976C3C /* RsAudioSession.swift in Sources */,
+				161CF857450ACD73A3FF2CA6 /* AudioPlaybackMachine.swift in Sources */,
+				24B66965018DD75B325BD97F /* SessionKeyframeRequester.swift in Sources */,
+				47A5CC5ABB25B092F5260939 /* SessionSnapshotStore.swift in Sources */,
+				A980778432F72C3EEFBE1852 /* SessionVideoStats.swift in Sources */,
+				84961BA1D9249D3D87A279AD /* SessionDecodeStats.swift in Sources */,
+				8E3A23089E3EEDE62498FCAF /* SessionFrameGate.swift in Sources */,
+				2BEAD0792F94B58772E2BFDC /* SessionSnapshotLRU.swift in Sources */,
+				3530A711A5B2F01E915DBD38 /* FilesService.swift in Sources */,
+				B8E7CD91E19CF8D52774046F /* RsFilesModule.mm in Sources */,
+				2C28A8061BD8424ADF8C82C9 /* BackgroundTaskGate.swift in Sources */,
+				AB7669EDA1550B3A7EAA30CC /* IncomingURL.swift in Sources */,
+				21FD902999A181C5BC47E1C8 /* UniqueName.swift in Sources */,
+				A44C188C414A38A02FC9BEE8 /* HardwareKeyboardMonitor.swift in Sources */,
+				833D4FE76E58B4F89CC8F454 /* SessionFrameRateController.swift in Sources */,
+				2CABF0A0E04CF8A391CEBE8D /* DisplayFrameRatePolicy.swift in Sources */,
+				08E84AADAB4BBD00B45953D0 /* KeyboardPassthrough.swift in Sources */,
+				F47A9505E684B6E154E53BD3 /* KeyboardRepeat.swift in Sources */,
+				CAD972C2152459598B49BC19 /* KeyboardFocusPolicy.swift in Sources */,
+				5F73AD2E604324E321DCA0E7 /* SessionGesturePrefs.swift in Sources */,
+				A8BAEE33DCFD386694315F04 /* CrashNativeCollector.swift in Sources */,
+				B7340FA34BB2A75D902A0602 /* LockedMouseInput.swift in Sources */,
+				5196961B1326803318D7FC79 /* PointerLockCoordinator.swift in Sources */,
+				73E1B5CA8C0C2BC25AE39BB5 /* RsRootViewController.swift in Sources */,
+				C7BE0DD03233CA838F3FFB4B /* PencilGestureController.swift in Sources */,
+				16C55E37B3CE3D7E15B3AEF3 /* PointerGestureController.swift in Sources */,
+				522CD679A74A35E5739F74D2 /* SessionPencilHoverLayer.swift in Sources */,
+				8A9A63FADF266B1D4A5D0A98 /* CrashInbox.swift in Sources */,
+				0E2C7DB70A78617464083AF5 /* PencilStrokeMapper.swift in Sources */,
+				31D6556E52A03B23B196992A /* PointerButtons.swift in Sources */,
+				070081D8C41D7D3D4D32ED27 /* PointerEdgeEscape.swift in Sources */,
+				A063CE4C4728FB5643B9D4F0 /* PointerLockPolicy.swift in Sources */,
+				B1344C4F3532A531E7214060 /* PointerMotion.swift in Sources */,
+				E583E10100E13F6BB68A0D63 /* PointerScrollSynth.swift in Sources */,
+				9120B2BCB9B4BA33027CB9CB /* RsPipModule.mm in Sources */,
+				336816DAEF5AAB8BA261B019 /* SessionPipCoordinator.swift in Sources */,
+				4BCA09D64A1D5ED399846442 /* PipMachine.swift in Sources */,
+				517F0CCA2F74761D0AE28B00 /* PipRenderSwitch.swift in Sources */,
+				E37DB2D987DD68C2E5F50F2A /* ViewportGeometry.swift in Sources */,
+				7A99641F87052910BA715354 /* SessionPipController.swift in Sources */,
+				0A5BB38DE87EB8BB62556333 /* RawFramePuller.swift in Sources */,
+				76D5058089A39585E2F5AA4F /* AdapterRawPacing.swift in Sources */,
+				AE27BC32732042E8BBEDFED7 /* AdapterRawRing.swift in Sources */,
+				4984FEF400CE63EA0FCA5097 /* RecordingKeyBridge.swift in Sources */,
+				BDD1663FB24D536D9EF223E1 /* RecordingKeyStore.swift in Sources */,
+				192A09B8FF5A301B70E5B98C /* RsSecretShim.c in Sources */,
+				CF7FB2C31968E2C306CFA2F1 /* AdapterSecretStore.swift in Sources */,
+				3F3C27721AABA2AA593F6460 /* AdapterKeychainLogic.swift in Sources */,
+				9CDC686C4B2466DB5A915825 /* RecordingKeyWrap.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		13B07F941A680F5B00A75B9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-RemoteScreen.debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "远屏 Dev";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1000000;
+				ENABLE_BITCODE = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				HERMES_CLI_PATH = "$(PODS_ROOT)/../../node_modules/hermes-compiler/hermesc/osx-bin/hermesc";
+				INFOPLIST_FILE = RemoteScreen/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ai.gxlself.remotescreen.dev;
+				PRODUCT_MODULE_NAME = RemoteScreen;
+				PRODUCT_NAME = RemoteScreen;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RemoteScreen/Native/RemoteScreen-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		13B07F951A680F5B00A75B9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-RemoteScreen.release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "远屏";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1000000;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				HERMES_CLI_PATH = "$(PODS_ROOT)/../../node_modules/hermes-compiler/hermesc/osx-bin/hermesc";
+				INFOPLIST_FILE = RemoteScreen/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ai.gxlself.remotescreen;
+				PRODUCT_MODULE_NAME = RemoteScreen;
+				PRODUCT_NAME = RemoteScreen;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RemoteScreen/Native/RemoteScreen-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		83CBBA201A601CBA00E9B192 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SDKROOT)/usr/lib/swift\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+					"-DFOLLY_CFG_NO_COROUTINES=1",
+					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				PODFILE_DIR = "$(SRCROOT)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				USE_HERMES = true;
+			};
+			name = Debug;
+		};
+		83CBBA211A601CBA00E9B192 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SDKROOT)/usr/lib/swift\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+					"-DFOLLY_CFG_NO_COROUTINES=1",
+					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				PODFILE_DIR = "$(SRCROOT)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				USE_HERMES = true;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RemoteScreen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13B07F941A680F5B00A75B9A /* Debug */,
+				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RemoteScreen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83CBBA201A601CBA00E9B192 /* Debug */,
+				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
+}

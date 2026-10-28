@@ -1,0 +1,12 @@
+{
+  "binary": "virtual_display_result_bad_request.bin",
+  "description": "M3 virtual display result status.",
+  "fields": {
+    "request_id": 1,
+    "status": "BAD_REQUEST"
+  },
+  "name": "virtual_display_result_bad_request",
+  "non_default_enums": [
+    "VirtualDisplayResult.Status::BAD_REQUEST"
+  ]
+}

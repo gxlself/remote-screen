@@ -1,0 +1,72 @@
+[package]
+name = "rs-mobile"
+description = "Remote Screen mobile core with UniFFI and native media/terminal bridges."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lib]
+name = "rs_mobile"
+crate-type = ["staticlib", "rlib"]
+
+[features]
+# iOS：把 tailnet 薄封装静态链进来。
+tailnet-static = ["rs-tailnet/static-link"]
+
+[dependencies]
+rs-audio.workspace = true
+rs-recording.workspace = true
+rsp-core.workspace = true
+rsp-files.workspace = true
+rsp-client.workspace = true
+log.workspace = true
+tokio.workspace = true
+thiserror.workspace = true
+uniffi.workspace = true
+rsp-transport.workspace = true
+rs-ssh.workspace = true
+rs-tailnet.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tracing-appender.workspace = true
+zip.workspace = true
+rusqlite.workspace = true
+if-addrs.workspace = true
+prost.workspace = true
+data-encoding.workspace = true
+ring.workspace = true
+async-trait.workspace = true
+zeroize.workspace = true
+rustls-pki-types.workspace = true
+quinn.workspace = true
+ssh-key.workspace = true
+url.workspace = true
+libc.workspace = true
+rs-vnc.workspace = true
+rs-rdp.workspace = true
+png.workspace = true
+# Tailscale API client (rscore/tsapi): HTTP/1.1 over rustls (ring) with webpki-roots.
+bytes.workspace = true
+http-body-util.workspace = true
+hyper = { workspace = true, features = ["client", "http1"] }
+hyper-util = { workspace = true, features = ["tokio"] }
+rustls.workspace = true
+tokio-rustls.workspace = true
+webpki-roots.workspace = true
+time = { workspace = true, features = ["parsing"] }
+
+[dev-dependencies]
+russh-sftp.workspace = true
+host-fake.workspace = true
+host-core.workspace = true
+rcgen.workspace = true
+russh.workspace = true
+tokio = { workspace = true, features = ["test-util"] }
+rs-tailnet = { workspace = true, features = ["testkit"] }
+rs-rdp = { workspace = true, features = ["testkit"] }
+rs-vnc.workspace = true

@@ -1,0 +1,8 @@
+{
+  "name": "input_mouse_move",
+  "type": "MouseMove",
+  "x": 0.25,
+  "y": 0.75,
+  "binary": "mouse_move.bin",
+  "description": "Input stream event 0x01, payload only (stream framing has no type byte)."
+}

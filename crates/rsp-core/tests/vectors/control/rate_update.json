@@ -1,0 +1,13 @@
+{
+  "binary": "rate_update.bin",
+  "description": "RateUpdate after the path changed to DERP.",
+  "fields": {
+    "fec_ratio_pct": 18,
+    "fps": 45,
+    "reason": "path:derp",
+    "scale": 0.75,
+    "target_kbps": 6200
+  },
+  "name": "rate_update",
+  "non_default_enums": []
+}

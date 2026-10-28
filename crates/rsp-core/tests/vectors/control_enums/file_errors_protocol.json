@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_protocol.bin",
+  "fields": {
+    "value": "FILE_ERROR_PROTOCOL"
+  },
+  "name": "file_errors_protocol",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_PROTOCOL"
+  ]
+}

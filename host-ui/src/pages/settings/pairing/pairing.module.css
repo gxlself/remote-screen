@@ -1,0 +1,248 @@
+.section {
+  max-width: 620px;
+  padding: 24px;
+}
+
+.title {
+  margin: 0;
+  color: var(--rs-text);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.intro {
+  margin: 7px 0 22px;
+  color: var(--rs-text2);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.group {
+  margin-top: 24px;
+}
+
+.group:first-of-type {
+  margin-top: 0;
+}
+
+.groupTitle {
+  margin: 0 0 8px;
+  color: var(--rs-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.groupHint {
+  margin: 0 0 10px;
+  color: var(--rs-text3);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.switchRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--rs-line);
+}
+
+.switchCopy {
+  min-width: 0;
+}
+
+.switchLabel {
+  color: var(--rs-text);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.switchHint {
+  margin-top: 3px;
+  color: var(--rs-text3);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.permissionBlock {
+  margin-top: 12px;
+}
+
+.permissionTitle {
+  margin: 0 0 7px;
+  color: var(--rs-text2);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.exportCard {
+  max-width: 520px;
+  padding: 14px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--rs-line);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 14px 0 6px;
+}
+
+.label {
+  color: var(--rs-text2);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.counter,
+.hint {
+  color: var(--rs-text3);
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+
+.counterBad {
+  color: var(--rs-bad);
+}
+
+.input {
+  width: 100%;
+  height: 32px;
+  padding: 0 9px;
+  border: 1px solid var(--rs-line2);
+  border-radius: 7px;
+  outline: none;
+  background: var(--rs-raised);
+  color: var(--rs-text);
+  font: inherit;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: var(--rs-accent);
+}
+
+.fieldError {
+  margin: 6px 0 0;
+  color: var(--rs-bad);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.exportActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 13px;
+}
+
+.exported {
+  max-width: 520px;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid var(--rs-line);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.exportedTitle {
+  margin-bottom: 5px;
+  color: var(--rs-text);
+  font-weight: 600;
+}
+
+.detail {
+  color: var(--rs-text2);
+}
+
+.mono {
+  color: var(--rs-text2);
+  font-family: var(--rs-font-mono);
+  overflow-wrap: anywhere;
+}
+
+.fileList {
+  overflow: hidden;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--rs-line);
+}
+
+.fileRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+}
+
+.fileContent {
+  max-width: 520px;
+}
+
+.fileRow + .fileRow {
+  border-top: 1px solid var(--rs-line);
+}
+
+.fileCopy {
+  min-width: 0;
+}
+
+.fileName {
+  color: var(--rs-text);
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.fileMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 10px;
+  margin-top: 5px;
+  color: var(--rs-text3);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.fileActions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.empty {
+  padding: 14px;
+  color: var(--rs-text3);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.unsupported {
+  padding: 14px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--rs-line);
+  color: var(--rs-text2);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.error {
+  margin-top: 10px;
+}

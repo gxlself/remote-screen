@@ -1,0 +1,20 @@
+rust:
+  directory: ../../../
+  manifestPath: crates/rs-mobile/Cargo.toml
+bindings:
+  cpp: ../../cpp/generated
+  ts: ../../src/native/generated
+ios:
+  directory: ios
+  frameworkName: ../../ios/RsMobile
+  targets:
+    - aarch64-apple-ios
+    - aarch64-apple-ios-sim
+turboModule:
+  cpp: cpp
+  ts: src
+  spec: RsCoreSpec
+  name: RsCoreSpec
+  entrypoint: src/index.tsx
+noOverwrite:
+  - '*.podspec'

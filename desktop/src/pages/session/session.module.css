@@ -1,0 +1,52 @@
+.notices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.banner {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(400px, 100%);
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--rs-dialogBg);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.2),
+    0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.message {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

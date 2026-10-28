@@ -1,0 +1,40 @@
+[package]
+name = "rsp-core"
+description = "Remote Screen Protocol (RSP/1): wire formats, fragmentation, NAL helpers, clock sync. No I/O."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lib]
+name = "rsp_core"
+
+[dependencies]
+prost.workspace = true
+bytes.workspace = true
+thiserror.workspace = true
+reed-solomon-simd.workspace = true
+xxhash-rust.workspace = true
+spake2.workspace = true
+sha2.workspace = true
+hmac.workspace = true
+hkdf.workspace = true
+data-encoding.workspace = true
+rand_core.workspace = true
+getrandom.workspace = true
+p256.workspace = true
+x509-parser.workspace = true
+zeroize.workspace = true
+
+[build-dependencies]
+prost-build.workspace = true
+protox.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+rcgen.workspace = true
+x509-parser.workspace = true
+serde.workspace = true
+serde_json.workspace = true

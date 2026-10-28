@@ -1,0 +1,23 @@
+export const vdisplay = {
+  badge: '虚拟屏',
+  create: (w: number, h: number) => `新建虚拟屏 · ${w}×${h}`,
+  createA11y: (w: number, h: number) => `按本机屏幕新建一块 ${w}×${h} 的虚拟屏`,
+  creating: '正在新建虚拟屏…',
+  created: '已新建虚拟屏，正在切换',
+  remove: '移除虚拟屏',
+  removeConfirmTitle: '移除虚拟屏？',
+  removeConfirmBody: '放在这块屏上的窗口会挪回其他显示器。',
+  removeConfirm: '移除',
+  removing: '正在移除虚拟屏…',
+  removeSlow: '虚拟屏还没移除，可以关掉面板稍后再看',
+  removeFailed: '没能移除虚拟屏，请重试',
+  removed: '已移除虚拟屏',
+  error: {
+    unsupported: '这台电脑现在不能新建虚拟屏',
+    notAllowed: '只有控制者能新建虚拟屏',
+    limit: '虚拟屏数量已达上限',
+    badRequest: '这个屏幕尺寸不受支持',
+    failed: '新建虚拟屏失败，请重试',
+    timeout: '新建虚拟屏超时，请重试',
+  },
+} as const;

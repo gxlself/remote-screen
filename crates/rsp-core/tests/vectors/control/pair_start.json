@@ -1,0 +1,13 @@
+{
+  "binary": "pair_start.bin",
+  "description": "PairStart from an iPad using the QR path.",
+  "fields": {
+    "device_name": "New iPad",
+    "has_qr": true,
+    "platform": "IPADOS"
+  },
+  "name": "pair_start",
+  "non_default_enums": [
+    "Platform::IPADOS"
+  ]
+}

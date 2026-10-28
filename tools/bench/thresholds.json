@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "self_product": "remotescreen",
+  "regression": {
+    "latency_p50": {"ratio": 0.15, "abs_ms": 3},
+    "latency_p95": {"ratio": 0.20, "abs_ms": 5},
+    "display_fps": {"drop_ratio": 0.10},
+    "longest_freeze_ms": {"ratio": 0.5, "abs_ms": 100},
+    "ssim": {"drop": 0.02}
+  },
+  "warn": {
+    "host_tx_mbps": {"ratio": 0.30},
+    "cpu_pct_mean": {"ratio": 0.30, "abs": 3},
+    "gpu_pct_mean": {"ratio": 0.30, "abs": 3}
+  },
+  "absolute": {"weak": {"longest_freeze_ms": 500}},
+  "vs_best": {"latency_p50_ratio": 0.10, "latency_p95_ratio": 0.10}
+}

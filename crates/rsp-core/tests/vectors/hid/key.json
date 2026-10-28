@@ -1,0 +1,9 @@
+{
+  "name": "input_key",
+  "type": "Key",
+  "usage": 4,
+  "down": true,
+  "mods": 11,
+  "binary": "key.bin",
+  "description": "Input stream event 0x04: HID usage 0x0004 (A) with left Ctrl, Shift and Meta held."
+}

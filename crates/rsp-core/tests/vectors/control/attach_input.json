@@ -1,0 +1,9 @@
+{
+  "binary": "attach_input.bin",
+  "description": "AttachInput carrying a 16-byte session token.",
+  "fields": {
+    "session_token_hex": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+  },
+  "name": "attach_input",
+  "non_default_enums": []
+}

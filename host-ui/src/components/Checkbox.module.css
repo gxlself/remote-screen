@@ -1,0 +1,61 @@
+.checkbox {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--rs-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.box {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.boxChecked {
+  background: var(--rs-macBlue);
+  box-shadow: inset 0 0 0 1px var(--rs-macBlue);
+}
+
+.check {
+  display: block;
+  color: #fff;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.description {
+  color: var(--rs-text2);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.checkbox:disabled {
+  cursor: not-allowed;
+}
+
+.disabled .label,
+.disabled .description {
+  color: var(--rs-text3);
+}

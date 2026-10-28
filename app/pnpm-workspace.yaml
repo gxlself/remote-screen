@@ -1,0 +1,3 @@
+# pnpm 11 reads install settings here; .npmrc also documents RN's requirement.
+nodeLinker: hoisted
+autoInstallPeers: false

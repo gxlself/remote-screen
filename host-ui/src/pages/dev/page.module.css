@@ -1,0 +1,79 @@
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 32px 64px;
+}
+
+.title {
+  margin: 0 0 6px;
+  color: var(--rs-textStrong);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.lead {
+  margin: 0 0 28px;
+  color: var(--rs-text2);
+  line-height: 1.6;
+}
+
+.section {
+  margin-top: 28px;
+}
+
+.heading {
+  margin: 0 0 10px;
+  color: var(--rs-textSoft);
+  font-size: var(--rs-font-size-small);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 13px;
+  border: 1px solid var(--rs-cardLine);
+  border-radius: var(--rs-radius-card);
+  background: var(--rs-card);
+  color: var(--rs-text);
+  text-decoration: none;
+}
+
+.link:hover {
+  border-color: var(--rs-selected);
+  background: var(--rs-raised);
+}
+
+.route {
+  color: var(--rs-text3);
+  font-family: var(--rs-font-mono);
+  font-size: var(--rs-font-size-small);
+}
+
+.note {
+  margin-top: 28px;
+  padding: 14px 16px;
+  border: 1px solid var(--rs-cardLine);
+  border-radius: var(--rs-radius-card);
+  background: var(--rs-raised);
+  color: var(--rs-text2);
+  line-height: 1.6;
+}
+
+.code {
+  color: var(--rs-accentSoft);
+  font-family: var(--rs-font-mono);
+  font-size: var(--rs-font-size-small);
+}

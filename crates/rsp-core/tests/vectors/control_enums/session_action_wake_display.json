@@ -1,0 +1,12 @@
+{
+  "binary": "session_action_wake_display.bin",
+  "description": "SessionAction waking a sleeping display.",
+  "fields": {
+    "enable": false,
+    "kind": "WAKE_DISPLAY"
+  },
+  "name": "session_action_wake_display",
+  "non_default_enums": [
+    "SessionAction.Kind::WAKE_DISPLAY"
+  ]
+}

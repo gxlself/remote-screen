@@ -1,0 +1,16 @@
+[Unit]
+Description=Remote Screen host
+PartOf=graphical-session.target
+After=graphical-session.target pipewire.service xdg-desktop-portal.service
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart="@LIB_DIR@/current/usr/bin/rs-host" --platform linux
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=10
+
+[Install]
+WantedBy=graphical-session.target

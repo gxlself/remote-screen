@@ -1,0 +1,20 @@
+{
+  "name": "react-native-rs-core",
+  "version": "0.1.0",
+  "description": "Remote Screen generated UniFFI TurboModule",
+  "main": "src/index.tsx",
+  "react-native": "src/index.tsx",
+  "homepage": "https://example.com/remote-screen",
+  "repository": { "type": "git", "url": "https://example.com/remote-screen.git" },
+  "license": "MIT OR Apache-2.0",
+  "author": "gxlself",
+  "codegenConfig": {
+    "name": "RsCoreSpec",
+    "type": "modules",
+    "jsSrcsDir": "src",
+    "android": { "javaPackageName": "ai.gxlself.rscore" }
+  },
+  "peerDependencies": { "react": "*", "react-native": "*" },
+  "dependencies": { "@ubjs/core": "0.31.0-6" },
+  "devDependencies": { "uniffi-bindgen-react-native": "0.31.0-6" }
+}

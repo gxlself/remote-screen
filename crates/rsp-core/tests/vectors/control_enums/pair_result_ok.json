@@ -1,0 +1,14 @@
+{
+  "binary": "pair_result_ok.bin",
+  "description": "PairResult for a successful pairing.",
+  "fields": {
+    "attempts_left": 0,
+    "host_id": "host-42",
+    "host_name": "Studio PC",
+    "status": "OK"
+  },
+  "name": "pair_result_ok",
+  "non_default_enums": [
+    "PairResult.Status::OK"
+  ]
+}

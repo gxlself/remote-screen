@@ -1,0 +1,16 @@
+{
+  "binary": "file_status.bin",
+  "description": "M2 file channel contract.",
+  "fields": {
+    "error": "FILE_ERROR_NONE",
+    "received": 7,
+    "request_id": 3,
+    "saved_name": "hello (1).txt",
+    "state": "COMPLETED",
+    "transfer_id": "00112233445566778899aabbccddeeff"
+  },
+  "name": "file_status",
+  "non_default_enums": [
+    "FileStatus.State::COMPLETED"
+  ]
+}

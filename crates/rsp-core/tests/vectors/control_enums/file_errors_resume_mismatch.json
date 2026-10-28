@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_resume_mismatch.bin",
+  "fields": {
+    "value": "FILE_ERROR_RESUME_MISMATCH"
+  },
+  "name": "file_errors_resume_mismatch",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_RESUME_MISMATCH"
+  ]
+}

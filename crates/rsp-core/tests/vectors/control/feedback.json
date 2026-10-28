@@ -1,0 +1,23 @@
+{
+  "binary": "feedback.bin",
+  "description": "A full Feedback sample with negative delay gradient and low-power mode.",
+  "fields": {
+    "battery_pct": 73,
+    "decode_p50_us": 9000,
+    "decode_queue": 1,
+    "delay_gradient_us_per_s": -25000,
+    "epoch": 9,
+    "frames_lost": 2,
+    "frames_received": 120,
+    "frames_recovered": 3,
+    "interval_ms": 200,
+    "low_power": true,
+    "owd_p50_us": 24000,
+    "recv_kbps": 7900,
+    "render_fps": 60,
+    "shards_lost": 15,
+    "shards_received": 1200
+  },
+  "name": "feedback",
+  "non_default_enums": []
+}

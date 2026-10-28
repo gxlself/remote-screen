@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","id":1,"result":{"requests":[{"request_id":"a-1","kind":"connection","device_name":"test phone","device_id":"d-1","platform":"ios","whois_login":null,"path":"lan","reasons":["attended_mode"],"timeout_s":30,"permission_choice":false,"device_fp":null}]}}

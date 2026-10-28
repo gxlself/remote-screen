@@ -1,0 +1,10 @@
+{
+  "binary": "file_kinds_other.bin",
+  "fields": {
+    "value": "OTHER"
+  },
+  "name": "file_kinds_other",
+  "non_default_enums": [
+    "FileEntry.Kind::OTHER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "binary": "auth_result_denied.bin",
+  "description": "AuthResult denying an unpaired device with ErrorInfo code 181.",
+  "fields": {
+    "error": {
+      "code": 181,
+      "detail": {},
+      "message": "device is not paired with this host",
+      "retry_after_s": 0
+    },
+    "role": "VIEWER",
+    "status": "DENIED"
+  },
+  "name": "auth_result_denied",
+  "non_default_enums": [
+    "AuthResult.Status::DENIED",
+    "Role::VIEWER"
+  ]
+}

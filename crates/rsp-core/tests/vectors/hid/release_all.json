@@ -1,0 +1,6 @@
+{
+  "name": "input_release_all",
+  "type": "ReleaseAll",
+  "binary": "release_all.bin",
+  "description": "Input stream event 0x06 with no payload."
+}

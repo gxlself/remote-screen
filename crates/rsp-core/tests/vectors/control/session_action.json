@@ -1,0 +1,12 @@
+{
+  "binary": "session_action.bin",
+  "description": "SessionAction requesting Ctrl+Alt+Del.",
+  "fields": {
+    "enable": true,
+    "kind": "CTRL_ALT_DEL"
+  },
+  "name": "session_action",
+  "non_default_enums": [
+    "SessionAction.Kind::CTRL_ALT_DEL"
+  ]
+}

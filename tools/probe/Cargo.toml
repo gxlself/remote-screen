@@ -1,0 +1,30 @@
+[package]
+name = "rs-probe"
+description = "Desktop RSP client for M0 bring-up: connects, counts frames, measures latency, dumps the HEVC stream."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "rs-probe"
+path = "src/main.rs"
+
+[dependencies]
+rsp-core.workspace = true
+rsp-client.workspace = true
+rsp-transport.workspace = true
+rustls.workspace = true
+quinn.workspace = true
+anyhow.workspace = true
+clap.workspace = true
+env_logger.workspace = true
+log.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+host-core.workspace = true
+host-fake.workspace = true
+async-trait.workspace = true

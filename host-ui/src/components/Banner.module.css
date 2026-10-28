@@ -1,0 +1,51 @@
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.controlled {
+  background: var(--rs-controlledBg);
+  box-shadow: inset 0 0 0 1px var(--rs-controlledLine);
+}
+
+.good {
+  background: rgba(93, 211, 154, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(93, 211, 154, 0.3);
+}
+
+.bad {
+  background: rgba(255, 136, 115, 0.14);
+  color: var(--rs-bad);
+}
+
+.info {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  line-height: 0;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.body + .title,
+.title + .body {
+  margin-top: 3px;
+}

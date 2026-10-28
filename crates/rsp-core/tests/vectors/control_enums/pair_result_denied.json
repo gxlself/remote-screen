@@ -1,0 +1,14 @@
+{
+  "binary": "pair_result_denied.bin",
+  "description": "PairResult denied by the local user.",
+  "fields": {
+    "attempts_left": 0,
+    "host_id": "host-42",
+    "host_name": "Studio PC",
+    "status": "DENIED"
+  },
+  "name": "pair_result_denied",
+  "non_default_enums": [
+    "PairResult.Status::DENIED"
+  ]
+}

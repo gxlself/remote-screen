@@ -1,0 +1,25 @@
+[package]
+name = "host-mac"
+description = "macOS platform layer for Remote Screen with native capture and input."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+rsp-core.workspace = true
+tokio.workspace = true
+host-core.workspace = true
+libc.workspace = true
+sha2.workspace = true
+tracing.workspace = true
+zeroize.workspace = true
+
+[target.'cfg(target_os = "macos")'.dev-dependencies]
+serde_json.workspace = true
+rs-audio.workspace = true
+
+[build-dependencies]
+cc.workspace = true

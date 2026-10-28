@@ -1,0 +1,166 @@
+[package]
+license = "MIT OR Apache-2.0"
+name = "rsp-fuzz"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[workspace]
+members = ["."]
+
+[dependencies]
+arbitrary = "1"
+libfuzzer-sys = "0.4"
+prost = "0.14"
+rsp-core = { path = "../crates/rsp-core" }
+rsp-transport = { path = "../crates/rsp-transport" }
+host-win = { path = "../crates/host-win" }
+p256 = { version = "0.14.0", features = ["ecdsa"] }
+sha2 = "0.11.1"
+rcgen = { version = "0.14.10", default-features = false, features = ["crypto", "ring", "pem"] }
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "input_event"
+path = "fuzz_targets/input_event.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "pointer"
+path = "fuzz_targets/pointer.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "cursor"
+path = "fuzz_targets/cursor.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "clipboard_header"
+path = "fuzz_targets/clipboard_header.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "tcp_record"
+path = "fuzz_targets/tcp_record.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "pair_qr"
+path = "fuzz_targets/pair_qr.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "pair_spake"
+path = "fuzz_targets/pair_spake.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fec_recv"
+path = "fuzz_targets/fec_recv.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "wire_frames"
+path = "fuzz_targets/wire_frames.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "envelope"
+path = "fuzz_targets/envelope.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "trust_statement"
+path = "fuzz_targets/trust_statement.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "file_header"
+path = "fuzz_targets/file_header.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "file_name"
+path = "fuzz_targets/file_name.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "audio_datagram"
+path = "fuzz_targets/audio_datagram.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "video_header"
+path = "fuzz_targets/video_header.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "reassembly"
+path = "fuzz_targets/reassembly.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "pairfile"
+path = "fuzz_targets/pairfile.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "file_ctl"
+path = "fuzz_targets/file_ctl.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "pipe_frames"
+path = "fuzz_targets/pipe_frames.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "bind_node"
+path = "fuzz_targets/bind_node.rs"
+test = false
+doc = false
+bench = false

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "note": "第三方对照软件。sha256 为 null 时 bench.py 拒绝安装；安装前需经用户同意下载、核对并填入。",
+  "items": {
+    "rustdesk-win": {"product": "rustdesk", "role": "host", "os": "windows", "version": "1.5.0", "license": "AGPL-3.0",
+      "url": "https://github.com/rustdesk/rustdesk/releases/download/1.5.0/rustdesk-1.5.0-x86_64.msi",
+      "file": "rustdesk-1.5.0-x86_64.msi", "sha256": null},
+    "rustdesk-mac": {"product": "rustdesk", "role": "client", "os": "macos", "version": "1.5.0", "license": "AGPL-3.0",
+      "url": "https://github.com/rustdesk/rustdesk/releases/download/1.5.0/rustdesk-1.5.0-aarch64.dmg",
+      "file": "rustdesk-1.5.0-aarch64.dmg", "sha256": null},
+    "sunshine-win": {"product": "moonlight", "role": "host", "os": "windows", "version": "2026.914.233613", "license": "GPL-3.0",
+      "url": "https://github.com/LizardByte/Sunshine/releases/download/v2026.914.233613/Sunshine-Windows-AMD64-installer.msi",
+      "file": "Sunshine-Windows-AMD64-installer.msi", "sha256": null},
+    "moonlight-mac": {"product": "moonlight", "role": "client", "os": "macos", "version": "6.2.0", "license": "GPL-3.0",
+      "url": "https://github.com/moonlight-stream/moonlight-qt/releases/download/v6.2.0/Moonlight-6.2.0.dmg",
+      "file": "Moonlight-6.2.0.dmg", "sha256": null}
+  }
+}

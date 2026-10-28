@@ -1,0 +1,10 @@
+{
+  "binary": "file_states_receiving.bin",
+  "fields": {
+    "value": "RECEIVING"
+  },
+  "name": "file_states_receiving",
+  "non_default_enums": [
+    "FileStatus.State::RECEIVING"
+  ]
+}

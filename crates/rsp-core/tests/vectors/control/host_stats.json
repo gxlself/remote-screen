@@ -1,0 +1,17 @@
+{
+  "binary": "host_stats.bin",
+  "description": "HostStats with a manual path and non-empty DERP region.",
+  "fields": {
+    "capture_fps": 60,
+    "cpu_pct": 37,
+    "derp_region": "Tokyo",
+    "encode_p50_us": 5500,
+    "encode_p95_us": 9800,
+    "path": "MANUAL",
+    "send_kbps": 7800
+  },
+  "name": "host_stats",
+  "non_default_enums": [
+    "PathKind::MANUAL"
+  ]
+}

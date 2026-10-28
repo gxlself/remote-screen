@@ -1,0 +1,27 @@
+.list {
+  display: grid;
+  row-gap: 7px;
+  column-gap: 12px;
+  margin: 0;
+  align-items: baseline;
+}
+
+.key {
+  color: var(--rs-text3);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.value {
+  min-width: 0;
+  margin: 0;
+  color: var(--rs-text);
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.mono {
+  font-family: var(--rs-font-mono);
+  font-size: 12px;
+}

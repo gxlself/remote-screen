@@ -1,0 +1,14 @@
+{
+  "binary": "pair_start_file.bin",
+  "description": "PairStart from an iPad using a 16-byte pairing file identifier.",
+  "fields": {
+    "device_name": "New iPad",
+    "has_qr": false,
+    "pair_file_id": "11111111111111111111111111111111",
+    "platform": "IPADOS"
+  },
+  "name": "pair_start_file",
+  "non_default_enums": [
+    "Platform::IPADOS"
+  ]
+}

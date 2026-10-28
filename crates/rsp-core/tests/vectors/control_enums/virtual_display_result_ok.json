@@ -1,0 +1,12 @@
+{
+  "binary": "virtual_display_result_ok.bin",
+  "description": "M3 virtual display result status.",
+  "fields": {
+    "request_id": 1,
+    "status": "OK"
+  },
+  "name": "virtual_display_result_ok",
+  "non_default_enums": [
+    "VirtualDisplayResult.Status::OK"
+  ]
+}

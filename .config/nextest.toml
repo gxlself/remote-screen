@@ -1,0 +1,13 @@
+# 时序敏感的集成测试（假 Host 端到端、码率/补帧/声音线路、QUIC 媒体窗口、rs-mobile SFTP 重试预算）在满核并发下会互相挤占，
+# 出现超时或帧率不足的假失败。单独成组限并发；仍失败再重试一次，重试通过的会在汇总里标 FLAKY。
+# 单个用例最长 10 分钟：门禁 7cb1598 里 rs-mobile::ffi_session 有个用例无限期等待，把门禁挂了 4 个多小时。
+[profile.default]
+slow-timeout = { period = "60s", terminate-after = 10 }
+
+[test-groups]
+timing = { max-threads = 8 }
+
+[[profile.default.overrides]]
+filter = '(package(host-fake) & (binary(e2e) | binary(/^wire_/))) | (package(rsp-transport) & binary(quic_media)) | (package(rs-mobile) & binary(api_sftp))'
+test-group = 'timing'
+retries = 1

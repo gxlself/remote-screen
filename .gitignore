@@ -1,0 +1,34 @@
+/target/
+**/*.rs.bk
+.DS_Store
+DerivedData/
+*.h265
+fuzz/target
+fuzz/artifacts
+fuzz/coverage
+
+# Remote Screen App local dependencies and generated build products
+app/node_modules/
+app/ios/Pods/
+app/ios/build/
+app/ios/build-*/
+app/ios/.xcode.env.local
+app/ios/RsMobile.xcframework/
+app/native/core/build/
+app/native/core/android/src/main/jniLibs/
+app/vendor/
+app/artifacts/
+
+# librs_tailnet build outputs
+tailnet/out/
+
+crates/host-linux/third_party/
+crates/host-linux/packaging/out/
+# Windows 虚拟显示器驱动构建产物
+drivers/win-iddcx/**/x64/
+drivers/win-iddcx/**/ARM64/
+drivers/win-iddcx/**/*.cat
+drivers/win-iddcx/**/*.pfx
+drivers/win-iddcx/**/*.cer
+drivers/win-iddcx/.vs/
+drivers/win-iddcx/out/

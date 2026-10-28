@@ -1,0 +1,86 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.boxed {
+  gap: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--rs-line);
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--rs-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.boxedOption {
+  padding: 12px 14px;
+}
+
+.boxedOption + .boxedOption {
+  border-top: 1px solid var(--rs-line);
+}
+
+.option:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.indicator {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  transition:
+    background-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.indicatorSelected {
+  background: var(--rs-macBlue);
+  box-shadow: inset 0 0 0 1px var(--rs-macBlue);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.description {
+  color: var(--rs-text2);
+  font-size: 12px;
+  line-height: 1.35;
+}

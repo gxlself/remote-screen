@@ -1,0 +1,36 @@
+syntax = "proto3";
+package rsp.v1;
+
+message CursorMsg {
+  oneof msg {
+    CursorShape shape = 1;   // 新形状：带图片
+    uint64      use   = 2;   // 已发过的形状，按 id 复用
+    bool        hidden = 3;  // true 隐藏（如视频全屏），false 恢复
+  }
+}
+message CursorShape {
+  uint64 id     = 1;         // 图片内容的 xxh3 哈希
+  uint32 width  = 2;
+  uint32 height = 3;
+  uint32 hot_x  = 4;
+  uint32 hot_y  = 5;
+  float  scale  = 6;         // 图片像素 / 点
+  bytes  png    = 7;
+}
+
+message ClipboardHeader {
+  enum Kind { KIND_UNSPECIFIED = 0; TEXT = 1; PNG = 2; }
+  Kind   kind   = 1;
+  uint64 size   = 2;     // 文本 ≤ 1 MB，图片 ≤ 10 MB
+  bytes  sha256 = 3;
+}
+
+message FileHeader {
+  string transfer_id = 1;    // 随机 128 位，续传用
+  string name        = 2;
+  uint64 size        = 3;
+  uint64 offset      = 4;    // 续传起点
+  bytes  sha256      = 5;    // 整个文件
+  uint64 mtime_us    = 6;
+  string dest_dir    = 7;    // 只用于 App → Host 上传：Host 上的目标目录绝对路径；"" = [files].dest_dir
+}

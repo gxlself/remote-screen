@@ -1,0 +1,42 @@
+// 配对页的文案（只在这里，不建 i18n 聚合文件）。
+export const text = {
+  titleByAddress: '按地址添加电脑',
+  back: '返回',
+  cancel: '取消',
+  start: '开始配对',
+  methodLabel: '配对方式',
+  methods: {
+    address: '按地址',
+    file: '配对文件',
+  },
+  codeLabel: '6 位配对码',
+  codeHint: '在那台电脑的 Remote Host 里点「配对新设备」，输入它显示的 6 位数字。',
+  addressLabel: '地址',
+  addressPlaceholder: 'IP 地址或主机名',
+  portLabel: '端口（可选）',
+  pickFile: '选择文件',
+  fileHost: '电脑',
+  fileExpires: '有效期至',
+  fileExpired: '配对文件已过期，请在那台电脑上重新导出。',
+  fileError: (message: string) => `读不了配对文件：${message}`,
+  progress: {
+    dialing: '正在连接',
+    verifying: '正在核对',
+    exchanging: '正在交换证书',
+    waitingLocal: '请在那台电脑上点同意',
+  },
+  outcome: {
+    ok: (hostName: string) => `已配对 ${hostName}`,
+    badCode: (attemptsLeft: number) => `配对码不对，还能再试 ${attemptsLeft} 次`,
+    locked: (retryAfterS?: number) =>
+      retryAfterS === undefined ? '尝试太多次，请稍后再试' : `尝试太多次，${retryAfterS} 秒后再试`,
+    denied: '对方拒绝了配对',
+    expired: '配对码已过期，请在那台电脑上刷新',
+    disabledOnPath: '这条网络路径不允许配对，请换到同一局域网或 tailnet',
+    methodDisabled: '那台电脑关闭了这种配对方式',
+    mitm: '证书指纹对不上，已中止。可能有人在冒充那台电脑。',
+    cancelled: '已取消',
+    timeout: '连接超时',
+    error: (message: string) => `配对失败：${message}`,
+  },
+};

@@ -1,0 +1,14 @@
+{
+  "binary": "pair_result_method_disabled.bin",
+  "description": "PairResult when this pairing method is turned off on the host.",
+  "fields": {
+    "attempts_left": 0,
+    "host_id": "host-42",
+    "host_name": "Studio PC",
+    "status": "METHOD_DISABLED"
+  },
+  "name": "pair_result_method_disabled",
+  "non_default_enums": [
+    "PairResult.Status::METHOD_DISABLED"
+  ]
+}

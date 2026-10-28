@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","id":1,"result":{"sessions":[{"session_id":"s-1","device_id":"d-1","device_name":"test phone","role":"viewer","connected_at_us":0,"recording":false}]}}

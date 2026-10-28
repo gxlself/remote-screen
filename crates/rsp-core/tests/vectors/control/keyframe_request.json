@@ -1,0 +1,12 @@
+{
+  "binary": "keyframe_request.bin",
+  "description": "Keyframe request after a decoder backlog.",
+  "fields": {
+    "last_good_frame": 1234,
+    "reason": "BACKLOG"
+  },
+  "name": "keyframe_request",
+  "non_default_enums": [
+    "KeyframeRequest.Reason::BACKLOG"
+  ]
+}

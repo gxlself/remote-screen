@@ -1,0 +1,9 @@
+{
+  "binary": "release_virtual_display.bin",
+  "description": "ReleaseVirtualDisplay removing the session's virtual display.",
+  "fields": {
+    "display_id": 3
+  },
+  "name": "release_virtual_display",
+  "non_default_enums": []
+}

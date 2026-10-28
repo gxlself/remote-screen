@@ -1,0 +1,18 @@
+{
+  "binary": "control_request.bin",
+  "description": "ControlRequest asking the current controller to hand off.",
+  "fields": {
+    "requester": {
+      "device_id": "device-07",
+      "device_name": "Alice's iPad",
+      "path": "TAILNET_DERP",
+      "since_us": 1726000000123456,
+      "user": "alice@"
+    },
+    "timeout_s": 30
+  },
+  "name": "control_request",
+  "non_default_enums": [
+    "PathKind::TAILNET_DERP"
+  ]
+}

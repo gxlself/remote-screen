@@ -1,0 +1,63 @@
+# Network profiles for tools/netem. All values are per direction.
+#
+# delay_ms/jitter_ms/loss_pct/rate_mbit are numeric; use "off" for delay,
+# jitter, or rate to omit that setting. profile_validate in common.sh accepts
+# only this deliberately small TOML subset: scalar fields and these inline
+# tables/arrays.
+
+[profiles.wifi-good]
+delay_ms = 2
+jitter_ms = 1
+loss_pct = 0
+rate_mbit = 100
+
+[profiles.wifi-busy]
+delay_ms = 5
+jitter_ms = 5
+loss_pct = 1
+rate_mbit = 30
+
+[profiles.5g-city]
+delay_ms = 20
+jitter_ms = 8
+loss_pct = 0.5
+rate_mbit = 40
+
+[profiles.derp]
+delay_ms = 60
+jitter_ms = 15
+loss_pct = 0.5
+rate_mbit = 8
+
+[profiles.weak]
+delay_ms = 100
+jitter_ms = 20
+loss_pct = 2
+rate_mbit = 10
+
+[profiles.lossy]
+delay_ms = 30
+jitter_ms = 10
+loss_pct = 5
+rate_mbit = 20
+
+[profiles.udp-blocked]
+delay_ms = "off"
+jitter_ms = "off"
+loss_pct = 100
+rate_mbit = "off"
+block_udp = true
+
+[profiles.handover]
+delay_ms = "off"
+jitter_ms = "off"
+loss_pct = 0
+rate_mbit = "off"
+flap = { every_s = 60, down_s = 3 }
+
+[profiles.bw-step]
+delay_ms = 10
+jitter_ms = 0
+loss_pct = 0
+rate_mbit = 20
+steps = [{ rate_mbit = 20, hold_s = 20 }, { rate_mbit = 3, hold_s = 20 }, { rate_mbit = 20, hold_s = 20 }]

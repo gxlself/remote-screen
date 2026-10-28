@@ -1,0 +1,12 @@
+{
+  "binary": "viewport_ack_roi.bin",
+  "description": "ViewportAck confirming ROI mode.",
+  "fields": {
+    "mode": "ROI",
+    "seq": 1
+  },
+  "name": "viewport_ack_roi",
+  "non_default_enums": [
+    "ViewportAck.Mode::ROI"
+  ]
+}

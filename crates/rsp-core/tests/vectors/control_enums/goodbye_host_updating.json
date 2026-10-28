@@ -1,0 +1,12 @@
+{
+  "binary": "goodbye_host_updating.bin",
+  "description": "Goodbye while the host installs an update.",
+  "fields": {
+    "message": "host updating",
+    "reason": "HOST_UPDATING"
+  },
+  "name": "goodbye_host_updating",
+  "non_default_enums": [
+    "Goodbye.Reason::HOST_UPDATING"
+  ]
+}

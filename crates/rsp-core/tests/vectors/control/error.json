@@ -1,0 +1,14 @@
+{
+  "binary": "error.bin",
+  "description": "ErrorInfo for AppTooOld with a minimum version detail.",
+  "fields": {
+    "code": 171,
+    "detail": {
+      "min": "0.3.0"
+    },
+    "message": "app version is too old",
+    "retry_after_s": 15
+  },
+  "name": "error",
+  "non_default_enums": []
+}

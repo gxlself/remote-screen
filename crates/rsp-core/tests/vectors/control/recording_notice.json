@@ -1,0 +1,9 @@
+{
+  "binary": "recording_notice.bin",
+  "description": "RecordingNotice announcing that the App started local recording.",
+  "fields": {
+    "active": true
+  },
+  "name": "recording_notice",
+  "non_default_enums": []
+}

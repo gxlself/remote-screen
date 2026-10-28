@@ -1,0 +1,10 @@
+{
+  "binary": "pong.bin",
+  "description": "Pong echoing Ping.t1 and adding the host timestamp.",
+  "fields": {
+    "t1_us": 1726000000111111,
+    "t2_us": 1726000000111999
+  },
+  "name": "pong",
+  "non_default_enums": []
+}

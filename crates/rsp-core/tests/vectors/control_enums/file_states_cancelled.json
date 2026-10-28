@@ -1,0 +1,10 @@
+{
+  "binary": "file_states_cancelled.bin",
+  "fields": {
+    "value": "CANCELLED"
+  },
+  "name": "file_states_cancelled",
+  "non_default_enums": [
+    "FileStatus.State::CANCELLED"
+  ]
+}

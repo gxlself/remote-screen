@@ -1,0 +1,11 @@
+{
+  "name": "input_touch",
+  "type": "Touch",
+  "id": 3,
+  "phase": "moved",
+  "x": 0.5,
+  "y": 0.25,
+  "pressure": 0.8,
+  "binary": "touch.bin",
+  "description": "Input stream event 0x07: native touch moved with pressure."
+}

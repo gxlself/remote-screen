@@ -1,0 +1,10 @@
+{
+  "binary": "file_states_unknown.bin",
+  "fields": {
+    "value": "UNKNOWN"
+  },
+  "name": "file_states_unknown",
+  "non_default_enums": [
+    "FileStatus.State::UNKNOWN"
+  ]
+}

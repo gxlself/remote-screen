@@ -1,0 +1,10 @@
+{
+  "binary": "file_states_partial.bin",
+  "fields": {
+    "value": "PARTIAL"
+  },
+  "name": "file_states_partial",
+  "non_default_enums": [
+    "FileStatus.State::PARTIAL"
+  ]
+}

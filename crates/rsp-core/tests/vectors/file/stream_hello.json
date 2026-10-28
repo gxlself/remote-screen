@@ -1,0 +1,13 @@
+{
+  "binary": "stream_hello.bin",
+  "description": "Complete QUIC file stream: u32 big-endian header length, FileHeader, then 11 bytes \"hello world\" from offset 0.",
+  "encoding": "quic-stream",
+  "feature": "FILE_TRANSFER",
+  "mtime_us": 1735689600000000,
+  "name": "hello.txt",
+  "offset": 0,
+  "payload_hex": "68656c6c6f20776f726c64",
+  "sha256": "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9",
+  "size": 11,
+  "transfer_id": "00112233445566778899aabbccddeeff"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "video_keyframe",
+  "binary": "keyframe.bin",
+  "flags": 1,
+  "display_id": 7,
+  "epoch": 9,
+  "frame_id": 42,
+  "data_shards": 2,
+  "parity_shards": 0,
+  "shard_len": 16,
+  "frame_len": 24,
+  "capture_ts_us": 99
+}

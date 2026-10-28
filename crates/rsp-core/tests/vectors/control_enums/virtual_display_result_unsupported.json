@@ -1,0 +1,12 @@
+{
+  "binary": "virtual_display_result_unsupported.bin",
+  "description": "M3 virtual display result status.",
+  "fields": {
+    "request_id": 1,
+    "status": "UNSUPPORTED"
+  },
+  "name": "virtual_display_result_unsupported",
+  "non_default_enums": [
+    "VirtualDisplayResult.Status::UNSUPPORTED"
+  ]
+}

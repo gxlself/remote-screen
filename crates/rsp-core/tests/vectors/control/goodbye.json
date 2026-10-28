@@ -1,0 +1,12 @@
+{
+  "binary": "goodbye.bin",
+  "description": "Goodbye for a revoked device.",
+  "fields": {
+    "message": "device revoked",
+    "reason": "REVOKED"
+  },
+  "name": "goodbye",
+  "non_default_enums": [
+    "Goodbye.Reason::REVOKED"
+  ]
+}

@@ -1,0 +1,13 @@
+.ring {
+  display: block;
+  flex: none;
+  transform: rotate(-90deg);
+}
+
+.track {
+  stroke: #3a444b;
+}
+
+.progress {
+  stroke: var(--rs-ring-color);
+}

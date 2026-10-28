@@ -1,0 +1,55 @@
+const settings = {
+  shell: {
+    title: 'Remote Host 设置',
+    navLabel: '设置分类',
+    thisMac: '这台 Mac',
+    tailnetMissing: '未连接 tailnet',
+  },
+  general: {
+    title: '通用',
+    groups: {
+      access: '访问',
+      clipboard: '剪贴板',
+    },
+    access: {
+      allowRemoteControl: '允许被远程控制',
+      allowRemoteControlHint: '关掉后谁都连不上，已配对的设备也一样',
+      attendedMode: '有人值守',
+      attendedModeHint: '每次连接都要在这台 Mac 上点允许',
+      pauseOnLocalInput: '本机有操作时暂停远端输入',
+      lockOnEnd: '会话结束后锁定屏幕',
+      idleTimeout: '没人操作多久后断开',
+      idleNever: '不自动断开',
+      idleMinutes: (minutes: number) => `${minutes} 分钟`,
+      allowedUsers: '允许的 tailnet 账号',
+      remove: '移除',
+      removeAccount: (account: string) => `移除 ${account}`,
+      add: '添加',
+      accountPlaceholder: 'tailnet 账号',
+      emptyUsers: '只允许这台 Mac 上登录 Tailscale 的账号',
+      emptyAccount: '请输入账号',
+      accountHasSpace: '账号里不能有空格',
+      accountExists: '已经在列表里了',
+    },
+    clipboard: {
+      toPhone: '允许把这台 Mac 的剪贴板发到手机',
+      fromPhone: '允许接收手机发来的剪贴板',
+    },
+    saveFailed: '设置没有保存：',
+  },
+  about: {
+    title: '关于',
+    name: 'Remote Host',
+    tailnetAddress: 'tailnet 地址',
+    notConnected: '未连接',
+    softwareUpdate: '软件更新…',
+    hideSensitive: '隐藏设备名和地址',
+    exportLogs: '导出日志…',
+    exporting: '正在导出…',
+    exportedTo: '已导出到',
+    revealInFinder: '在 Finder 中显示',
+    exportFailed: '没有导出：',
+  },
+} as const;
+
+export default settings;

@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "kind": "rs-bench-summary",
+  "rs_version": "0.4.0",
+  "generated_at": "2026-10-22T11:00:00Z",
+  "results": [
+    {
+      "schema": 1,
+      "kind": "rs-bench-result",
+      "run_id": "20261023T101500Z-remotescreen-static-wifi-good-r1",
+      "started_at": "2026-10-23T10:15:00Z",
+      "bench": {
+        "git_rev": "test",
+        "rs_version": "0.4.0"
+      },
+      "product": {
+        "id": "remotescreen",
+        "label": "本产品",
+        "client_version": "0.4.0",
+        "host_version": "0.4.0",
+        "settings": {
+          "resolution": "1920x1080",
+          "fps": 60,
+          "codec": "HEVC",
+          "bitrate_kbps": 12000,
+          "client": "iOS Simulator"
+        }
+      },
+      "topology": {
+        "host_os": "windows",
+        "host_os_version": "10.0.22631",
+        "host_cpu": "Test CPU",
+        "host_gpu": "Test GPU",
+        "host_display": "1920x1080@60",
+        "controller_os": "macos",
+        "controller_os_version": "26.3.2",
+        "controller_model": "Mac Test",
+        "link": "wired"
+      },
+      "scene": "static",
+      "network": {
+        "profile": "wifi-good",
+        "shaping": "none",
+        "jitter_applied": true
+      },
+      "repeat": 1,
+      "seconds": 60,
+      "status": "ok",
+      "error": null,
+      "clock": null,
+      "latency_ms": {
+        "n": 300,
+        "p50": 30,
+        "p95": 36,
+        "p99": 36,
+        "max": 36,
+        "mean": 30
+      },
+      "delivery": {
+        "frames_captured": 3600,
+        "frames_decoded": 3600,
+        "decode_fail_ratio": 0,
+        "distinct_codes": 300,
+        "display_fps": 60,
+        "longest_freeze_ms": 20,
+        "freezes_over_100ms": 0,
+        "freezes_over_500ms": 0,
+        "invalid_latency": 0
+      },
+      "bandwidth": {
+        "host_tx_mbps": 8,
+        "host_rx_mbps": 0.2,
+        "baseline_tx_mbps": 0.02,
+        "method": "nic-counters"
+      },
+      "host_usage": {
+        "cpu_pct_mean": 8,
+        "cpu_pct_p95": 8,
+        "gpu_pct_mean": 10,
+        "gpu_pct_p95": 10,
+        "gpu_encode_pct_mean": 10,
+        "processes": [
+          "test"
+        ],
+        "samples": 60
+      },
+      "quality": {
+        "ssim": 0.98,
+        "frames": 5
+      },
+      "artifacts": {}
+    },
+    {
+      "schema": 1,
+      "kind": "rs-bench-result",
+      "run_id": "20261023T101500Z-remotescreen-scroll-weak-r2",
+      "started_at": "2026-10-23T10:15:00Z",
+      "bench": {
+        "git_rev": "test",
+        "rs_version": "0.4.0"
+      },
+      "product": {
+        "id": "remotescreen",
+        "label": "本产品",
+        "client_version": "0.4.0",
+        "host_version": "0.4.0",
+        "settings": {
+          "resolution": "1920x1080",
+          "fps": 60,
+          "codec": "HEVC",
+          "bitrate_kbps": 12000,
+          "client": "iOS Simulator"
+        }
+      },
+      "topology": {
+        "host_os": "windows",
+        "host_os_version": "10.0.22631",
+        "host_cpu": "Test CPU",
+        "host_gpu": "Test GPU",
+        "host_display": "1920x1080@60",
+        "controller_os": "macos",
+        "controller_os_version": "26.3.2",
+        "controller_model": "Mac Test",
+        "link": "wired"
+      },
+      "scene": "scroll",
+      "network": {
+        "profile": "weak",
+        "shaping": "mac-dummynet",
+        "jitter_applied": true
+      },
+      "repeat": 1,
+      "seconds": 60,
+      "status": "ok",
+      "error": null,
+      "clock": null,
+      "latency_ms": {
+        "n": 300,
+        "p50": 45,
+        "p95": 60,
+        "p99": 60,
+        "max": 60,
+        "mean": 45
+      },
+      "delivery": {
+        "frames_captured": 3600,
+        "frames_decoded": 3600,
+        "decode_fail_ratio": 0,
+        "distinct_codes": 300,
+        "display_fps": 58,
+        "longest_freeze_ms": 300,
+        "freezes_over_100ms": 0,
+        "freezes_over_500ms": 0,
+        "invalid_latency": 0
+      },
+      "bandwidth": {
+        "host_tx_mbps": 8,
+        "host_rx_mbps": 0.2,
+        "baseline_tx_mbps": 0.02,
+        "method": "nic-counters"
+      },
+      "host_usage": {
+        "cpu_pct_mean": 8,
+        "cpu_pct_p95": 8,
+        "gpu_pct_mean": 10,
+        "gpu_pct_p95": 10,
+        "gpu_encode_pct_mean": 10,
+        "processes": [
+          "test"
+        ],
+        "samples": 60
+      },
+      "quality": {
+        "ssim": 0.98,
+        "frames": 5
+      },
+      "artifacts": {}
+    }
+  ]
+}

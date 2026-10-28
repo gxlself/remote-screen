@@ -1,0 +1,12 @@
+{
+  "binary": "keyframe_request_decoder_reset.bin",
+  "description": "KeyframeRequest after resetting the decoder.",
+  "fields": {
+    "last_good_frame": 4321,
+    "reason": "DECODER_RESET"
+  },
+  "name": "keyframe_request_decoder_reset",
+  "non_default_enums": [
+    "KeyframeRequest.Reason::DECODER_RESET"
+  ]
+}

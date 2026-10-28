@@ -1,0 +1,18 @@
+{
+  "binary": "start_stream.bin",
+  "description": "StartStream requesting H.264 at the ECO quality tier.",
+  "fields": {
+    "bitrate_kbps": 12000,
+    "codec": "H264",
+    "display_id": 7,
+    "fps": 120,
+    "max_height": 1440,
+    "max_width": 2560,
+    "quality": "ECO"
+  },
+  "name": "start_stream",
+  "non_default_enums": [
+    "Codec::H264",
+    "Quality::ECO"
+  ]
+}

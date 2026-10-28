@@ -1,0 +1,7 @@
+{
+  "name": "input_text",
+  "type": "Text",
+  "text": "Hi 你好",
+  "binary": "text.bin",
+  "description": "Input stream event 0x05: u16 UTF-8 byte length followed by the text."
+}

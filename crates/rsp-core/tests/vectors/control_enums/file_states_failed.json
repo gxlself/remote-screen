@@ -1,0 +1,10 @@
+{
+  "binary": "file_states_failed.bin",
+  "fields": {
+    "value": "FAILED"
+  },
+  "name": "file_states_failed",
+  "non_default_enums": [
+    "FileStatus.State::FAILED"
+  ]
+}

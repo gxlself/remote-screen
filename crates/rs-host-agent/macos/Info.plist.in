@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>ai.gxlself.remotehost.agent</string>
+    <key>CFBundleName</key>
+    <string>Remote Host</string>
+    <key>CFBundleShortVersionString</key>
+    <string>@VERSION@</string>
+    <key>CFBundleVersion</key>
+    <string>@VERSION@</string>
+    <key>NSDownloadsFolderUsageDescription</key>
+    <string>用于保存手机发来的文件，以及让手机取回下载文件夹里的文件。</string>
+    <key>NSDesktopFolderUsageDescription</key>
+    <string>用于让你在手机上浏览并取回桌面上的文件。</string>
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>用于让你在手机上浏览并取回文稿里的文件。</string>
+</dict>
+</plist>

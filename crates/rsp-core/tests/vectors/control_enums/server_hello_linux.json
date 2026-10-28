@@ -1,0 +1,32 @@
+{
+  "binary": "server_hello_linux.bin",
+  "description": "ServerHello from a Linux host.",
+  "fields": {
+    "displays": [
+      {
+        "height_px": 1440,
+        "id": 1,
+        "name": "Primary",
+        "primary": true,
+        "refresh_hz": 144,
+        "rotation": 0,
+        "scale": 1.25,
+        "width_px": 2560,
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "features": 8225,
+    "host_id": "host-42",
+    "host_name": "Studio Linux",
+    "host_version": "0.3.2",
+    "os": "LINUX",
+    "os_version": "Ubuntu 26.04 LTS",
+    "protocol": 1,
+    "required_features": 1
+  },
+  "name": "server_hello_linux",
+  "non_default_enums": [
+    "Platform::LINUX"
+  ]
+}

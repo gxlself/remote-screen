@@ -1,0 +1,540 @@
+{
+  "schema": 1,
+  "kind": "rs-bench-summary",
+  "rs_version": "0.5.0",
+  "generated_at": "2026-10-23T11:00:00Z",
+  "results": [
+    {
+      "schema": 1,
+      "kind": "rs-bench-result",
+      "run_id": "20261023T101500Z-remotescreen-static-wifi-good-r1",
+      "started_at": "2026-10-23T10:15:00Z",
+      "bench": {
+        "git_rev": "test",
+        "rs_version": "0.5.0"
+      },
+      "product": {
+        "id": "remotescreen",
+        "label": "本产品",
+        "client_version": "0.5.0",
+        "host_version": "0.5.0",
+        "settings": {
+          "resolution": "1920x1080",
+          "fps": 60,
+          "codec": "HEVC",
+          "bitrate_kbps": 12000,
+          "client": "iOS Simulator"
+        }
+      },
+      "topology": {
+        "host_os": "windows",
+        "host_os_version": "10.0.22631",
+        "host_cpu": "Test CPU",
+        "host_gpu": "Test GPU",
+        "host_display": "1920x1080@60",
+        "controller_os": "macos",
+        "controller_os_version": "26.3.2",
+        "controller_model": "Mac Test",
+        "link": "wired"
+      },
+      "scene": "static",
+      "network": {
+        "profile": "wifi-good",
+        "shaping": "none",
+        "jitter_applied": true
+      },
+      "repeat": 1,
+      "seconds": 60,
+      "status": "ok",
+      "error": null,
+      "clock": null,
+      "latency_ms": {
+        "n": 300,
+        "p50": 35,
+        "p95": 48,
+        "p99": 60,
+        "max": 90,
+        "mean": 35
+      },
+      "delivery": {
+        "frames_captured": 3600,
+        "frames_decoded": 3600,
+        "decode_fail_ratio": 0,
+        "distinct_codes": 300,
+        "display_fps": 60,
+        "longest_freeze_ms": 20,
+        "freezes_over_100ms": 0,
+        "freezes_over_500ms": 0,
+        "invalid_latency": 0
+      },
+      "bandwidth": {
+        "host_tx_mbps": 8,
+        "host_rx_mbps": 0.2,
+        "baseline_tx_mbps": 0.02,
+        "method": "nic-counters"
+      },
+      "host_usage": {
+        "cpu_pct_mean": 11.5,
+        "cpu_pct_p95": 11.5,
+        "gpu_pct_mean": 14,
+        "gpu_pct_p95": 14,
+        "gpu_encode_pct_mean": 14,
+        "processes": [
+          "test"
+        ],
+        "samples": 60
+      },
+      "quality": {
+        "ssim": 0.98,
+        "frames": 5
+      },
+      "artifacts": {}
+    },
+    {
+      "schema": 1,
+      "kind": "rs-bench-result",
+      "run_id": "20261023T101500Z-rustdesk-static-wifi-good-r2",
+      "started_at": "2026-10-23T10:15:00Z",
+      "bench": {
+        "git_rev": "test",
+        "rs_version": "0.5.0"
+      },
+      "product": {
+        "id": "rustdesk",
+        "label": "RustDesk",
+        "client_version": "1.5.0",
+        "host_version": "1.5.0",
+        "settings": {
+          "resolution": "1920x1080",
+          "fps": 60,
+          "codec": "HEVC",
+          "bitrate_kbps": 12000,
+          "client": "iOS Simulator"
+        }
+      },
+      "topology": {
+        "host_os": "windows",
+        "host_os_version": "10.0.22631",
+        "host_cpu": "Test CPU",
+        "host_gpu": "Test GPU",
+        "host_display": "1920x1080@60",
+        "controller_os": "macos",
+        "controller_os_version": "26.3.2",
+        "controller_model": "Mac Test",
+        "link": "wired"
+      },
+      "scene": "static",
+      "network": {
+        "profile": "wifi-good",
+        "shaping": "none",
+        "jitter_applied": true
+      },
+      "repeat": 1,
+      "seconds": 60,
+      "status": "ok",
+      "error": null,
+      "clock": null,
+      "latency_ms": {
+        "n": 300,
+        "p50": 34,
+        "p95": 42,
+        "p99": 55,
+        "max": 80,
+        "mean": 34
+      },
+      "delivery": {
+        "frames_captured": 3600,
+        "frames_decoded": 3600,
+        "decode_fail_ratio": 0,
+        "distinct_codes": 300,
+        "display_fps": 59.5,
+        "longest_freeze_ms": 25,
+        "freezes_over_100ms": 0,
+        "freezes_over_500ms": 0,
+        "invalid_latency": 0
+      },
+      "bandwidth": {
+        "host_tx_mbps": 7,
+        "host_rx_mbps": 0.2,
+        "baseline_tx_mbps": 0.02,
+        "method": "nic-counters"
+      },
+      "host_usage": {
+        "cpu_pct_mean": 10,
+        "cpu_pct_p95": 10,
+        "gpu_pct_mean": 12,
+        "gpu_pct_p95": 12,
+        "gpu_encode_pct_mean": 12,
+        "processes": [
+          "test"
+        ],
+        "samples": 60
+      },
+      "quality": {
+        "ssim": 0.97,
+        "frames": 5
+      },
+      "artifacts": {}
+    },
+    {
+      "schema": 1,
+      "kind": "rs-bench-result",
+      "run_id": "20261023T101500Z-moonlight-static-wifi-good-r3",
+      "started_at": "2026-10-23T10:15:00Z",
+      "bench": {
+        "git_rev": "test",
+        "rs_version": "0.5.0"
+      },
+      "product": {
+        "id": "moonlight",
+        "label": "Moonlight + Sunshine",
+        "client_version": "6.2.0",
+        "host_version": "2026.914.233613",
+        "settings": {
+          "resolution": "1920x1080",
+          "fps": 60,
+          "codec": "HEVC",
+          "bitrate_kbps": 12000,
+          "client": "iOS Simulator"
+        }
+      },
+      "topology": {
+        "host_os": "windows",
+        "host_os_version": "10.0.22631",
+        "host_cpu": "Test CPU",
+        "host_gpu": "Test GPU",
+        "host_display": "1920x1080@60",
+        "controller_os": "macos",
+        "controller_os_version": "26.3.2",
+        "controller_model": "Mac Test",
+        "link": "wired"
+      },
+      "scene": "static",
+      "network": {
+        "profile": "wifi-good",
+        "shaping": "none",
+        "jitter_applied": true
+      },
+      "repeat": 1,
+      "seconds": 60,
+      "status": "ok",
+      "error": null,
+      "clock": null,
+      "latency_ms": {
+        "n": 300,
+        "p50": 30,
+        "p95": 39,
+        "p99": 50,
+        "max": 75,
+        "mean": 30
+      },
+      "delivery": {
+        "frames_captured": 3600,
+        "frames_decoded": 3600,
+        "decode_fail_ratio": 0,
+        "distinct_codes": 300,
+        "display_fps": 60,
+        "longest_freeze_ms": 18,
+        "freezes_over_100ms": 0,
+        "freezes_over_500ms": 0,
+        "invalid_latency": 0
+      },
+      "bandwidth": {
+        "host_tx_mbps": 9,
+        "host_rx_mbps": 0.2,
+        "baseline_tx_mbps": 0.02,
+        "method": "nic-counters"
+      },
+      "host_usage": {
+        "cpu_pct_mean": 12,
+        "cpu_pct_p95": 12,
+        "gpu_pct_mean": 15,
+        "gpu_pct_p95": 15,
+        "gpu_encode_pct_mean": 15,
+        "processes": [
+          "test"
+        ],
+        "samples": 60
+      },
+      "quality": {
+        "ssim": 0.99,
+        "frames": 5
+      },
+      "artifacts": {}
+    },
+    {
+      "schema": 1,
+      "kind": "rs-bench-result",
+      "run_id": "20261023T101500Z-local-static-wifi-good-r4",
+      "started_at": "2026-10-23T10:15:00Z",
+      "bench": {
+        "git_rev": "test",
+        "rs_version": "0.5.0"
+      },
+      "product": {
+        "id": "local",
+        "label": "本机基线",
+        "client_version": "—",
+        "host_version": "",
+        "settings": {
+          "resolution": "1920x1080",
+          "fps": 60,
+          "codec": "HEVC",
+          "bitrate_kbps": 12000,
+          "client": "—"
+        }
+      },
+      "topology": {
+        "host_os": "windows",
+        "host_os_version": "10.0.22631",
+        "host_cpu": "Test CPU",
+        "host_gpu": "Test GPU",
+        "host_display": "1920x1080@60",
+        "controller_os": "macos",
+        "controller_os_version": "26.3.2",
+        "controller_model": "Mac Test",
+        "link": "wired"
+      },
+      "scene": "static",
+      "network": {
+        "profile": "wifi-good",
+        "shaping": "none",
+        "jitter_applied": true
+      },
+      "repeat": 1,
+      "seconds": 60,
+      "status": "ok",
+      "error": null,
+      "clock": null,
+      "latency_ms": {
+        "n": 300,
+        "p50": 20,
+        "p95": 22,
+        "p99": 30,
+        "max": 40,
+        "mean": 20
+      },
+      "delivery": {
+        "frames_captured": 3600,
+        "frames_decoded": 3600,
+        "decode_fail_ratio": 0,
+        "distinct_codes": 300,
+        "display_fps": 60,
+        "longest_freeze_ms": 16,
+        "freezes_over_100ms": 0,
+        "freezes_over_500ms": 0,
+        "invalid_latency": 0
+      },
+      "bandwidth": {
+        "host_tx_mbps": 0.1,
+        "host_rx_mbps": 0.2,
+        "baseline_tx_mbps": 0.02,
+        "method": "nic-counters"
+      },
+      "host_usage": {
+        "cpu_pct_mean": 4,
+        "cpu_pct_p95": 4,
+        "gpu_pct_mean": 5,
+        "gpu_pct_p95": 5,
+        "gpu_encode_pct_mean": 5,
+        "processes": [
+          "test"
+        ],
+        "samples": 60
+      },
+      "quality": {
+        "ssim": 1.0,
+        "frames": 5
+      },
+      "artifacts": {}
+    },
+    {
+      "schema": 1,
+      "kind": "rs-bench-result",
+      "run_id": "20261023T101500Z-remotescreen-scroll-weak-r5",
+      "started_at": "2026-10-23T10:15:00Z",
+      "bench": {
+        "git_rev": "test",
+        "rs_version": "0.5.0"
+      },
+      "product": {
+        "id": "remotescreen",
+        "label": "本产品",
+        "client_version": "0.5.0",
+        "host_version": "0.5.0",
+        "settings": {
+          "resolution": "1920x1080",
+          "fps": 60,
+          "codec": "HEVC",
+          "bitrate_kbps": 12000,
+          "client": "iOS Simulator"
+        }
+      },
+      "topology": {
+        "host_os": "windows",
+        "host_os_version": "10.0.22631",
+        "host_cpu": "Test CPU",
+        "host_gpu": "Test GPU",
+        "host_display": "1920x1080@60",
+        "controller_os": "macos",
+        "controller_os_version": "26.3.2",
+        "controller_model": "Mac Test",
+        "link": "wired"
+      },
+      "scene": "scroll",
+      "network": {
+        "profile": "weak",
+        "shaping": "mac-dummynet",
+        "jitter_applied": false
+      },
+      "repeat": 1,
+      "seconds": 60,
+      "status": "ok",
+      "error": null,
+      "clock": null,
+      "latency_ms": {
+        "n": 300,
+        "p50": 50,
+        "p95": 65,
+        "p99": 80,
+        "max": 120,
+        "mean": 50
+      },
+      "delivery": {
+        "frames_captured": 3600,
+        "frames_decoded": 3600,
+        "decode_fail_ratio": 0,
+        "distinct_codes": 300,
+        "display_fps": 55,
+        "longest_freeze_ms": 620,
+        "freezes_over_100ms": 2,
+        "freezes_over_500ms": 0,
+        "invalid_latency": 0
+      },
+      "bandwidth": {
+        "host_tx_mbps": 9,
+        "host_rx_mbps": 0.2,
+        "baseline_tx_mbps": 0.02,
+        "method": "nic-counters"
+      },
+      "host_usage": {
+        "cpu_pct_mean": 10,
+        "cpu_pct_p95": 10,
+        "gpu_pct_mean": 13,
+        "gpu_pct_p95": 13,
+        "gpu_encode_pct_mean": 13,
+        "processes": [
+          "test"
+        ],
+        "samples": 60
+      },
+      "quality": {
+        "ssim": 0.97,
+        "frames": 5
+      },
+      "artifacts": {}
+    },
+    {
+      "schema": 1,
+      "kind": "rs-bench-result",
+      "run_id": "20261023T101500Z-rustdesk-scroll-weak-r6",
+      "started_at": "2026-10-23T10:15:00Z",
+      "bench": {
+        "git_rev": "test",
+        "rs_version": "0.5.0"
+      },
+      "product": {
+        "id": "rustdesk",
+        "label": "RustDesk",
+        "client_version": "1.5.0",
+        "host_version": "1.5.0",
+        "settings": {
+          "resolution": "1920x1080",
+          "fps": 60,
+          "codec": "HEVC",
+          "bitrate_kbps": 12000,
+          "client": "iOS Simulator"
+        }
+      },
+      "topology": {
+        "host_os": "windows",
+        "host_os_version": "10.0.22631",
+        "host_cpu": "Test CPU",
+        "host_gpu": "Test GPU",
+        "host_display": "1920x1080@60",
+        "controller_os": "macos",
+        "controller_os_version": "26.3.2",
+        "controller_model": "Mac Test",
+        "link": "wired"
+      },
+      "scene": "scroll",
+      "network": {
+        "profile": "weak",
+        "shaping": "mac-dummynet",
+        "jitter_applied": false
+      },
+      "repeat": 1,
+      "seconds": 60,
+      "status": "invalid",
+      "error": "invalid result",
+      "clock": null,
+      "latency_ms": null,
+      "delivery": null,
+      "bandwidth": null,
+      "host_usage": null,
+      "quality": null,
+      "artifacts": {}
+    },
+    {
+      "schema": 1,
+      "kind": "rs-bench-result",
+      "run_id": "20261023T101500Z-remotescreen-video-wifi-good-r7",
+      "started_at": "2026-10-23T10:15:00Z",
+      "bench": {
+        "git_rev": "test",
+        "rs_version": "0.5.0"
+      },
+      "product": {
+        "id": "remotescreen",
+        "label": "本产品",
+        "client_version": "0.5.0",
+        "host_version": "0.5.0",
+        "settings": {
+          "resolution": "1920x1080",
+          "fps": 60,
+          "codec": "HEVC",
+          "bitrate_kbps": 12000,
+          "client": "iOS Simulator"
+        }
+      },
+      "topology": {
+        "host_os": "windows",
+        "host_os_version": "10.0.22631",
+        "host_cpu": "Test CPU",
+        "host_gpu": "Test GPU",
+        "host_display": "1920x1080@60",
+        "controller_os": "macos",
+        "controller_os_version": "26.3.2",
+        "controller_model": "Mac Test",
+        "link": "wired"
+      },
+      "scene": "video",
+      "network": {
+        "profile": "wifi-good",
+        "shaping": "none",
+        "jitter_applied": true
+      },
+      "repeat": 1,
+      "seconds": 60,
+      "status": "failed",
+      "error": "not run",
+      "clock": null,
+      "latency_ms": null,
+      "delivery": null,
+      "bandwidth": null,
+      "host_usage": null,
+      "quality": null,
+      "artifacts": {}
+    }
+  ]
+}

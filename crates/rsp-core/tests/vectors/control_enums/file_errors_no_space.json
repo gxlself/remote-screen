@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_no_space.bin",
+  "fields": {
+    "value": "FILE_ERROR_NO_SPACE"
+  },
+  "name": "file_errors_no_space",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_NO_SPACE"
+  ]
+}

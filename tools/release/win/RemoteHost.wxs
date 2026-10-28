@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Remote Host MSI contract.
+
+  Public MSI properties (all Secure=yes): PAIRFILE is an absolute path;
+  PAIRFILE_PERMISSION is view_only, control, or unattended (default control);
+  PAIRFILE_LABEL is an optional note; REMOVEDATA=1 removes the complete data
+  directory during a real uninstall.  The three PAIRFILE values are recorded
+  in HKLM\SOFTWARE\Remote Host\Deploy (64-bit view) as PairFile,
+  PairFilePermission, and PairFileLabel.  The service reads them on its first
+  start; this MSI does not interpret or validate the pair file itself.
+
+  The service is RemoteHostService (LocalSystem, automatic start) and runs
+  rs-host.exe in service mode.  rs-host-session.exe and RemoteHost.exe are installed
+  beside it under Program Files\Remote Host.  The latter is started by the
+  HKLM Run value.  The two tailnet firewall rules cover UDP/TCP port 7400.
+  Major upgrades allow downgrades for rollback and never request a reboot.
+  Pairing tables are removed on uninstall; revoked state, keys, configuration,
+  and logs are retained unless REMOVEDATA=1 is supplied.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:fw="http://wixtoolset.org/schemas/v4/wxs/firewall"
+     xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+  <?include Product.wxi ?>
+
+  <Package Name="$(var.ProductName)"
+           Manufacturer="$(var.Manufacturer)"
+           Version="$(var.Version)"
+           UpgradeCode="$(var.UpgradeCode)"
+           Scope="perMachine"
+           InstallerVersion="500"
+           Language="1033"
+           Codepage="1252"
+           Compressed="yes">
+    <MediaTemplate EmbedCab="yes" />
+    <Property Id="ARPNOMODIFY" Value="1" />
+
+    <MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallInitialize" />
+
+    <Property Id="PAIRFILE" Secure="yes" />
+    <Property Id="PAIRFILE_PERMISSION" Secure="yes" />
+    <Property Id="PAIRFILE_LABEL" Secure="yes" />
+    <Property Id="REMOVEDATA" Secure="yes" />
+
+    <SetProperty Id="PAIRFILE_PERMISSION"
+                 Value="control"
+                 Before="AppSearch"
+                 Sequence="both"
+                 Condition="PAIRFILE AND NOT PAIRFILE_PERMISSION" />
+
+    <Launch Condition="Installed OR NOT PAIRFILE OR PAIRFILE &lt;&lt; &quot;\\&quot; OR PAIRFILE &gt;&lt; &quot;:\&quot;"
+            Message="PAIRFILE must be an absolute path." />
+    <Launch Condition="Installed OR NOT PAIRFILE_PERMISSION OR PAIRFILE_PERMISSION=&quot;view_only&quot; OR PAIRFILE_PERMISSION=&quot;control&quot; OR PAIRFILE_PERMISSION=&quot;unattended&quot;"
+            Message="PAIRFILE_PERMISSION must be view_only, control or unattended." />
+
+    <Property Id="SASGEN">
+      <RegistrySearch Root="HKLM"
+                      Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
+                      Name="SoftwareSASGeneration"
+                      Type="raw"
+                      Bitness="always64" />
+    </Property>
+
+    <util:CloseApplication Id="CloseRemoteHostTray"
+                           Target="RemoteHost.exe"
+                           CloseMessage="yes"
+                           ElevatedCloseMessage="yes"
+                           TerminateProcess="1"
+                           RebootPrompt="no"
+                           Timeout="5" />
+    <util:CloseApplication Id="CloseRemoteHostSession"
+                           Target="rs-host-session.exe"
+                           CloseMessage="yes"
+                           ElevatedCloseMessage="yes"
+                           TerminateProcess="1"
+                           RebootPrompt="no"
+                           Timeout="5" />
+
+    <Feature Id="Main" Title="Remote Host" Level="1">
+      <ComponentGroupRef Id="Binaries" />
+    </Feature>
+  </Package>
+
+  <StandardDirectory Id="ProgramFiles64Folder">
+    <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)" />
+  </StandardDirectory>
+
+  <Fragment>
+    <ComponentGroup Id="Binaries" Directory="INSTALLFOLDER">
+      <Component Id="ServiceComponent">
+        <File Id="RsHostExe"
+              Source="$(var.StageDir)\$(var.ServiceExe)"
+              KeyPath="yes" />
+        <ServiceInstall Name="$(var.ServiceName)"
+                        DisplayName="$(var.ServiceDisplayName)"
+                        Description="Remote Host remote access service"
+                        Type="ownProcess"
+                        Start="auto"
+                        Account="LocalSystem"
+                        ErrorControl="normal"
+                        Arguments="$(var.ServiceArgs)"
+                        Vital="yes">
+          <ServiceConfigFailureActions OnInstall="yes"
+                                      OnReinstall="yes"
+                                      ResetPeriod="86400">
+            <Failure Action="restartService" Delay="5000" />
+            <Failure Action="restartService" Delay="5000" />
+            <Failure Action="restartService" Delay="5000" />
+          </ServiceConfigFailureActions>
+          <!-- Also restart when rs-host stops itself with a non-zero exit code
+               (fatal init failure, listener ended), not only on crashes. -->
+          <ServiceConfig FailureActionsWhen="failedToStopOrReturnedError"
+                         OnInstall="yes"
+                         OnReinstall="yes" />
+        </ServiceInstall>
+        <!-- The test define deliberately leaves the service stopped. -->
+        <?ifdef SkipServiceStart?>
+        <ServiceControl Id="RsServiceCtl"
+                        Name="$(var.ServiceName)"
+                        Stop="both"
+                        Remove="uninstall"
+                        Wait="yes" />
+        <?else?>
+        <ServiceControl Id="RsServiceCtl"
+                        Name="$(var.ServiceName)"
+                        Start="install"
+                        Stop="both"
+                        Remove="uninstall"
+                        Wait="yes" />
+        <?endif?>
+
+        <!-- v5-only: remove if wix build rejects -->
+        <fw:FirewallException Name="Remote Host (tailnet) UDP"
+                              Port="$(var.ListenPort)"
+                              Protocol="udp"
+                              Program="[#RsHostExe]"
+                              Profile="all"
+                              Grouping="Remote Host"
+                              Description="Remote Host over tailnet"
+                              IgnoreFailure="no">
+          <fw:RemoteAddress Value="100.64.0.0/10" />
+          <fw:RemoteAddress Value="fd7a:115c:a1e0::/48" />
+          <!-- v5-only: remove if wix build rejects -->
+          <fw:LocalAddress Value="100.64.0.0/10" />
+          <!-- v5-only: remove if wix build rejects -->
+          <fw:LocalAddress Value="fd7a:115c:a1e0::/48" />
+        </fw:FirewallException>
+        <!-- v5-only: remove if wix build rejects -->
+        <fw:FirewallException Name="Remote Host (tailnet) TCP"
+                              Port="$(var.ListenPort)"
+                              Protocol="tcp"
+                              Program="[#RsHostExe]"
+                              Profile="all"
+                              Grouping="Remote Host"
+                              Description="Remote Host over tailnet"
+                              IgnoreFailure="no">
+          <fw:RemoteAddress Value="100.64.0.0/10" />
+          <fw:RemoteAddress Value="fd7a:115c:a1e0::/48" />
+          <!-- v5-only: remove if wix build rejects -->
+          <fw:LocalAddress Value="100.64.0.0/10" />
+          <!-- v5-only: remove if wix build rejects -->
+          <fw:LocalAddress Value="fd7a:115c:a1e0::/48" />
+        </fw:FirewallException>
+      </Component>
+
+      <Component Id="SessionComponent">
+        <File Id="RsHostSessionExe"
+              Source="$(var.StageDir)\$(var.SessionExe)"
+              KeyPath="yes" />
+      </Component>
+
+      <Component Id="TrayComponent">
+        <File Id="TrayExe"
+              Source="$(var.StageDir)\$(var.TrayExe)"
+              KeyPath="yes" />
+        <RegistryValue Root="HKLM"
+                       Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+                       Name="$(var.ProductName)"
+                       Type="string"
+                       Value="&quot;[INSTALLFOLDER]$(var.TrayExe)&quot;" />
+      </Component>
+
+      <!-- v5-only: remove if wix build rejects -->
+      <Files Include="$(var.StageDir)\*.dll" />
+
+      <Component Id="SasServices"
+                 Condition="NOT SASGEN OR SASGEN=&quot;#0&quot;"
+                 Permanent="yes"
+                 Bitness="always64">
+        <RegistryKey Root="HKLM"
+                     Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System">
+          <RegistryValue Name="SoftwareSASGeneration"
+                         Type="integer"
+                         Value="1"
+                         KeyPath="yes" />
+        </RegistryKey>
+      </Component>
+
+      <Component Id="SasServicesAndEase"
+                 Condition="SASGEN=&quot;#2&quot;"
+                 Permanent="yes"
+                 Bitness="always64">
+        <RegistryKey Root="HKLM"
+                     Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System">
+          <RegistryValue Name="SoftwareSASGeneration"
+                         Type="integer"
+                         Value="3"
+                         KeyPath="yes" />
+        </RegistryKey>
+      </Component>
+
+      <Component Id="DeployPairFile"
+                 Condition="PAIRFILE"
+                 Bitness="always64">
+        <RegistryKey Root="HKLM" Key="$(var.DeployRegKey)">
+          <RegistryValue Name="PairFile"
+                         Type="string"
+                         Value="[PAIRFILE]"
+                         KeyPath="yes" />
+          <RegistryValue Name="PairFilePermission"
+                         Type="string"
+                         Value="[PAIRFILE_PERMISSION]" />
+          <RegistryValue Name="PairFileLabel"
+                         Type="string"
+                         Value="[PAIRFILE_LABEL]" />
+        </RegistryKey>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <!--
+      Cleanup runs only for a real uninstall.  The data directory is never a
+      component or RemoveFolder entry, so upgrades preserve host identity and
+      pairing state.  QuietExec property/action names are intentionally kept
+      explicit for the WiX v5 Util extension.
+    -->
+    <SetProperty Id="RsCleanupPairingCmdLine"
+                 Value="&quot;[System64Folder]cmd.exe&quot; /d /c del /f /q &quot;[CommonAppDataFolder]$(var.DataDirName)\paired.json&quot; &quot;[CommonAppDataFolder]$(var.DataDirName)\pairfiles.json&quot; &quot;[CommonAppDataFolder]$(var.DataDirName)\password_lock.json&quot;"
+                 Before="RsCleanupPairing"
+                 Sequence="execute"
+                 Condition="REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE" />
+    <CustomAction Id="RsCleanupPairing"
+                  BinaryRef="Wix4UtilCA_X64"
+                  DllEntry="WixQuietExec64"
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="ignore"
+                  Condition="REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"
+                  Before="InstallFinalize" />
+
+    <SetProperty Id="RsCleanupFirewallCmdLine"
+                 Value="&quot;[System64Folder]WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand RwBlAHQALQBOAGUAdABGAGkAcgBlAHcAYQBsAGwAUgB1AGwAZQAgAC0ARwByAG8AdQBwACAAJwBSAGUAbQBvAHQAZQAgAEgAbwBzAHQAJwAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQAgAHwAIABXAGgAZQByAGUALQBPAGIAagBlAGMAdAAgAHsAIAAkAF8ALgBEAGkAcwBwAGwAYQB5AE4AYQBtAGUAIAAtAG4AbwB0AGwAaQBrAGUAIAAnAFIAZQBtAG8AdABlACAASABvAHMAdAAgACgAdABhAGkAbABuAGUAdAApACoAJwAgAH0AIAB8ACAAUgBlAG0AbwB2AGUALQBOAGUAdABGAGkAcgBlAHcAYQBsAGwAUgB1AGwAZQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQA="
+                 Before="RsCleanupFirewall"
+                 Sequence="execute"
+                 Condition="REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE" />
+    <CustomAction Id="RsCleanupFirewall"
+                  BinaryRef="Wix4UtilCA_X64"
+                  DllEntry="WixQuietExec64"
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="ignore"
+                  Condition="REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"
+                  Before="InstallFinalize" />
+
+    <SetProperty Id="RsPurgeDataCmdLine"
+                 Value="&quot;[System64Folder]cmd.exe&quot; /d /c rd /s /q &quot;[CommonAppDataFolder]$(var.DataDirName)&quot;"
+                 Before="RsPurgeData"
+                 Sequence="execute"
+                 Condition="REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE AND REMOVEDATA=&quot;1&quot;" />
+    <CustomAction Id="RsPurgeData"
+                  BinaryRef="Wix4UtilCA_X64"
+                  DllEntry="WixQuietExec64"
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="ignore"
+                  Condition="REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE AND REMOVEDATA=&quot;1&quot;"
+                  Before="InstallFinalize" />
+  </Fragment>
+</Wix>

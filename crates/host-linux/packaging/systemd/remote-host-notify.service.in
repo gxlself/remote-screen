@@ -1,0 +1,16 @@
+[Unit]
+Description=Remote Screen approval notifications
+PartOf=graphical-session.target
+After=graphical-session.target remote-host.service
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart="@LIB_DIR@/current/usr/bin/remote-host-ctl" notify
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=10
+
+[Install]
+WantedBy=graphical-session.target

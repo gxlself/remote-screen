@@ -1,0 +1,270 @@
+.page {
+  width: 600px;
+  min-height: 100vh;
+  background: var(--rs-windowBg);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 28px 20px;
+}
+
+.loading {
+  margin: 0;
+  color: var(--rs-text2);
+}
+
+.hero,
+.latest {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.glyphFrame {
+  display: flex;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border-radius: 13px;
+}
+
+.heroCopy,
+.latestCopy {
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.heroTitle {
+  margin: 0;
+  color: var(--rs-text);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.versions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  line-height: 20px;
+}
+
+.currentVersion {
+  color: var(--rs-text2);
+  font-family: var(--rs-font-mono);
+}
+
+.arrow {
+  color: var(--rs-text3);
+}
+
+.nextVersion {
+  font-family: var(--rs-font-mono);
+  font-weight: 600;
+}
+
+.latestTitle {
+  color: var(--rs-text);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.latestVersion {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 7px;
+  color: var(--rs-text2);
+  font-size: 13px;
+}
+
+.latestChannel {
+  max-width: 220px;
+  margin-top: 2px;
+}
+
+.controlledTitle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.controlledTitle > span:first-child {
+  min-width: 0;
+}
+
+.elapsed {
+  flex: none;
+  font-family: var(--rs-font-mono);
+  font-weight: 400;
+}
+
+.sessionDetail {
+  font-size: 12px;
+}
+
+.sectionTitle {
+  margin: 0 0 9px;
+  color: var(--rs-text2);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.notesSection,
+.columns section {
+  min-width: 0;
+}
+
+.notesList {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--rs-line);
+}
+
+.noteRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 9px 12px;
+}
+
+.noteRow + .noteRow {
+  border-top: 1px solid var(--rs-line);
+}
+
+.noteLabel {
+  display: inline-flex;
+  flex: 0 0 40px;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.noteLabelFix {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--rs-textSoft);
+}
+
+.noteLabelFeature {
+  background: rgba(125, 168, 255, 0.16);
+  color: var(--rs-accentSoft);
+}
+
+.noteBody {
+  min-width: 0;
+  color: var(--rs-text);
+  line-height: 1.45;
+}
+
+.emptyNotes {
+  margin: 0;
+  padding: 13px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--rs-line);
+  color: var(--rs-text2);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 20px;
+}
+
+.channelSection {
+  min-width: 0;
+}
+
+.segmented {
+  display: flex;
+  overflow: hidden;
+  border-radius: 7px;
+}
+
+.channelOption {
+  flex: 1 1 0;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--rs-text2);
+  font-size: 12px;
+  line-height: 28px;
+}
+
+.channelOption[aria-checked='true'] {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--rs-text);
+  font-weight: 600;
+}
+
+.channelOption:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.channelHint,
+.channelHintBeta {
+  margin: 7px 0 0;
+  color: var(--rs-text3);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.channelHintBeta {
+  color: var(--rs-relay);
+}
+
+.disconnectAlert {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255, 136, 115, 0.14);
+  color: var(--rs-bad);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.footerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.signatureHint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--rs-text3);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.signatureHint svg {
+  flex: none;
+}
+
+.footerActions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+}

@@ -1,0 +1,14 @@
+{
+  "binary": "pair_result_bad_code.bin",
+  "description": "PairResult with a wrong pairing code and four attempts left.",
+  "fields": {
+    "attempts_left": 4,
+    "host_id": "host-42",
+    "host_name": "Studio PC",
+    "status": "BAD_CODE"
+  },
+  "name": "pair_result_bad_code",
+  "non_default_enums": [
+    "PairResult.Status::BAD_CODE"
+  ]
+}

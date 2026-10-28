@@ -1,0 +1,9 @@
+{
+  "binary": "pair_confirm.bin",
+  "description": "PairConfirm carrying a 32-byte HMAC.",
+  "fields": {
+    "mac_hex": "2424242424242424242424242424242424242424242424242424242424242424"
+  },
+  "name": "pair_confirm",
+  "non_default_enums": []
+}

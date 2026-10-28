@@ -1,0 +1,12 @@
+{
+  "binary": "goodbye_permission_lost.bin",
+  "description": "Goodbye after the host loses a required permission.",
+  "fields": {
+    "message": "screen recording denied",
+    "reason": "PERMISSION_LOST"
+  },
+  "name": "goodbye_permission_lost",
+  "non_default_enums": [
+    "Goodbye.Reason::PERMISSION_LOST"
+  ]
+}

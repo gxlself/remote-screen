@@ -1,0 +1,70 @@
+;
+; Remote Screen IddCx virtual display driver.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=Display
+ClassGuid={4d36e968-e325-11ce-bfc1-08002be10318}
+ClassVer=2.0
+Provider=%ProviderName%
+CatalogFile=RsIdd.cat
+DriverVer= ; stampinf writes the release date and version
+PnpLockdown=1
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64
+
+[Standard.NTamd64]
+%DeviceName%=RsIdd_Install, Root\RsVirtualDisplay
+
+[SourceDisksFiles]
+RsIdd.dll=1
+
+[SourceDisksNames]
+1=%DiskName%
+
+[RsIdd_Install.NT]
+Include=WUDFRD.inf
+Needs=WUDFRD.NT
+CopyFiles=UMDriverCopy
+
+[UMDriverCopy]
+RsIdd.dll
+
+[DestinationDirs]
+UMDriverCopy=13
+
+[RsIdd_Install.NT.HW]
+Include=WUDFRD.inf
+Needs=WUDFRD.NT.HW
+AddReg=RsIdd_HW_AddReg
+
+[RsIdd_HW_AddReg]
+HKR,,"UpperFilters",0x00010000,"IndirectKmd"
+; Restrict the device object to Local System and built-in administrators.
+HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GA;;;BA)"
+
+[RsIdd_Install.NT.Services]
+Include=WUDFRD.inf
+Needs=WUDFRD.NT.Services
+
+[RsIdd_Install.NT.Wdf]
+UmdfService=RsIdd,RsIdd_Install_UmdfService
+UmdfServiceOrder=RsIdd
+UmdfKernelModeClientPolicy=AllowKernelModeClients
+; Permit IddCx and UMDF to create file objects without a caller supplied context.
+UmdfFileObjectPolicy=AllowNullAndUnknownFileObjects
+; Keep this display adapter in a dedicated UMDF host process.
+UmdfHostProcessSharing=ProcessSharingDisabled
+
+[RsIdd_Install_UmdfService]
+UmdfLibraryVersion=$UMDFVERSION$
+ServiceBinary=%13%\RsIdd.dll
+UmdfExtensions=IddCx0102
+
+[Strings]
+ProviderName="Remote Screen"
+ManufacturerName="Remote Screen"
+DeviceName="Remote Screen Virtual Display Adapter"
+DiskName="Remote Screen IddCx Driver"

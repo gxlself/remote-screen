@@ -1,0 +1,14 @@
+{
+  "binary": "pair_result_disabled_on_path.bin",
+  "description": "PairResult reporting pairing disabled on the current path.",
+  "fields": {
+    "attempts_left": 0,
+    "host_id": "host-42",
+    "host_name": "Studio PC",
+    "status": "DISABLED_ON_PATH"
+  },
+  "name": "pair_result_disabled_on_path",
+  "non_default_enums": [
+    "PairResult.Status::DISABLED_ON_PATH"
+  ]
+}

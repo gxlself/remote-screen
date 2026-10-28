@@ -1,0 +1,393 @@
+stages:
+  - lint
+  - unit
+  - contract
+  - integration
+  - build-mac
+  - build-android
+  - nightly
+  - release
+
+# GitLab may run a shell executor instead of a Docker image. Keep every cache
+# inside the checkout (and therefore inside the already-ignored target/
+# directory), and never depend on a $HOME-specific path surviving the job.
+variables:
+  CARGO_HOME: "$CI_PROJECT_DIR/target/ci-cache/cargo-home"
+  CARGO_TARGET_DIR: "$CI_PROJECT_DIR/target/ci-cache/cargo-target"
+  GOMODCACHE: "$CI_PROJECT_DIR/target/ci-cache/go-mod"
+  GOCACHE: "$CI_PROJECT_DIR/target/ci-cache/go-build"
+  GOPATH: "$CI_PROJECT_DIR/target/ci-cache/go"
+  RS_LINT_TOOLS_DIR: "$CI_PROJECT_DIR/target/ci-cache/lint-tools/bin"
+  GOLANGCI_LINT_CACHE: "$CI_PROJECT_DIR/target/ci-cache/golangci-lint"
+  BUF_CACHE_DIR: "$CI_PROJECT_DIR/target/ci-cache/buf"
+  npm_config_store_dir: "$CI_PROJECT_DIR/target/ci-cache/pnpm-store"
+  PNPM_STORE_DIR: "$CI_PROJECT_DIR/target/ci-cache/pnpm-store"
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_COMMIT_TAG =~ /^v.*$/'
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "integration"'
+
+.normal_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_TAG'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "integration"'
+
+.schedule_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+
+.tag_rules:
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v.*$/'
+
+.cache_linux:
+  cache:
+    key:
+      prefix: linux
+      files:
+        - Cargo.lock
+    paths:
+      - target/ci-cache/cargo-home/
+      - target/ci-cache/cargo-target/
+      - target/ci-cache/pnpm-store/
+      - target/ci-cache/go-mod/
+      - target/ci-cache/go-build/
+      - target/ci-cache/lint-tools/
+      - target/ci-cache/golangci-lint/
+      - target/ci-cache/buf/
+      - target/ci-cache/gradle/
+      - target/ci-cache/tailnet-out/
+      - fuzz/target/
+
+.cache_macos:
+  cache:
+    key:
+      prefix: macos
+      files:
+        - Cargo.lock
+    paths:
+      - target/ci-cache/cargo-home/
+      - target/ci-cache/cargo-target/
+      - target/ci-cache/pnpm-store/
+      - target/ci-cache/go-mod/
+      - target/ci-cache/go-build/
+
+# Both runners are shell executors: print the tools and fail with the name of
+# every missing tool rather than failing later in an opaque build command.
+.base:
+  before_script:
+    - |
+      set -uo pipefail
+      tool_version() {
+        case "$1" in
+          go) go version ;;
+          xcodebuild) xcodebuild -version | head -n 1 ;;
+          xcode-select) xcode-select -p ;;
+          codesign|lipo|otool|ditto|plutil) command -v "$1" ;;
+          *) "$1" --version 2>&1 | head -n 1 ;;
+        esac
+      }
+      missing=0
+      for tool in cargo cargo-nextest go pnpm node; do
+        if command -v "$tool" >/dev/null 2>&1; then
+          printf '%-16s %s\n' "$tool" "$(tool_version "$tool")"
+        else
+          printf 'MISSING required tool: %s\n' "$tool" >&2
+          missing=1
+        fi
+      done
+      case "$CI_JOB_NAME" in
+        build-mac|release-artifacts)
+          for tool in rustc rustup xcodebuild xcode-select swift pod lipo otool codesign ditto plutil python3; do
+            if command -v "$tool" >/dev/null 2>&1; then
+              printf '%-16s %s\n' "$tool" "$(tool_version "$tool")"
+            else
+              printf 'MISSING required tool: %s\n' "$tool" >&2
+              missing=1
+            fi
+          done
+          ;;
+      esac
+      if (( missing )); then
+        echo 'Required tools are missing; install them on the runner (see tools/ci/README.md).' >&2
+        exit 1
+      fi
+
+# lint and unit both call the same local gate with an explicit section list.
+# Keep the frontend install sections in both jobs: each cache is restored
+# independently and the checks need node_modules in their own workspace.
+lint:
+  extends:
+    - .base
+    - .normal_rules
+    - .cache_linux
+  stage: lint
+  tags:
+    - rs-linux
+  timeout: 1h
+  script:
+    - |
+      for tool in rustfmt cargo-clippy cargo-deny; do
+        if ! command -v "$tool" >/dev/null 2>&1; then
+          echo "MISSING required tool: $tool" >&2
+          exit 1
+        fi
+      done
+    - bash tools/ci/install-lint-tools.sh
+    - |
+      RS_REQUIRE_LINT_TOOLS=1 \
+      RS_CHECK_SECTIONS="fmt,clippy,deny,golint,buflint,app install,app typecheck,app lint,host-ui install,host-ui typecheck,host-ui lint,host-ui format:check,desktop install,desktop typecheck,desktop lint,desktop format:check" \
+        RS_REQUIRE_APP_CHECKS=1 bash tools/ci/check-linux.sh
+
+unit:
+  extends:
+    - .base
+    - .normal_rules
+    - .cache_linux
+  stage: unit
+  tags:
+    - rs-linux
+  timeout: 1h
+  script:
+    - |
+      RS_CHECK_SECTIONS="tests,app install,app test,host-ui install,host-ui test,desktop install,desktop test,bindings,kotlin,tailnet" \
+        RS_REQUIRE_APP_CHECKS=1 RS_REQUIRE_ANDROID_CHECKS=1 RS_REQUIRE_TAILNET_CHECKS=1 \
+        bash tools/ci/check-linux.sh
+
+coverage:
+  extends:
+    - .base
+    - .normal_rules
+    - .cache_linux
+  stage: unit
+  tags:
+    - rs-linux
+  timeout: 1h
+  script:
+    - |
+      if ! cargo llvm-cov --version >/dev/null 2>&1; then
+        echo 'MISSING required tool: cargo-llvm-cov' >&2
+        exit 1
+      fi
+    - RS_REQUIRE_COVERAGE=1 RS_CHECK_SECTIONS=coverage bash tools/ci/check-linux.sh
+
+contract:
+  extends:
+    - .base
+    - .normal_rules
+    - .cache_linux
+  stage: contract
+  tags:
+    - rs-linux
+  script:
+    - |
+      if ! command -v just >/dev/null 2>&1; then
+        echo 'MISSING required tool: just' >&2
+        exit 1
+      fi
+    - just proto
+    - git status --short
+    - git diff --exit-code
+    - test -z "$(git status --porcelain --untracked-files=all)"
+
+integration:
+  extends:
+    - .base
+    - .normal_rules
+    - .cache_linux
+  stage: integration
+  tags:
+    - rs-linux
+  # The host-fake netem cases create network namespaces and veth pairs, which
+  # need CAP_NET_ADMIN on the runner. The dedicated runner is not guaranteed to
+  # grant it yet, so this is the only job allowed to fail; see the README.
+  allow_failure: true
+  script:
+    - |
+      if ! command -v just >/dev/null 2>&1; then
+        echo 'MISSING required tool: just' >&2
+        exit 1
+      fi
+      for tool in ip tc unshare; do
+        command -v "$tool" >/dev/null 2>&1 || \
+          echo "WARNING: $tool is missing; netns/netem cases may skip or fail" >&2
+      done
+    - just e2e-fake
+
+build-mac:
+  extends:
+    - .base
+    - .normal_rules
+    - .cache_macos
+  stage: build-mac
+  tags:
+    - rs-macos
+  timeout: 2h
+  script:
+    - bash tools/ci/check-mac.sh
+
+build-android:
+  extends:
+    - .base
+    - .normal_rules
+    - .cache_linux
+  stage: build-android
+  tags:
+    - rs-linux
+  timeout: 1h
+  # The runner does not have the Android SDK, NDK, and cargo-ndk installed yet;
+  # remove allow_failure once those prerequisites are available (see README).
+  allow_failure: true
+  script:
+    - |
+      RS_MOBILE_PROFILE=debug \
+        RS_MOBILE_ANDROID_OUT="$CI_PROJECT_DIR/target/ci-cache/android-libs" \
+        app/rust/build-android.sh
+    - export RS_MOBILE_ANDROID_LIBS="$CI_PROJECT_DIR/target/ci-cache/android-libs"
+    - |
+      RS_REQUIRE_ANDROID_CHECKS=1 RS_CHECK_SECTIONS="app install,android" \
+        bash tools/ci/check-linux.sh
+
+fuzz:
+  extends:
+    - .base
+    - .schedule_rules
+    - .cache_linux
+  stage: nightly
+  tags:
+    - rs-linux
+  # Read targets from fuzz/Cargo.toml so adding a fuzz target does not require
+  # editing this pipeline. Each target runs for 600 seconds.
+  timeout: 4h
+  script:
+    - |
+      set -uo pipefail
+      for tool in just rustup; do
+        if ! command -v "$tool" >/dev/null 2>&1; then
+          echo "MISSING required tool: $tool" >&2
+          exit 1
+        fi
+      done
+      if ! cargo +nightly fuzz --version >/dev/null 2>&1; then
+        echo 'MISSING required tool: cargo-fuzz (cargo +nightly fuzz)' >&2
+        exit 1
+      fi
+      targets="$(awk '
+        /^\[\[bin\]\]$/ { in_bin = 1; next }
+        /^\[/ { in_bin = 0 }
+        in_bin && /^name[[:space:]]*=/ {
+          sub(/^[^"]*"/, "")
+          sub(/".*$/, "")
+          print
+        }
+      ' fuzz/Cargo.toml)"
+      if [[ -z "$targets" ]]; then
+        echo 'No [[bin]] fuzz targets found in fuzz/Cargo.toml' >&2
+        exit 1
+      fi
+      printf 'Fuzz targets from fuzz/Cargo.toml:\n%s\n' "$targets"
+      failed=0
+      while IFS= read -r target; do
+        [[ -n "$target" ]] || continue
+        echo "== fuzz $target (600s)"
+        if ! just fuzz "$target" 600; then
+          failed=1
+        fi
+      done <<< "$targets"
+      exit "$failed"
+
+deny:
+  extends:
+    - .base
+    - .schedule_rules
+    - .cache_linux
+  stage: nightly
+  tags:
+    - rs-linux
+  script:
+    - |
+      if ! command -v cargo-deny >/dev/null 2>&1; then
+        echo 'MISSING required tool: cargo-deny' >&2
+        exit 1
+      fi
+      if [[ "${CARGO_DENY_OFFLINE:-0}" == 1 ]]; then
+        cargo deny --offline check
+      else
+        cargo deny check
+      fi
+
+latency:
+  extends:
+    - .base
+    - .schedule_rules
+  stage: nightly
+  tags:
+    - rs-linux
+  timeout: 1h
+  cache:
+    key: latency-history
+    paths:
+      - target/ci-cache/latency-history/
+  script:
+    - |
+      set -euo pipefail
+      if ! command -v just >/dev/null 2>&1; then
+        echo 'MISSING required tool: just' >&2
+        exit 1
+      fi
+      mkdir -p target/ci-cache/latency-history
+      just latency
+      python3 tools/latency/regress.py \
+        --history target/ci-cache/latency-history \
+        --current target/latency/latest.json
+  artifacts:
+    expire_in: 7 days
+    when: always
+    paths:
+      - target/latency/latest.json
+  allow_failure: true
+
+release-artifacts:
+  extends:
+    - .base
+    - .tag_rules
+    - .cache_macos
+  stage: release
+  tags:
+    - rs-macos
+  timeout: 4h
+  script:
+    - |
+      set -uo pipefail
+      target_root="$CI_PROJECT_DIR/target/ci-release"
+      echo "Removing previous artifacts under $target_root"
+      rm -rf -- "$target_root"
+      mkdir -p "$target_root"
+      # No Developer ID/notary credentials exist in CI. mac.sh uses an ad-hoc
+      # signature when RS_MAC_SIGN_IDENTITY is unset, and --skip-notarize makes
+      # that explicit; signing and notarization happen on the release machine.
+      export RS_RUSTUP="${RS_RUSTUP:-$(command -v rustup)}"
+      export RS_POD="${RS_POD:-$(command -v pod)}"
+      tools/release/mac.sh --arch universal --skip-notarize \
+        --out "$target_root/mac"
+      cd app
+      pnpm install --frozen-lockfile
+      LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
+        RS_DERIVED_DATA="$target_root/ios-device" \
+        bash scripts/build-ios.sh Release iphoneos
+      LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
+        RS_DERIVED_DATA="$target_root/ios-simulator" \
+        bash scripts/build-ios.sh Release iphonesimulator
+  artifacts:
+    expire_in: 7 days
+    paths:
+      - target/ci-release/mac/
+      - target/ci-release/ios-device/Build/Products/Release-iphoneos/RemoteScreen.app
+      - target/ci-release/ios-simulator/Build/Products/Release-iphonesimulator/RemoteScreen.app

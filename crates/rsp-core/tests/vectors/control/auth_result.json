@@ -1,0 +1,24 @@
+{
+  "binary": "auth_result.bin",
+  "description": "Successful AuthResult with token, role, error payload and resumed flag populated.",
+  "fields": {
+    "approval_timeout_s": 30,
+    "error": {
+      "code": 140,
+      "detail": {
+        "reason": "timeout"
+      },
+      "message": "approval timed out",
+      "retry_after_s": 7
+    },
+    "resumed": true,
+    "role": "CONTROLLER",
+    "session_token_hex": "abababababababababababababababab",
+    "status": "OK"
+  },
+  "name": "auth_result",
+  "non_default_enums": [
+    "AuthResult.Status::OK",
+    "Role::CONTROLLER"
+  ]
+}

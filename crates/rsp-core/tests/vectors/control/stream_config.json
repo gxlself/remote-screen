@@ -1,0 +1,20 @@
+{
+  "binary": "stream_config.bin",
+  "description": "StreamConfig for epoch 9 with a visible cursor.",
+  "fields": {
+    "bitrate_kbps": 8000,
+    "codec": "HEVC",
+    "cursor_visible": true,
+    "cursor_x": 0.25,
+    "cursor_y": 0.75,
+    "display_id": 7,
+    "epoch": 9,
+    "fps": 60,
+    "height": 1080,
+    "width": 1920
+  },
+  "name": "stream_config",
+  "non_default_enums": [
+    "Codec::HEVC"
+  ]
+}

@@ -1,0 +1,8 @@
+$(DERIVED_FILE_DIR)/rs-mobile-$(CONFIGURATION).stamp
+$(PODS_ROOT)/../RsMobile.xcframework/Info.plist
+$(PODS_ROOT)/../RsMobile.xcframework/ios-arm64/librs_mobile.a
+$(PODS_ROOT)/../RsMobile.xcframework/ios-arm64-simulator/librs_mobile.a
+$(PODS_ROOT)/../../src/native/generated/rs_mobile.ts
+$(PODS_ROOT)/../../src/native/generated/rs_mobile-ffi.ts
+$(PODS_ROOT)/../../cpp/generated/rs_mobile.cpp
+$(PODS_ROOT)/../../cpp/generated/rs_mobile.hpp

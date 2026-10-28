@@ -1,0 +1,12 @@
+{
+  "binary": "pair_result_locked_retry.bin",
+  "description": "PairResult reporting a locked pairing attempt with seconds until retry.",
+  "fields": {
+    "retry_after_s": 873,
+    "status": "LOCKED"
+  },
+  "name": "pair_result_locked_retry",
+  "non_default_enums": [
+    "PairResult.Status::LOCKED"
+  ]
+}

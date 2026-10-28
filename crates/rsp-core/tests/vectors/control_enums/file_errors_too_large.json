@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_too_large.bin",
+  "fields": {
+    "value": "FILE_ERROR_TOO_LARGE"
+  },
+  "name": "file_errors_too_large",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_TOO_LARGE"
+  ]
+}

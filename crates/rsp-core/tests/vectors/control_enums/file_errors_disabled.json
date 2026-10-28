@@ -1,0 +1,10 @@
+{
+  "binary": "file_errors_disabled.bin",
+  "fields": {
+    "value": "FILE_ERROR_DISABLED"
+  },
+  "name": "file_errors_disabled",
+  "non_default_enums": [
+    "FileError::FILE_ERROR_DISABLED"
+  ]
+}

@@ -1,0 +1,70 @@
+export const sshKeys = {
+  title: 'SSH 密钥',
+  backText: '设置',
+  backA11y: '返回设置',
+  kind: {
+    seP256: 'ECDSA P-256',
+    ed25519: 'Ed25519',
+  },
+  keyCard: {
+    a11y: '本机密钥',
+    installedCount: (n: number) => `已装 ${n} 台`,
+    generatedOn: (date: string) => `${date} 生成`,
+    seDescription: '私钥在安全芯片里，导不出来，也不会上传。',
+    edDescription: '私钥用安全芯片里的密钥加密后存在这台手机上，不会上传。',
+    publicKeyA11y: '公钥',
+    publicKeyHint: '用下面的「复制公钥」或「分享」拿到全文',
+    copy: '复制公钥',
+    copyFailed: '没复制上，用「分享」试试',
+    share: '分享',
+  },
+  empty: {
+    title: '还没有 SSH 密钥',
+    message: '生成一把存在安全芯片里的密钥，装到服务器上就能免密登录。',
+    generate: '生成密钥',
+    generating: '正在生成…',
+    generateFailed: (message: string) => `没生成成功：${message}`,
+    generated: '密钥生成好了',
+  },
+  loadFailed: {
+    title: '密钥没读出来',
+    message: '已有的密钥不会丢，重试一下再看。',
+  },
+  install: {
+    section: '通过已有会话安装公钥',
+    empty: '还没有要装公钥的服务器',
+    installed: '已安装',
+    action: '安装',
+    a11y: (name: string) => `把公钥装到 ${name}`,
+    directorySubtitle: (source: string) => `${source} · 密钥登录`,
+    manualSubtitle: (host: string, jump: string | null) =>
+      jump == null ? host : `${host} · 经 ${jump}`,
+    justInstalled: '刚装好，下次直接用密钥登录',
+    tailscaleHint: (name: string) =>
+      `走 Tailscale SSH 的机器（如 ${name}）不用装密钥`,
+  },
+  installDialog: {
+    title: (name: string) => `把公钥装到 ${name}？`,
+    message: (name: string) =>
+      `会通过 ${name} 已有的会话（现在的登录方式）登录一次，把公钥写进 authorized_keys。`,
+    success: '已装好',
+    failed: (message: string) => `没装上：${message}`,
+  },
+  trusted: {
+    section: '已信任的主机',
+    hint: '指纹变了会拦下连接',
+    tailscaleSubtitle: 'Tailscale SSH（不用指纹）',
+    tailscaleValue: 'Tailscale 认证',
+    empty: '还没有信任过的主机',
+    forgotten: '已删除主机指纹',
+    deleteA11y: (name: string) => `删除 ${name} 的主机指纹`,
+    unsupported: '当前版本还看不到已信任的指纹',
+    forgetUnsupported: '当前版本还不能删除',
+    forgetFailed: (message: string) => `没删掉：${message}`,
+    loadFailed: '主机指纹没加载出来',
+  },
+  forgetDialog: {
+    title: (name: string) => `删除 ${name} 的主机指纹？`,
+    message: '下次连接时会重新让你核对指纹。',
+  },
+} as const;

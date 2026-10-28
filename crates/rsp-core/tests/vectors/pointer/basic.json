@@ -1,0 +1,10 @@
+{
+  "name": "pointer_basic",
+  "seq": 42,
+  "display": 2,
+  "visible": true,
+  "x": 0.5,
+  "y": 0.25,
+  "binary": "basic.bin",
+  "description": "15-byte pointer datagram (type 0x12) with visible flag and big-endian fields."
+}

@@ -1,0 +1,9 @@
+{
+  "binary": "pair_spake.bin",
+  "description": "PairSpake carrying a 32-byte opaque SPAKE2 message.",
+  "fields": {
+    "msg_hex": "4242424242424242424242424242424242424242424242424242424242424242"
+  },
+  "name": "pair_spake",
+  "non_default_enums": []
+}

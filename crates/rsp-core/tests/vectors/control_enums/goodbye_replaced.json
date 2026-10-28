@@ -1,0 +1,12 @@
+{
+  "binary": "goodbye_replaced.bin",
+  "description": "Goodbye when a newer connection replaces this session.",
+  "fields": {
+    "message": "another device took over",
+    "reason": "REPLACED"
+  },
+  "name": "goodbye_replaced",
+  "non_default_enums": [
+    "Goodbye.Reason::REPLACED"
+  ]
+}

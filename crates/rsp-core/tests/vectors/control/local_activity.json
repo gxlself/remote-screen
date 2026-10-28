@@ -1,0 +1,9 @@
+{
+  "binary": "local_activity.bin",
+  "description": "LocalActivity indicating someone is using the host.",
+  "fields": {
+    "active": true
+  },
+  "name": "local_activity",
+  "non_default_enums": []
+}

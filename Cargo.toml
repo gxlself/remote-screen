@@ -1,0 +1,124 @@
+[workspace]
+resolver = "3"
+members = ["crates/*", "tools/probe", "tools/latency/faultnet-proxy", "tools/bench/rs-bench"]
+# host-ui/src-tauri and desktop/src-tauri are standalone Tauri crates.
+exclude = ["host-ui/src-tauri", "desktop/src-tauri"]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.96"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/gxlself/remote-screen"
+homepage = "https://gxlself.github.io/remote-screen-site/"
+publish = false
+
+[workspace.dependencies]
+rsp-core = { path = "crates/rsp-core" }
+rsp-files = { path = "crates/rsp-files" }
+rsp-transport = { path = "crates/rsp-transport" }
+rsp-client = { path = "crates/rsp-client" }
+rs-ssh = { path = "crates/rs-ssh" }
+rs-audio = { path = "crates/rs-audio" }
+rs-recording = { path = "crates/rs-recording" }
+rs-vnc = { path = "crates/rs-vnc" }
+rs-rdp = { path = "crates/rs-rdp" }
+rs-tailnet = { path = "crates/rs-tailnet" }
+rs-mobile = { path = "crates/rs-mobile" }
+host-core = { path = "crates/host-core" }
+host-mac = { path = "crates/host-mac" }
+host-win = { path = "crates/host-win" }
+host-fake = { path = "crates/host-fake" }
+host-linux = { path = "crates/host-linux" }
+anyhow = "1.0.104"
+bytes = "1.12.1"
+cc = "1.9.0"
+clap = { version = "4.6.7", features = ["derive"] }
+data-encoding = "2.11.1"
+ed25519-dalek = "3.0.0"
+env_logger = "0.11.11"
+getrandom = "0.4.3"
+hkdf = "0.13.0"
+hmac = "0.13.0"
+http-body-util = "0.1.5"
+hyper = "1.12.0"
+hyper-util = "0.1.21"
+if-addrs = "0.15.0"
+ipnet = "2.12.2"
+libc = "0.2.191"
+log = "0.4.34"
+p256 = { version = "0.14.0", features = ["ecdsa"] }
+png = "0.18"
+proptest = "1.12.0"
+prost = "0.14.4"
+prost-build = "0.14.4"
+protox = "0.10.0"
+opus = "0.4.0"
+quinn = { version = "0.11.12", default-features = false, features = ["runtime-tokio", "rustls-ring", "log"] }
+quinn-proto = { version = "=0.11.19", default-features = false, features = ["rustls-ring", "log"] }
+rand_core = "0.10.1"
+rcgen = { version = "0.14.10", default-features = false, features = ["crypto", "ring", "pem"] }
+reed-solomon-simd = "3.1.0"
+ring = "0.17.14"
+rusqlite = { version = "0.40.2", features = ["bundled"] }
+russh = { version = "0.64.1", default-features = false, features = ["ring", "flate2"] }
+russh-sftp = "3.0.1"
+rustls = { version = "0.23.46", default-features = false, features = ["ring", "std", "logging", "tls12"] }
+rustls-pki-types = "1.15.1"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+serde_json_canonicalizer = "0.4.1"
+sha2 = "0.11.1"
+socket2 = { version = "0.6.5", features = ["all"] }
+spake2 = "0.4.0"
+thiserror = "2.0.21"
+time = "0.3.55"
+tokio = { version = "1.54.0", features = ["rt-multi-thread", "macros", "sync", "time", "net", "io-util", "fs", "process", "signal"] }
+tokio-rustls = { version = "0.26.2", default-features = false, features = ["ring", "logging", "tls12"] }
+toml = "1.1.8"
+tracing = "0.1.44"
+tracing-appender = "0.2.5"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter", "json"] }
+zip = { version = "9.0.5", default-features = false, features = ["deflate"] }
+x509-parser = "0.18.1"
+xxhash-rust = { version = "0.8.19", features = ["xxh3"] }
+async-trait = "0.1.89"
+des = "0.9.0"
+aes = "0.9.3"
+md5 = "0.8.1"
+num-bigint = "0.5.1"
+flate2 = "1.1.10"
+ssh-key = { version = "=0.7.0-rc.11", default-features = false, features = ["std", "ed25519", "p256"] }
+zeroize = "1.9.0"
+url = "2.5.8"
+unicode-segmentation = "1.13.3"
+windows = "0.62.2"
+# Mozilla roots for the Tailscale API client (rs-mobile). 1.0.10+ drops the distrusted
+# emSign root (RUSTSEC-2026-0381); its CDLA-Permissive-2.0 data license is allowed for
+# this crate only in deny.toml.
+webpki-roots = "1.0.11"
+uniffi = { version = "=0.31.2", features = ["tokio"] }
+zbus = { version = "6.0.0", default-features = false, features = ["tokio", "proxy", "service", "p2p"] }
+x11rb = { version = "0.14.0", features = ["shm", "damage", "xfixes", "xtest", "randr", "xinput", "dpms"] }
+openh264 = { version = "0.9.8", default-features = false }
+qrcode = { version = "0.14.1", default-features = false }
+# IronRDP: no release yet uses sspi 0.22+ / picky rc.26 (the released connector pins
+# curve25519-dalek =5.0.0-rc.1, which conflicts with russh). Pinned master commit,
+# Keep the shared crypto graph compatible; bump all IronRDP crates together.
+ironrdp-cliprdr = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-connector = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-core = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-displaycontrol = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-dvc = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-egfx = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-graphics = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-input = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-pdu = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-rdpsnd = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-session = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-svc = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-tokio = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac" }
+ironrdp-server = { git = "https://github.com/Devolutions/IronRDP", rev = "2bc793ef3f5bb21b4a219175e653a2f65d6f5dac", default-features = false }
+
+[profile.release]
+debug = 1

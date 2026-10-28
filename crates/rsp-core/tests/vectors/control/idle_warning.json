@@ -1,0 +1,10 @@
+{
+  "binary": "idle_warning.bin",
+  "description": "IdleWarning with 60 seconds remaining and lock-on-end enabled.",
+  "fields": {
+    "lock_on_end": true,
+    "seconds_left": 60
+  },
+  "name": "idle_warning",
+  "non_default_enums": []
+}

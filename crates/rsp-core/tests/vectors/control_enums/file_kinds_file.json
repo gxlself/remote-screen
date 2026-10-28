@@ -1,0 +1,10 @@
+{
+  "binary": "file_kinds_file.bin",
+  "fields": {
+    "value": "FILE"
+  },
+  "name": "file_kinds_file",
+  "non_default_enums": [
+    "FileEntry.Kind::FILE"
+  ]
+}

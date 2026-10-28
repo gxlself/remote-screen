@@ -1,0 +1,9 @@
+{
+  "binary": "ping.bin",
+  "description": "Ping with a fixed Unix microsecond send timestamp.",
+  "fields": {
+    "t1_us": 1726000000111111
+  },
+  "name": "ping",
+  "non_default_enums": []
+}

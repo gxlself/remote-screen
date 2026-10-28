@@ -1,0 +1,46 @@
+{
+  "state": "Running",
+  "authUrl": null,
+  "self": {
+    "hostname": "rs-app-a1",
+    "dnsName": "rs-app-a1.rs.test.",
+    "stableId": "nT3stSelf1",
+    "ips": ["100.64.0.2", "fd7a:115c:a1e0::2"],
+    "online": true,
+    "derpRegion": "test",
+    "derpRegionName": ""
+  },
+  "magicDnsSuffix": "rs.test",
+  "peers": [
+    {
+      "hostname": "rs-peer",
+      "dnsName": "rs-peer.rs.test.",
+      "ips": ["100.64.0.1", "fd7a:115c:a1e0::1"],
+      "os": "linux",
+      "online": true,
+      "tags": [],
+      "direct": true,
+      "curAddr": "10.30.0.5:41641",
+      "relay": "test",
+      "peerRelay": "",
+      "lastHandshakeUs": 1761100000000000,
+      "rxBytes": 1234,
+      "txBytes": 5678
+    },
+    {
+      "hostname": "rs-relayed",
+      "dnsName": "rs-relayed.rs.test.",
+      "ips": ["100.64.0.3", "fd7a:115c:a1e0::3"],
+      "os": "linux",
+      "online": true,
+      "tags": ["tag:rs-host"],
+      "direct": false,
+      "curAddr": "",
+      "relay": "test",
+      "peerRelay": "",
+      "lastHandshakeUs": 0,
+      "rxBytes": 0,
+      "txBytes": 0
+    }
+  ]
+}

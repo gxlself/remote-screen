@@ -1,0 +1,422 @@
+syntax = "proto3";
+package rsp.v1;
+
+message Envelope {
+  oneof msg {
+    ClientHello      client_hello      = 1;
+    ServerHello      server_hello      = 2;
+    AuthResult       auth_result       = 3;
+    SessionState     session_state     = 4;
+    StartStream      start_stream      = 5;
+    StreamConfig     stream_config     = 6;
+    KeyframeRequest  keyframe_request  = 7;
+    Feedback         feedback          = 8;
+    RateUpdate       rate_update       = 9;
+    Ping             ping              = 10;
+    Pong             pong              = 11;
+    DisplayList      display_list      = 12;
+    SelectDisplay    select_display    = 13;
+    RequestControl   request_control   = 14;
+    ControlRequest   control_request   = 15;
+    ControlResponse  control_response  = 16;
+    LocalActivity    local_activity    = 17;
+    IdleWarning      idle_warning      = 18;
+    PauseStream      pause_stream      = 19;
+    ResumeStream     resume_stream     = 20;
+    HostStats        host_stats        = 21;
+    SessionAction    session_action    = 22;
+    SetQuality       set_quality       = 23;
+    AttachInput      attach_input      = 24;
+    SetAudio         set_audio         = 25;
+    Viewport         viewport          = 26;   // App → Host，M3 视口感知编码（03 §5.5）
+    ViewportAck      viewport_ack      = 27;   // Host → App
+    PairStart        pair_start        = 30;
+    PairSpake        pair_spake        = 31;
+    PairConfirm      pair_confirm      = 32;
+    PairResult       pair_result       = 33;
+    PairPassword     pair_password     = 34;   // 35–39 留给配对以后用
+    ErrorInfo        error             = 40;
+    Goodbye          goodbye           = 41;
+    FileList     file_list     = 50;
+    FileListing  file_listing  = 51;
+    FileRequest  file_request  = 52;
+    FileQuery    file_query    = 53;
+    FileStatus   file_status   = 54;
+    FileCancel   file_cancel   = 55;
+    RecordingNotice  recording_notice  = 56;   // App → Host（M3 V5）
+    CreateVirtualDisplay  create_virtual_display  = 60;
+    VirtualDisplayResult  virtual_display_result  = 61;
+    ReleaseVirtualDisplay release_virtual_display = 62;
+  }
+}
+
+enum Platform  { PLATFORM_UNSPECIFIED = 0; IOS = 1; IPADOS = 2; ANDROID = 3; MACOS = 4; WINDOWS = 5; LINUX = 6; }
+enum Intent    { INTENT_UNSPECIFIED = 0; CONTROL = 1; VIEW = 2; PAIR = 3; PROBE = 4; FILES = 5; }
+enum PathKind  { PATH_UNSPECIFIED = 0; TAILNET_DIRECT = 1; TAILNET_DERP = 2; INTRANET = 3; LAN = 4; MANUAL = 5; }
+enum Transport { TRANSPORT_UNSPECIFIED = 0; QUIC = 1; TCP = 2; }
+enum Codec     { CODEC_UNSPECIFIED = 0; HEVC = 1; H264 = 2; }
+enum Role      { ROLE_UNSPECIFIED = 0; CONTROLLER = 1; VIEWER = 2; }
+enum Quality   { QUALITY_AUTO = 0; QUALITY_CLEAR = 1; QUALITY_SMOOTH = 2; QUALITY_ECO = 3; }
+
+// ---------- 握手 ----------
+message ClientHello {
+  uint32    protocol          = 1;   // 固定 1
+  string    app_version       = 2;   // "0.3.1"
+  uint64    features          = 3;   // 支持的功能位，见 §11
+  uint64    required_features = 4;   // 要求对方必须支持的功能位
+  string    device_name       = 5;   // "小明的 iPhone"
+  Platform  platform          = 6;
+  Intent    intent            = 7;
+  bytes     resume_token      = 8;   // 16 字节；空 = 新会话
+  ClientCaps caps             = 9;
+  PathKind  path              = 10;  // App 拨号时认为的路径
+  Transport transport         = 11;
+}
+message ClientCaps {
+  repeated Codec decode   = 1;       // 按偏好排序
+  uint32 max_width        = 2;
+  uint32 max_height       = 3;
+  uint32 max_fps          = 4;       // iPad Pro 120
+  uint32 screen_width_px  = 5;       // 手机屏幕物理像素，Host 用来选默认分辨率
+  uint32 screen_height_px = 6;
+  bool   audio_opus       = 7;
+}
+message ServerHello {
+  uint32   protocol          = 1;
+  string   host_version      = 2;    // "0.3.2"
+  uint64   features          = 3;
+  uint64   required_features = 4;
+  string   host_id           = 5;    // 见 04 · 标识
+  string   host_name         = 6;    // "Studio Mac mini"
+  Platform os                = 7;
+  string   os_version        = 8;    // "macOS 26.3"
+  repeated Display displays  = 9;
+  PeerInfo peer              = 10;   // Host 认出来的你
+}
+message PeerInfo {
+  string   user        = 1;          // WhoIs 登录名 "alice@"；内网路径为空
+  string   node        = 2;          // WhoIs 节点名 "xl-iphone"
+  string   device_id   = 3;
+  PathKind path        = 4;          // Host 视角：直连 / DERP / 内网 / 局域网
+  string   derp_region = 5;          // "上海"，仅 DERP
+}
+message Display {
+  uint32 id         = 1;
+  string name       = 2;             // "内建显示器"、"DELL U2723QE"
+  uint32 width_px   = 3;
+  uint32 height_px  = 4;
+  float  scale      = 5;             // 2.0 = Retina
+  int32  x          = 6;             // 桌面坐标系中的位置（点）
+  int32  y          = 7;
+  uint32 refresh_hz = 8;
+  bool   primary    = 9;
+  uint32 rotation   = 10;            // 0 / 90 / 180 / 270
+  bool   is_virtual = 11;            // Host 建的虚拟显示器（M3，03 §3「虚拟显示器」）
+}
+message AuthResult {
+  enum Status { STATUS_UNSPECIFIED = 0; OK = 1; PENDING_APPROVAL = 2; DENIED = 3; }
+  Status    status             = 1;
+  Role      role               = 2;
+  bytes     session_token      = 3;  // OK 时下发，16 字节随机
+  uint32    approval_timeout_s = 4;  // PENDING 时 = 30
+  ErrorInfo error              = 5;  // DENIED 时的原因
+  bool      resumed            = 6;
+}
+
+// ---------- 会话与多设备 ----------
+message SessionState {
+  Role your_role              = 1;
+  Participant controller      = 2;
+  repeated Participant viewers = 3;
+  bool input_paused_local     = 4;   // 电脑前有人在用，远端输入暂停
+}
+message Participant {
+  string   device_id   = 1;
+  string   device_name = 2;
+  string   user        = 3;
+  PathKind path        = 4;
+  uint64   since_us    = 5;
+}
+message RequestControl  {}
+message ControlRequest  { Participant requester = 1; uint32 timeout_s = 2; }    // Host → 当前控制者
+message ControlResponse { string requester_device_id = 1; bool allow = 2; }     // 当前控制者 → Host
+message LocalActivity   { bool active = 1; }
+message IdleWarning     { uint32 seconds_left = 1; bool lock_on_end = 2; }
+message SessionAction {
+  enum Kind { KIND_UNSPECIFIED = 0; LOCK_SCREEN = 1; CTRL_ALT_DEL = 2; LOCK_ON_END = 3; WAKE_DISPLAY = 4; }
+  Kind kind   = 1;
+  bool enable = 2;                    // 只对 LOCK_ON_END 有意义
+}
+
+// ---------- 视频 ----------
+message DisplayList   { repeated Display displays = 1; }
+message SelectDisplay { uint32 display_id = 1; }
+message StartStream {
+  uint32  display_id   = 1;
+  Codec   codec        = 2;
+  uint32  max_width    = 3;
+  uint32  max_height   = 4;
+  uint32  fps          = 5;
+  uint32  bitrate_kbps = 6;           // 0 = Host 按路径选起始码率
+  Quality quality      = 7;
+}
+message SetQuality { Quality quality = 1; }
+
+// App → Host。会话中开关远端声音（§8.3）。
+message SetAudio {
+  bool enabled = 1;   // true：开始发 0x11；false：停止
+}
+// App → Host。App 开始 / 停止本地录制（M3 V5）。只是告知，Host 不能拒绝。
+message RecordingNotice {
+  bool active = 1;
+}
+// App → Host。请 Host 新建一块虚拟显示器（M3）。只在 Host 声明了 VIRTUAL_DISPLAY 时发送；只有控制者能建。
+message CreateVirtualDisplay {
+  uint32 request_id = 1;   // App 自增，原样回在 VirtualDisplayResult
+  uint32 width_px   = 2;   // 期望像素尺寸，保持横竖；两者都必须非 0
+  uint32 height_px  = 3;
+  float  scale      = 4;   // 期望 HiDPI 倍率；0 = Host 选
+  uint32 refresh_hz = 5;   // 0 = 60
+  bool   select     = 6;   // true：建好后把本连接的推流切到新屏（等同于随后一条 SelectDisplay）
+}
+
+// Host → App。回应 CreateVirtualDisplay。
+message VirtualDisplayResult {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    OK          = 1;   // display 为新屏（或本会话已有的那块）
+    UNSUPPORTED = 2;   // 这台 Host 现在造不了（私有 API 不在、驱动没装）
+    NOT_ALLOWED = 3;   // 不是控制者
+    LIMIT       = 4;   // 本会话已有一块正在建，或整机已满
+    BAD_REQUEST = 5;   // 尺寸为 0、太小
+    FAILED      = 6;   // 平台建失败，或 10 秒内没出现
+  }
+  uint32  request_id = 1;
+  Status  status     = 2;
+  Display display    = 3;   // 仅 OK：实际尺寸 / 倍率 / 刷新率，可能与请求不同
+  string  message    = 4;   // 给日志看的英文
+}
+
+// App → Host。移除本会话建的虚拟显示器。不是本会话建的，Host 忽略。不回应；结果看随后的 DisplayList。
+message ReleaseVirtualDisplay {
+  uint32 display_id = 1;   // 线上 id
+}
+
+message StreamConfig {
+  uint32 epoch             = 1;       // 每次参数变化 +1，视频头里带
+  uint32 display_id        = 2;
+  Codec  codec             = 3;
+  uint32 width             = 4;
+  uint32 height            = 5;
+  uint32 fps               = 6;
+  uint32 bitrate_kbps      = 7;
+  float  cursor_x          = 8;
+  float  cursor_y          = 9;
+  bool   cursor_visible    = 10;
+  PixelRect crop              = 11;  // 本 epoch 画面对应的显示器区域（原生像素）；缺省 = 整块显示器
+  uint32    viewport_seq      = 12;  // 该裁剪依据的 Viewport.seq；未裁剪为 0
+  uint32    display_width_px  = 13;  // 本 epoch 显示器原生像素（含旋转）；0.5+ 的 Host 总是填
+  uint32    display_height_px = 14;
+}
+// 显示器原生像素矩形：左上角原点，x 向右、y 向下；与 Display.width_px/height_px 同一坐标系
+message PixelRect {
+  uint32 x = 1;
+  uint32 y = 2;
+  uint32 w = 3;
+  uint32 h = 4;
+}
+
+// 本地放大后的可见区域（03 §5.5）。双方都声明 VIEWPORT 才发
+message Viewport {
+  uint32    seq            = 1;  // 每连接从 1 递增；Host 只处理比已处理的大的
+  uint32    display_id     = 2;  // 与当前 StreamConfig.display_id 相同
+  PixelRect rect           = 3;  // 可见区，向外对齐 16 px；缺省 = 整屏（未放大）
+  bool      settled        = 4;  // 手势和动画都已停止 ≥ 250 ms
+  uint32    view_width_px  = 5;  // rect 在手机屏上占的物理像素
+  uint32    view_height_px = 6;
+  bool      crop_ok        = 7;  // App 此刻能按 StreamConfig.crop 渲染
+}
+
+message ViewportAck {
+  enum Mode { MODE_OFF = 0; ROI = 1; CROP = 2; }
+  uint32 seq  = 1;  // 回的是哪一条 Viewport
+  Mode   mode = 2;  // 处理这条之后生效（或正在重建、即将生效）的模式
+}
+message KeyframeRequest {
+  enum Reason { REASON_UNSPECIFIED = 0; LOSS = 1; DECODER_RESET = 2; RESUME = 3; BACKLOG = 4; }
+  Reason reason          = 1;
+  uint32 last_good_frame = 2;
+}
+message PauseStream  {}               // App 切后台：停止编码，连接保留
+message ResumeStream {}               // 回前台：Host 立刻发关键帧
+
+// ---------- 反馈与统计 ----------
+message Feedback {                    // App → Host，每 200 ms
+  uint32 epoch                   = 1;
+  uint32 interval_ms             = 2;
+  uint32 frames_received         = 3;
+  uint32 frames_lost             = 4;  // FEC 也救不回的帧
+  uint32 frames_recovered        = 5;  // 靠 FEC 救回的帧
+  uint32 shards_received         = 6;
+  uint32 shards_lost             = 7;
+  uint32 recv_kbps               = 8;
+  int32  delay_gradient_us_per_s = 9;  // 单程时延的斜率，§7
+  uint32 owd_p50_us              = 10; // 采集→收齐
+  uint32 decode_queue            = 11; // 待解码帧数
+  uint32 decode_p50_us           = 12;
+  uint32 render_fps              = 13;
+  uint32 battery_pct             = 14;
+  bool   low_power               = 15;
+}
+message RateUpdate {                  // Host → App，参数变化时
+  uint32 target_kbps   = 1;
+  uint32 fps           = 2;
+  float  scale         = 3;           // 1.0 / 0.75 / 0.5
+  uint32 fec_ratio_pct = 4;
+  string reason        = 5;           // "delay" / "loss" / "path:derp" …，只用于日志和 HUD
+}
+message HostStats {                   // Host → App，每 1 s
+  uint32   capture_fps    = 1;
+  uint32   encode_p50_us  = 2;
+  uint32   encode_p95_us  = 3;
+  uint32   cpu_pct        = 4;
+  PathKind path           = 5;
+  string   derp_region    = 6;
+  uint32   send_kbps      = 7;
+}
+message Ping { uint64 t1_us = 1; }
+message Pong { uint64 t1_us = 1; uint64 t2_us = 2; }
+
+// ---------- TCP 模式输入连接 ----------
+message AttachInput { bytes session_token = 1; }
+
+// ---------- 配对（04） ----------
+message PairStart {
+  string   device_name  = 1;
+  Platform platform     = 2;
+  bool     has_qr       = 3;
+  bytes    pair_file_id = 4;   // 16 字节 = 配对文件流程（口令来自文件）；空 = 6 位码流程；其他长度 → Host 回 EXPIRED
+}
+message PairSpake   { bytes msg = 1; }              // SPAKE2 消息，双方各发一条
+message PairConfirm { bytes mac = 1; }              // HMAC(K_confirm, transcript)
+message PairResult {
+  enum Status { STATUS_UNSPECIFIED = 0; OK = 1; WAITING_LOCAL = 2; DENIED = 3; BAD_CODE = 4;
+                EXPIRED = 5; LOCKED = 6; DISABLED_ON_PATH = 7; METHOD_DISABLED = 8; }
+  Status status        = 1;
+  string host_id       = 2;
+  string host_name     = 3;
+  uint32 attempts_left = 4;
+  uint32 retry_after_s = 5;    // 仅 LOCKED：距解锁的秒数（向上取整）；其他状态为 0
+}
+// 系统账户密码配对。只在 intent=PAIR、且 ServerHello.features 含 PAIR_PASSWORD 时由 App 发送，每个连接最多一次。
+// METHOD_DISABLED：这种配对方式在这台 Host 上没打开（开关关着，或平台没有系统账户校验）。
+message PairPassword {
+  string   device_name = 1;
+  Platform platform    = 2;
+  string   account     = 3;    // 系统账户短名或全名，1–256 字节 UTF-8，不含控制字符
+  bytes    password    = 4;    // 密码的 UTF-8 字节，1–1024 字节；只在 TLS 内传输，双方用完立即清零
+}
+
+// ---------- 错误与结束 ----------
+message ErrorInfo {
+  uint32 code          = 1;           // 101–199，见 10-appendix · 错误码
+  string message       = 2;           // 给日志看的英文，界面文案由 App 按 code 取
+  uint32 retry_after_s = 3;
+  map<string, string> detail = 4;     // 如 {"host_version":"0.2.4","min":"0.3.0"}
+}
+message Goodbye {
+  enum Reason {
+    REASON_UNSPECIFIED = 0; USER_CLOSED = 1; HOST_CLOSED_BY_LOCAL_USER = 2; IDLE_TIMEOUT = 3;
+    REPLACED = 4; REVOKED = 5; BACKGROUND = 6; HOST_SHUTDOWN = 7; HOST_UPDATING = 8; PERMISSION_LOST = 9;
+  }
+  Reason reason  = 1;
+  string message = 2;
+}
+
+// 文件错误。值名带 FILE_ERROR_ 前缀，prost 生成 FileError::NotFound 这类名字。
+enum FileError {
+  FILE_ERROR_NONE              = 0;
+  FILE_ERROR_NOT_FOUND         = 1;
+  FILE_ERROR_PERMISSION_DENIED = 2;   // 系统拒绝（含 macOS TCC）
+  FILE_ERROR_OUTSIDE_ROOT      = 3;   // 路径（含软链解析后）不在浏览根内，或命中黑名单
+  FILE_ERROR_NOT_A_DIR         = 4;
+  FILE_ERROR_NOT_A_FILE        = 5;
+  FILE_ERROR_DISABLED          = 6;   // [files] 关掉了这个方向或浏览
+  FILE_ERROR_NOT_ALLOWED       = 7;   // 角色 / 意图 / 权限不允许（viewer、仅查看）
+  FILE_ERROR_BUSY              = 8;   // 超过并发上限
+  FILE_ERROR_IO                = 9;
+  FILE_ERROR_NO_SPACE          = 10;
+  FILE_ERROR_TOO_LARGE         = 11;
+  FILE_ERROR_RESUME_MISMATCH   = 12;
+  FILE_ERROR_SHA256_MISMATCH   = 13;
+  FILE_ERROR_SOURCE_CHANGED    = 14;
+  FILE_ERROR_PROTOCOL          = 15;
+}
+
+message FileEntry {
+  enum Kind { KIND_UNSPECIFIED = 0; FILE = 1; DIR = 2; SYMLINK = 3; OTHER = 4; }
+  string name        = 1;   // 单层名字，不含路径
+  Kind   kind        = 2;   // 软链按目标类型报；目标不存在或越界报 SYMLINK
+  uint64 size        = 3;   // 目录为 0
+  uint64 mtime_us    = 4;   // 0 = 未知
+  int32  child_count = 5;   // 目录的子项数；-1 = 没数（超时或不是目录）
+}
+
+// App → Host：列一个目录。
+message FileList {
+  uint32 request_id = 1;    // App 自增，原样回在 FileListing
+  string path       = 2;    // Host 上的绝对路径；"" = 默认根（第一个浏览根）
+  uint32 offset     = 3;    // 分页起点（排序后的下标）
+}
+
+// Host → App。
+message FileListing {
+  uint32 request_id           = 1;
+  string path                 = 2;   // 规范化后的绝对路径
+  string parent               = 3;   // "" = 已在根，不能再往上
+  repeated FileEntry entries  = 4;
+  uint32 next_offset          = 5;   // 0 = 没有下一页
+  FileError error             = 6;   // 非 NONE 时 entries 为空
+}
+
+// App → Host：请 Host 把一个文件发过来（Host 新开 0x04 流）。
+message FileRequest {
+  uint32 request_id      = 1;
+  string path            = 2;   // Host 上的绝对路径
+  string transfer_id     = 3;   // 续传时沿用；"" = Host 新生成
+  uint64 offset          = 4;   // App 本地已收到的连续长度
+  uint64 expect_size     = 5;   // 续传时给出上次 FileHeader 的值；首次为 0
+  uint64 expect_mtime_us = 6;
+  bytes  expect_sha256   = 7;   // 空或 32 字节
+}
+
+// App → Host：问 Host 某个上传收到了多少（App 上传续传前用）。
+message FileQuery {
+  uint32 request_id  = 1;
+  string transfer_id = 2;
+}
+
+// 双向。Host → App：回 FileQuery、FileRequest 失败、上传收完 / 失败。
+// App → Host：下载在手机上校验落盘后发 COMPLETED（Host 只打日志）。
+message FileStatus {
+  enum State {
+    STATE_UNSPECIFIED = 0;
+    UNKNOWN   = 1;   // Host 没有这个 transfer_id 的半截文件
+    PARTIAL   = 2;   // 有半截文件，received 为连续长度
+    RECEIVING = 3;   // 正在接收
+    COMPLETED = 4;
+    FAILED    = 5;
+    CANCELLED = 6;
+  }
+  uint32    request_id  = 1;   // 回应 FileQuery / FileRequest 时原样回；主动通知为 0
+  string    transfer_id = 2;
+  State     state       = 3;
+  uint64    received    = 4;
+  FileError error       = 5;
+  string    saved_name  = 6;   // COMPLETED 上传时 Host 最终用的文件名（可能带编号）
+}
+
+// 双向：取消一个传输。收到方停掉对应流；接收方删半截文件。
+message FileCancel {
+  string transfer_id = 1;
+}

@@ -1,0 +1,40 @@
+{
+  "binary": "server_hello.bin",
+  "description": "ServerHello carrying a display and PeerInfo.",
+  "fields": {
+    "displays": [
+      {
+        "height_px": 2160,
+        "id": 7,
+        "name": "DELL U2723QE",
+        "primary": true,
+        "refresh_hz": 60,
+        "rotation": 90,
+        "scale": 1.5,
+        "width_px": 3840,
+        "x": -1920,
+        "y": 120
+      }
+    ],
+    "features": 8225,
+    "host_id": "host-42",
+    "host_name": "Studio Mac mini",
+    "host_version": "0.3.2",
+    "os": "MACOS",
+    "os_version": "macOS 26.3",
+    "peer": {
+      "derp_region": "Shanghai",
+      "device_id": "device-07",
+      "node": "xl-iphone",
+      "path": "TAILNET_DIRECT",
+      "user": "alice@"
+    },
+    "protocol": 1,
+    "required_features": 1
+  },
+  "name": "server_hello",
+  "non_default_enums": [
+    "Platform::MACOS",
+    "PathKind::TAILNET_DIRECT"
+  ]
+}

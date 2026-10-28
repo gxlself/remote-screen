@@ -1,0 +1,4 @@
+{"type":"start","schema":1,"t_us":1000000,"names":["sunshine"],"nic":"Ethernet","logical_cpus":16}
+{"type":"sample","t_us":2000000,"pids":[],"cpu_pct":0,"gpu":{},"gpu_total":{},"nic_tx_bytes":0,"nic_rx_bytes":0}
+{"type":"sample","t_us":3000000,"pids":[],"cpu_pct":1,"gpu":{},"gpu_total":{},"nic_tx_bytes":1,"nic_rx_bytes":1}
+{this is not json
