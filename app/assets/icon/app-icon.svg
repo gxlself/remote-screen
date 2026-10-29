@@ -1,10 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14254A"/><stop offset="1" stop-color="#070D1C"/></linearGradient>
-<linearGradient id="sc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9CC0FF"/><stop offset="1" stop-color="#4C7DF0"/></linearGradient></defs>
-<rect id="background" width="1024" height="1024" fill="url(#bg)"/>
-<rect x="176" y="230" width="620" height="420" rx="48" fill="none" stroke="url(#sc)" stroke-width="44"/>
-<rect x="420" y="650" width="132" height="70" fill="#4C7DF0"/>
-<rect x="330" y="712" width="312" height="40" rx="20" fill="#4C7DF0"/>
-<rect x="560" y="430" width="300" height="400" rx="44" fill="#0B1530" stroke="#E8F0FF" stroke-width="30"/>
-<rect x="604" y="480" width="212" height="300" rx="16" fill="url(#sc)"/>
+<!-- Pixel "RS" on an 11x7 grid of 56px cells, as in the original icon. Horizontal and
+     vertical runs overlap so small renders show no seams between cells. -->
+<rect id="background" width="1024" height="1024" fill="#0D1114"/>
+<rect x="204" y="316" width="224" height="56" fill="#ECF0F2"/>
+<rect x="596" y="316" width="224" height="56" fill="#ECF0F2"/>
+<rect x="204" y="372" width="56" height="56" fill="#ECF0F2"/>
+<rect x="428" y="372" width="56" height="56" fill="#ECF0F2"/>
+<rect x="540" y="372" width="56" height="56" fill="#ECF0F2"/>
+<rect x="204" y="428" width="56" height="56" fill="#ECF0F2"/>
+<rect x="428" y="428" width="56" height="56" fill="#ECF0F2"/>
+<rect x="540" y="428" width="56" height="56" fill="#ECF0F2"/>
+<rect x="204" y="484" width="224" height="56" fill="#ECF0F2"/>
+<rect x="596" y="484" width="168" height="56" fill="#ECF0F2"/>
+<rect x="204" y="540" width="56" height="56" fill="#ECF0F2"/>
+<rect x="316" y="540" width="56" height="56" fill="#ECF0F2"/>
+<rect x="764" y="540" width="56" height="56" fill="#ECF0F2"/>
+<rect x="204" y="596" width="56" height="56" fill="#ECF0F2"/>
+<rect x="372" y="596" width="56" height="56" fill="#ECF0F2"/>
+<rect x="764" y="596" width="56" height="56" fill="#ECF0F2"/>
+<rect x="204" y="652" width="56" height="56" fill="#ECF0F2"/>
+<rect x="428" y="652" width="56" height="56" fill="#ECF0F2"/>
+<rect x="540" y="652" width="224" height="56" fill="#ECF0F2"/>
+<rect x="204" y="316" width="56" height="392" fill="#ECF0F2"/>
+<rect x="316" y="484" width="56" height="112" fill="#ECF0F2"/>
+<rect x="428" y="372" width="56" height="112" fill="#ECF0F2"/>
+<rect x="540" y="372" width="56" height="112" fill="#ECF0F2"/>
+<rect x="764" y="540" width="56" height="112" fill="#ECF0F2"/>
 </svg>

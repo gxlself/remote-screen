@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 同 app/assets/icon/app-icon.svg 的 #bg 渐变（上 #14254A → 下 #070D1C）。 -->
+<!-- 同 app/assets/icon/app-icon.svg 的 #background 底色 #0D1114。 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <gradient
-        android:angle="270"
-        android:endColor="#070D1C"
-        android:startColor="#14254A"
-        android:type="linear" />
+    <solid android:color="#0D1114" />
 </shape>

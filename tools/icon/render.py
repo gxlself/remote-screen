@@ -321,15 +321,27 @@ def main(argv):
 
 
 def check_background(shapes):
-    """The adaptive background drawable repeats the SVG background gradient."""
+    """The adaptive background drawable repeats the SVG background fill."""
     path = RES / "drawable/ic_launcher_background.xml"
     android = "{http://schemas.android.com/apk/res/android}"
-    gradient = ET.parse(path).getroot().find("gradient")
-    stops = next(shape for shape in shapes if shape["id"] == "background")["fill"]["stops"]
+    root = ET.parse(path).getroot()
+    rel = path.relative_to(ROOT)
+    fill = next(shape for shape in shapes if shape["id"] == "background")["fill"]
+    if isinstance(fill, tuple):
+        solid = root.find("solid")
+        if solid is None or parse_color(solid.get(android + "color")) != fill:
+            print(f"FAIL {rel}: expected a solid color matching the SVG background")
+            return 1
+        print(f"ok {rel}")
+        return 0
+    gradient = root.find("gradient")
+    if gradient is None:
+        print(f"FAIL {rel}: expected a gradient matching the SVG background")
+        return 1
+    stops = fill["stops"]
     want = [stops[0][1], stops[-1][1]]
     got = [parse_color(gradient.get(android + "startColor")),
            parse_color(gradient.get(android + "endColor"))]
-    rel = path.relative_to(ROOT)
     if gradient.get(android + "angle") != "270" or got != want:
         print(f"FAIL {rel}: expected a top-to-bottom gradient matching the SVG background")
         return 1
