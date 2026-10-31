@@ -10,7 +10,7 @@ edition = "2021"
 rust-version = "1.96"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/gxlself/remote-screen"
-homepage = "https://gxlself.github.io/remote-screen-site/"
+homepage = "https://gxlself.github.io/remote-screen/"
 publish = false
 
 [workspace.dependencies]

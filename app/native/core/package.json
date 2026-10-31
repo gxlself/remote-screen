@@ -4,8 +4,8 @@
   "description": "Remote Screen generated UniFFI TurboModule",
   "main": "src/index.tsx",
   "react-native": "src/index.tsx",
-  "homepage": "https://example.com/remote-screen",
-  "repository": { "type": "git", "url": "https://example.com/remote-screen.git" },
+  "homepage": "https://gxlself.github.io/remote-screen/",
+  "repository": { "type": "git", "url": "https://github.com/gxlself/remote-screen.git" },
   "license": "MIT OR Apache-2.0",
   "author": "gxlself",
   "codegenConfig": {
