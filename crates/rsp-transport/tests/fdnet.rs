@@ -2,15 +2,18 @@
 
 use std::{
     collections::VecDeque,
-    io,
+    io::{self, IoSliceMut},
     net::{SocketAddr, UdpSocket as StdUdpSocket},
-    os::unix::io::OwnedFd,
-    sync::{Arc, Mutex},
-    task::Poll,
+    os::unix::{io::OwnedFd, net::UnixDatagram as StdUnixDatagram},
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc, Mutex,
+    },
+    task::{Context, Poll, Wake, Waker},
     time::Duration,
 };
 
-use quinn::AsyncUdpSocket;
+use quinn::{udp::RecvMeta, AsyncUdpSocket};
 use rsp_transport::{
     dial::DefaultDialer,
     dialer::Dialer,
@@ -174,6 +177,51 @@ async fn unix_dgram_pair_relay_carries_packets() {
     let mut received = [0; 32];
     let length = right.recv(&mut received).await.unwrap();
     assert_eq!(&received[..length], b"relay");
+}
+
+#[derive(Debug, Default)]
+struct Woken(AtomicBool);
+
+impl Wake for Woken {
+    fn wake(self: Arc<Self>) {
+        self.0.store(true, Ordering::SeqCst);
+    }
+}
+
+// quinn's connection task (send poller) and endpoint task (receive path) both
+// wait for writability. Under load the send poller can register first; the
+// first QUIC packet must still go out once the socket reports writable.
+#[tokio::test]
+async fn send_poller_wakes_after_receive_waits() {
+    let (left, _right) = StdUnixDatagram::pair().unwrap();
+    let peer = SocketAddr::from(([127, 0, 0, 1], 4567));
+    let socket = Arc::new(PeerUdpSocket::new(owned_fd(left), peer).unwrap());
+    let mut poller = socket.clone().create_io_poller();
+    let (send, recv) = (Arc::new(Woken::default()), Arc::new(Woken::default()));
+    // This runtime has not polled its driver since registration, so neither
+    // side has seen the socket's initial writability yet.
+    let waker = Waker::from(send.clone());
+    assert!(poller
+        .as_mut()
+        .poll_writable(&mut Context::from_waker(&waker))
+        .is_pending());
+    let mut buffer = [0; 64];
+    let waker = Waker::from(recv.clone());
+    assert!(socket
+        .poll_recv(
+            &mut Context::from_waker(&waker),
+            &mut [IoSliceMut::new(&mut buffer)],
+            &mut [RecvMeta::default()],
+        )
+        .is_pending());
+    timeout(Duration::from_secs(5), async {
+        while !send.0.load(Ordering::SeqCst) {
+            tokio::time::sleep(Duration::from_millis(1)).await;
+        }
+    })
+    .await
+    .expect("send poller was not woken when the socket became writable");
+    assert!(recv.0.load(Ordering::SeqCst));
 }
 
 #[tokio::test]

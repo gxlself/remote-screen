@@ -213,7 +213,7 @@ async fn quic_over_tailnet() {
     let (client, server) = quic_pair(&dialer, &listener, peer).await;
     let connect = began.elapsed();
     let (tx, rx) = controls(&client, &server).await;
-    bounded(async {
+    bounded("control round trips", async {
         for sequence in 0..3 {
             let message = format!("control-{sequence}");
             tx.send(message.as_bytes()).await.unwrap();
@@ -227,7 +227,7 @@ async fn quic_over_tailnet() {
         }
     })
     .await;
-    let (to_server, to_client) = bounded(async {
+    let (to_server, to_client) = bounded("datagram exchange", async {
         tokio::join!(
             datagrams(&client, &server, 0x5a),
             datagrams(&server, &client, 0xa5)
@@ -260,7 +260,7 @@ async fn quic_over_tailnet() {
         }
         got
     };
-    let ((), got) = bounded(async { tokio::join!(send, receive) }).await;
+    let ((), got) = bounded("1 MiB uni stream", async { tokio::join!(send, receive) }).await;
     let transfer = began.elapsed();
     assert_eq!(got, payload);
     eprintln!("QUIC_METRICS connect_ms={:.2} mib=1 transfer_ms={:.2} mib_per_s={:.2} datagrams={to_server}/{to_client}", connect.as_secs_f64() * 1000.0, transfer.as_secs_f64() * 1000.0, 1.0 / transfer.as_secs_f64());
@@ -299,13 +299,17 @@ async fn tcp_fallback_and_input_over_tailnet() {
     client.set_session_token(token.clone()).unwrap();
     listener.register_token(token.clone(), &server).unwrap();
     let attach = async { listener.accept().await.unwrap().accept().await.unwrap() };
-    let (accepted, stream) =
-        bounded(async { tokio::join!(attach, client.open_uni(StreamKind::Input)) }).await;
+    let (accepted, stream) = bounded("input stream attach", async {
+        tokio::join!(attach, client.open_uni(StreamKind::Input))
+    })
+    .await;
     assert!(accepted.is_none());
     let mut stream = stream.unwrap();
-    let (kind, mut input) = bounded(server.accept_uni()).await.unwrap();
+    let (kind, mut input) = bounded("accept input stream", server.accept_uni())
+        .await
+        .unwrap();
     assert_eq!(kind, StreamKind::Input);
-    bounded(async {
+    bounded("input record and control echo", async {
         stream.send_record(b"tailnet-input").await.unwrap();
         stream.finish().await.unwrap();
         assert_eq!(
@@ -336,12 +340,15 @@ async fn dial_tcp_host_magicdns() {
         "rs-peer",
         fixture.testnet.peer_dns_name.trim_end_matches('.'),
     ] {
-        let mut stream = bounded(net.dial_tcp_host(hostname, fixture.testnet.tcp_echo))
-            .await
-            .unwrap();
+        let mut stream = bounded(
+            "MagicDNS TCP dial",
+            net.dial_tcp_host(hostname, fixture.testnet.tcp_echo),
+        )
+        .await
+        .unwrap();
         let payload: Vec<_> = (0..65536).map(|i| (i % 251) as u8).collect();
         let mut received = vec![0u8; payload.len()];
-        bounded(async {
+        bounded("TCP echo", async {
             stream.write_all(&payload).await.unwrap();
             stream.read_exact(&mut received).await.unwrap();
         })

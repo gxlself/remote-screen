@@ -11,9 +11,16 @@ use rsp_transport::{
 use std::{
     future::Future,
     net::{Ipv4Addr, SocketAddr},
-    sync::{Arc, Mutex},
+    panic::Location,
+    path::Path,
+    sync::{mpsc, Arc, Mutex},
+    thread,
     time::Duration,
 };
+
+/// Budget for one fixture step. Each step normally takes well under a second;
+/// a stall must fail naming the step instead of reaching nextest's timeout.
+pub const STEP: Duration = Duration::from_secs(20);
 
 pub fn local() -> SocketAddr {
     SocketAddr::from(([127, 0, 0, 1], 0))
@@ -26,10 +33,31 @@ pub fn identities() -> (LocalIdentity, LocalIdentity) {
     )
 }
 
-pub async fn bounded<T>(future: impl Future<Output = T>) -> T {
-    tokio::time::timeout(Duration::from_secs(30), future)
+pub async fn bounded<T>(step: &str, future: impl Future<Output = T>) -> T {
+    tokio::time::timeout(STEP, future)
         .await
-        .expect("tailnet operation timed out")
+        .unwrap_or_else(|_| panic!("{step}: no result within {STEP:?}"))
+}
+
+/// Runs a blocking node call on a detached thread. With spawn_blocking a hung
+/// call would still hang the test: runtime shutdown waits for blocking tasks.
+pub async fn blocking<T: Send + 'static>(
+    step: &str,
+    limit: Duration,
+    call: impl FnOnce() -> T + Send + 'static,
+) -> T {
+    let (tx, rx) = tokio::sync::oneshot::channel();
+    thread::Builder::new()
+        .name("rs-tailnet-test-call".into())
+        .spawn(move || {
+            let _ = tx.send(call());
+        })
+        .unwrap();
+    match tokio::time::timeout(limit, rx).await {
+        Ok(Ok(value)) => value,
+        Ok(Err(_)) => panic!("{step}: call panicked"),
+        Err(_) => panic!("{step}: call still blocked after {limit:?}"),
+    }
 }
 
 pub struct Fixture {
@@ -45,67 +73,103 @@ impl Fixture {
     pub async fn new(paths: TestPaths, options: TestNetOptions) -> Self {
         static SERIAL: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
         let serial = SERIAL.lock().await;
-        tokio::task::spawn_blocking(move || {
+        let require_auth = options.require_auth;
+        // TestNet::spawn bounds the helper's announcement at 30 s and then
+        // reports its output tails; leave it room to do so.
+        let (testnet, node) = blocking("spawn testnet", STEP * 2, move || {
             let testnet = Arc::new(TestNet::spawn(&paths, &options).unwrap());
             let node = Tailnet::global(rs_tailnet::load(&paths.lib).unwrap());
-            let cfg = TailnetConfig {
-                dir: temp_dir("node"),
-                log_file: Some(temp_dir("log").join("tailnet.log")),
-                hostname: "rs-app".into(),
-                control_url: testnet.control_url.clone(),
-                auth_key: if options.require_auth {
-                    None
-                } else {
-                    Some(testnet.auth_key.clone())
-                },
-                disable_netns: true,
-                ..Default::default()
-            };
-            Self {
-                node,
-                testnet,
-                cfg,
-                events: Arc::new(Mutex::new(Vec::new())),
-                _serial: serial,
-            }
+            (testnet, node)
         })
-        .await
-        .unwrap()
+        .await;
+        let cfg = TailnetConfig {
+            dir: temp_dir("node"),
+            log_file: Some(temp_dir("log").join("tailnet.log")),
+            hostname: "rs-app".into(),
+            control_url: testnet.control_url.clone(),
+            auth_key: if require_auth {
+                None
+            } else {
+                Some(testnet.auth_key.clone())
+            },
+            disable_netns: true,
+            ..Default::default()
+        };
+        Self {
+            node,
+            testnet,
+            cfg,
+            events: Arc::new(Mutex::new(Vec::new())),
+            _serial: serial,
+        }
     }
 
-    pub async fn start(&self) {
+    // The lifecycle wrappers are plain functions returning futures so that
+    // #[track_caller] can name the test line in a timeout message.
+    #[track_caller]
+    pub fn start(&self) -> impl Future<Output = ()> + 'static {
+        let at = Location::caller();
         let (node, cfg, events) = (self.node.clone(), self.cfg.clone(), self.events.clone());
-        tokio::task::spawn_blocking(move || {
-            node.start(
-                &cfg,
-                Arc::new(move |event| {
-                    events.lock().unwrap().push(event);
-                }),
+        async move {
+            let callback = Arc::new(move |event: TailnetEvent| events.lock().unwrap().push(event));
+            blocking(&format!("start node at {at}"), STEP, move || {
+                node.start(&cfg, callback)
+            })
+            .await
+            .unwrap_or_else(|error| panic!("start node at {at}: {error}"));
+        }
+    }
+
+    #[track_caller]
+    pub fn stop(&self) -> impl Future<Output = ()> + 'static {
+        let at = Location::caller();
+        let node = self.node.clone();
+        async move {
+            blocking(&format!("stop node at {at}"), STEP, move || node.stop())
+                .await
+                .unwrap_or_else(|error| panic!("stop node at {at}: {error}"));
+        }
+    }
+
+    #[track_caller]
+    pub fn status(&self) -> impl Future<Output = TailnetStatus> + 'static {
+        let at = Location::caller();
+        let node = self.node.clone();
+        async move {
+            blocking(&format!("node status at {at}"), STEP, move || node.status())
+                .await
+                .unwrap_or_else(|error| panic!("node status at {at}: {error}"))
+        }
+    }
+
+    #[track_caller]
+    pub fn event<'a>(
+        &'a self,
+        seconds: u64,
+        predicate: impl Fn(&TailnetEvent) -> bool + 'a,
+    ) -> impl Future<Output = TailnetEvent> + 'a {
+        self.wait_event(Location::caller(), seconds, predicate)
+    }
+
+    #[track_caller]
+    pub fn running(&self) -> impl Future<Output = ()> + '_ {
+        let wait = self.wait_event(Location::caller(), 30, |event| {
+            matches!(
+                event,
+                TailnetEvent::State {
+                    state: BackendState::Running,
+                    ..
+                }
             )
-        })
-        .await
-        .unwrap()
-        .unwrap();
+        });
+        async move {
+            wait.await;
+        }
     }
 
-    pub async fn stop(&self) {
-        let node = self.node.clone();
-        tokio::task::spawn_blocking(move || node.stop())
-            .await
-            .unwrap()
-            .unwrap();
-    }
-
-    pub async fn status(&self) -> TailnetStatus {
-        let node = self.node.clone();
-        tokio::task::spawn_blocking(move || node.status())
-            .await
-            .unwrap()
-            .unwrap()
-    }
-
-    pub async fn event(
+    async fn wait_event(
         &self,
+        at: &Location<'_>,
         seconds: u64,
         predicate: impl Fn(&TailnetEvent) -> bool,
     ) -> TailnetEvent {
@@ -133,47 +197,64 @@ impl Fixture {
             let auth_urls = events.iter().filter(|event| matches!(event, TailnetEvent::AuthUrl { .. })).count();
             let errors = events.iter().filter(|event| matches!(event, TailnetEvent::Error { .. })).count();
             drop(events);
-            panic!("expected tailnet event did not arrive: states={states:?}, auth_url_count={auth_urls}, error_count={errors}")
+            panic!("tailnet event awaited at {at} did not arrive within {seconds} s: states={states:?}, auth_url_count={auth_urls}, error_count={errors}")
         })
     }
 
-    pub async fn running(&self) {
-        self.event(30, |event| {
-            matches!(
-                event,
-                TailnetEvent::State {
-                    state: BackendState::Running,
-                    ..
-                }
-            )
-        })
-        .await;
-    }
-
-    pub async fn complete(&self, url: String) {
+    #[track_caller]
+    pub fn complete(&self, url: String) -> impl Future<Output = ()> + 'static {
+        let at = Location::caller();
         let testnet = self.testnet.clone();
-        tokio::task::spawn_blocking(move || testnet.complete(&url))
+        async move {
+            blocking(&format!("complete login at {at}"), STEP, move || {
+                testnet.complete(&url)
+            })
             .await
-            .unwrap()
-            .unwrap();
+            .unwrap_or_else(|error| panic!("complete login at {at}: {error}"));
+        }
     }
 
-    pub async fn finish(self) {
-        self.stop().await;
-        tokio::task::spawn_blocking(move || drop(self))
-            .await
-            .unwrap();
+    #[track_caller]
+    pub fn finish(self) -> impl Future<Output = ()> + 'static {
+        let at = Location::caller();
+        let stop = self.stop();
+        async move {
+            stop.await;
+            // Drop bounds its own stop at STEP; TestNet then waits up to 5 s
+            // for the helper to exit before killing it.
+            blocking(&format!("drop fixture at {at}"), STEP * 2, move || {
+                drop(self)
+            })
+            .await;
+        }
     }
 }
 
 impl Drop for Fixture {
     fn drop(&mut self) {
-        // Explicit finish runs this on a blocking worker. This also cleans up if
-        // any assertion unwinds before finish, while TestNet subsequently reaps Go.
-        let _ = self.node.stop();
-        let _ = std::fs::remove_dir_all(&self.cfg.dir);
-        if let Some(parent) = self.cfg.log_file.as_ref().and_then(|path| path.parent()) {
-            let _ = std::fs::remove_dir_all(parent);
+        // Explicit finish runs this on its own thread. This also cleans up if
+        // any assertion unwinds before finish, while TestNet subsequently reaps
+        // Go. A hung stop is left behind so the failure still gets reported.
+        let node = self.node.clone();
+        let mut dirs = vec![self.cfg.dir.clone()];
+        dirs.extend(
+            self.cfg
+                .log_file
+                .as_ref()
+                .and_then(|path| path.parent())
+                .map(Path::to_path_buf),
+        );
+        let (done, cleaned) = mpsc::channel();
+        let cleanup = thread::Builder::new().name("rs-tailnet-test-cleanup".into());
+        let _ = cleanup.spawn(move || {
+            let _ = node.stop();
+            for dir in dirs {
+                let _ = std::fs::remove_dir_all(dir);
+            }
+            let _ = done.send(());
+        });
+        if cleaned.recv_timeout(STEP).is_err() {
+            eprintln!("fixture cleanup: tailnet stop still blocked after {STEP:?}");
         }
     }
 }
@@ -200,13 +281,15 @@ pub async fn quic_pair(
     peer: SocketAddr,
 ) -> (Conn, Conn) {
     let accept = async { listener.accept().await.unwrap().accept().await.unwrap() };
-    let (client, server) =
-        bounded(async { tokio::join!(dialer.dial(peer, TransportKind::Quic), accept) }).await;
+    let (client, server) = bounded("QUIC dial and accept", async {
+        tokio::join!(dialer.dial(peer, TransportKind::Quic), accept)
+    })
+    .await;
     (client.unwrap(), server)
 }
 
 pub async fn controls(client: &Conn, server: &Conn) -> (ControlStream, ControlStream) {
-    bounded(async {
+    bounded("control stream bootstrap", async {
         let tx = client.open_control().await.unwrap();
         tx.send(b"bootstrap").await.unwrap();
         let rx = server.accept_control().await.unwrap();
@@ -236,7 +319,7 @@ pub async fn tcp_pair(
             .unwrap()
             .unwrap()
     };
-    bounded(async {
+    bounded("TCP dial, accept and bootstrap", async {
         let ((client, tx), server) = tokio::join!(connect, accept);
         let rx = server.accept_control().await.unwrap();
         assert_eq!(rx.recv().await.unwrap().unwrap(), b"bootstrap"[..]);

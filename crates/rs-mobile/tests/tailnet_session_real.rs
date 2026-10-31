@@ -267,7 +267,10 @@ async fn finish(fixture: &RunningCore) {
     for entry in fixture.core.state::<SessionTable>().list() {
         sessions::close(&fixture.core, entry.id);
     }
-    until(LIMIT, || fixture.core.state::<SessionTable>().is_empty()).await;
+    until("all sessions closed", LIMIT, || {
+        fixture.core.state::<SessionTable>().is_empty()
+    })
+    .await;
     assert!(fixture.core.events().flush(Duration::from_secs(2)));
     let node = rs_tailnet::Tailnet::global(rs_tailnet::load_default().unwrap());
     fixture.core.shutdown();
@@ -313,14 +316,14 @@ fn opts(intent: OpenIntent) -> OpenOpts {
     }
 }
 
-async fn until(limit: Duration, predicate: impl Fn() -> bool) {
+async fn until(step: &str, limit: Duration, predicate: impl Fn() -> bool) {
     timeout(limit, async {
         while !predicate() {
             sleep(Duration::from_millis(5)).await;
         }
     })
     .await
-    .expect("condition before deadline");
+    .unwrap_or_else(|_| panic!("{step}: not reached within {limit:?}"));
 }
 
 #[derive(Default)]
@@ -459,11 +462,23 @@ async fn open_streaming(
         "session did not stream within 15 s: {:?}",
         fixture.events.of_type("session.error")
     );
-    until(LIMIT, || {
-        recorder.ready() && entry.summary().transport == Some(Transport::Quic)
+    let video = timeout(LIMIT, async {
+        while !(recorder.ready() && entry.summary().transport == Some(Transport::Quic)) {
+            sleep(Duration::from_millis(5)).await;
+        }
     })
     .await;
-    assert_eq!(entry.summary().transport, Some(Transport::Quic));
+    // Copy the state out first: a guard held while panicking would poison the
+    // recorder's lock for the session thread.
+    let transport = entry.summary().transport;
+    let frames = recorder.frames.lock().unwrap().len();
+    let embedded = fixture.embedded.lock().unwrap().clone();
+    let system = fixture.system.lock().unwrap().clone();
+    assert!(
+        video.is_ok(),
+        "session to {host_id}: no QUIC video within {LIMIT:?}: transport={transport:?}, \
+         frames={frames}, embedded dials={embedded:?}, system dials={system:?}"
+    );
     (entry, recorder)
 }
 
@@ -480,7 +495,10 @@ fn assert_embedded_session(fixture: &SessionFixture) {
 
 async fn close_session(core: &Arc<Core>, id: u64) {
     sessions::close(core, id);
-    until(LIMIT, || core.state::<SessionTable>().get(id).is_none()).await;
+    until("session closed", LIMIT, || {
+        core.state::<SessionTable>().get(id).is_none()
+    })
+    .await;
 }
 
 fn median(values: &[u64]) -> u64 {
@@ -512,7 +530,10 @@ async fn session_over_embedded_tailnet() {
     sessions::combo(&fixture.running.core, entry.id, "cmdTab").unwrap();
     let text = "\u{4f60}\u{597d}";
     sessions::text(&fixture.running.core, entry.id, text).unwrap();
-    until(LIMIT, || fixture.platform_a.injected_msgs().len() >= 7).await;
+    until("seven input messages injected", LIMIT, || {
+        fixture.platform_a.injected_msgs().len() >= 7
+    })
+    .await;
     assert_eq!(
         fixture.platform_a.injected_msgs(),
         [

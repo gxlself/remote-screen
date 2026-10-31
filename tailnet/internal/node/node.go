@@ -121,6 +121,14 @@ func (n *Node) Stop() error {
 	for _, c := range tracked {
 		c.Close()
 	}
+	// tsnet v1.94.2 holds Server.mu for all of Close, which waits for the
+	// WireGuard receive goroutines. A peer still sending to a relay closed
+	// above makes such a goroutine look up a UDP listener, which takes
+	// Server.mu: Close never returns. Close the engine first, without that
+	// lock; the engine's Close is idempotent, so tsnet's own call is a no-op.
+	if engine, ok := srv.Sys().Engine.GetOK(); ok {
+		engine.Close()
+	}
 	err := srv.Close()
 	<-done
 	log.Close()

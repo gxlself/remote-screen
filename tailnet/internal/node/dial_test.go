@@ -34,11 +34,7 @@ func dialFixture(t *testing.T, idle int) (*Node, *testnet.Peer, int) {
 	if err := n.Start(cfg); err != nil {
 		t.Fatal(err)
 	}
-	t.Cleanup(func() {
-		if err := n.Stop(); err != nil {
-			t.Error(err)
-		}
-	})
+	t.Cleanup(func() { stopWithin(t, n, 20*time.Second) })
 	awaitRunning(t, ctx, n)
 	awaitStatus(t, ctx, n, 5*time.Second, func(s Status) bool { return len(s.Peers) == 1 })
 	// TSMP, unlike disco, needs the WireGuard handshake, so UDP sent after it
@@ -54,6 +50,23 @@ func dialFixture(t *testing.T, idle int) (*Node, *testnet.Peer, int) {
 		time.Sleep(20 * time.Millisecond)
 	}
 	return n, p, baseline
+}
+
+// stopWithin reports a Stop that does not return instead of hanging the test
+// binary. A stuck Stop keeps the node's lifecycle lock, so the goroutine leaks.
+func stopWithin(t *testing.T, n *Node, limit time.Duration) {
+	t.Helper()
+	done := make(chan error, 1)
+	go func() { done <- n.Stop() }()
+	select {
+	case err := <-done:
+		if err != nil {
+			t.Error(err)
+		}
+	case <-time.After(limit):
+		buf := make([]byte, 1<<20)
+		t.Errorf("Stop still blocked after %v; goroutines:\n%s", limit, buf[:runtime.Stack(buf, true)])
+	}
 }
 
 // Inspect the exported descriptor before FileConn makes its own nonblocking copy.
@@ -216,6 +229,41 @@ func TestStopSignalsFds(t *testing.T) {
 		}
 	}
 	awaitReclaimed(t, n, time.Second)
+}
+
+// tsnet holds Server.mu for all of Close while WireGuard drains its receive
+// goroutines, and a packet for an unbound UDP port takes Server.mu there.
+func TestStopWhilePeerSendsUDP(t *testing.T) {
+	n, p, _ := dialFixture(t, 0)
+	ctx := testContext(t)
+	var self string
+	for _, ip := range readStatus(t, ctx, n).Self.IPs {
+		if net.ParseIP(ip).To4() != nil {
+			self = ip
+		}
+	}
+	conn, err := p.Srv.Dial(ctx, "udp", net.JoinHostPort(self, "9"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer conn.Close()
+	quit, sent := make(chan struct{}), make(chan struct{})
+	go func() {
+		defer close(sent)
+		tick := time.NewTicker(time.Millisecond)
+		defer tick.Stop()
+		for {
+			select {
+			case <-quit:
+				return
+			case <-tick.C:
+				conn.Write([]byte("x"))
+			}
+		}
+	}()
+	defer func() { close(quit); <-sent }()
+	time.Sleep(100 * time.Millisecond)
+	stopWithin(t, n, 15*time.Second)
 }
 
 func TestUDPCallerCloseReclaimed(t *testing.T) {

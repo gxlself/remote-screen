@@ -16,7 +16,7 @@ use std::{
         atomic::{AtomicBool, Ordering},
         Arc, Mutex,
     },
-    task::{Context, Poll},
+    task::{Context, Poll, Wake, Waker},
     time::{Duration, Instant},
 };
 
@@ -118,9 +118,35 @@ fn lock_unpoisoned<T>(mutex: &Mutex<T>) -> std::sync::MutexGuard<'_, T> {
         .unwrap_or_else(|poisoned| poisoned.into_inner())
 }
 
+// Which waiter of `WriteWakers` a write-readiness poll belongs to.
+const SEND_WAITER: usize = 0;
+const RECV_WAITER: usize = 1;
+
+/// Tokio wakes only the most recent `poll_write_ready` caller, but two quinn
+/// tasks wait for writability on one socket: the connection's send poller and
+/// the endpoint's receive path, which watches for asynchronous errors. Tokio
+/// holds this one waker, and it wakes both, so neither replaces the other.
+#[derive(Debug, Default)]
+struct WriteWakers(Mutex<[Option<Waker>; 2]>);
+
+impl Wake for WriteWakers {
+    fn wake(self: Arc<Self>) {
+        self.wake_by_ref();
+    }
+
+    fn wake_by_ref(self: &Arc<Self>) {
+        let wakers = std::mem::take(&mut *lock_unpoisoned(&self.0));
+        for waker in wakers.into_iter().flatten() {
+            waker.wake();
+        }
+    }
+}
+
 #[derive(Debug)]
 pub struct PeerUdpSocket {
     io: AsyncFd<Socket>,
+    write_wakers: Arc<WriteWakers>,
+    write_waker: Waker,
     peer: SocketAddr,
     local: SocketAddr,
     family: AddressFamily,
@@ -165,8 +191,11 @@ impl PeerUdpSocket {
         // SAFETY: `socket` owns a valid descriptor and remains owned by the
         // `AsyncFd` for its entire lifetime; no code closes or replaces it.
         let io = unsafe { AsyncFd::register(socket)? };
+        let write_wakers = Arc::new(WriteWakers::default());
         Ok(Self {
             io,
+            write_waker: Waker::from(write_wakers.clone()),
+            write_wakers,
             peer,
             local,
             family,
@@ -179,6 +208,20 @@ impl PeerUdpSocket {
             initial_send_probe: AtomicBool::new(true),
             pending_recv_error: Mutex::new(None),
         })
+    }
+
+    fn poll_write_ready(&self, cx: &mut Context<'_>, waiter: usize) -> Poll<io::Result<()>> {
+        // Register before polling: a readiness event in between then wakes
+        // this waiter too, spuriously at worst.
+        lock_unpoisoned(&self.write_wakers.0)[waiter] = Some(cx.waker().clone());
+        let ready = self
+            .io
+            .poll_write_ready(&mut Context::from_waker(&self.write_waker))
+            .map_ok(drop);
+        if ready.is_ready() {
+            lock_unpoisoned(&self.write_wakers.0)[waiter] = None;
+        }
+        ready
     }
 
     fn log_send_error(&self, error: &io::Error) {
@@ -339,7 +382,7 @@ impl AsyncUdpSocket for PeerUdpSocket {
             // On Linux an asynchronous ICMP error wakes the writable side of
             // epoll. Consume that readiness and inspect SO_ERROR before
             // waiting for readable data.
-            if let Poll::Ready(Ok(_guard)) = self.io.poll_write_ready(cx) {
+            if let Poll::Ready(Ok(())) = self.poll_write_ready(cx, RECV_WAITER) {
                 let error = self.io.get_ref().take_error();
                 // Keep writable readiness set when SO_ERROR is clear. The
                 // QUIC send poller may be waiting on the same event.
@@ -445,11 +488,7 @@ struct PeerUdpPoller {
 
 impl UdpPoller for PeerUdpPoller {
     fn poll_writable(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<io::Result<()>> {
-        match self.socket.io.poll_write_ready(cx) {
-            Poll::Pending => Poll::Pending,
-            Poll::Ready(Ok(_)) => Poll::Ready(Ok(())),
-            Poll::Ready(Err(error)) => Poll::Ready(Err(error)),
-        }
+        self.socket.poll_write_ready(cx, SEND_WAITER)
     }
 }
 
