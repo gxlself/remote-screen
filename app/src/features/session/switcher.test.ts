@@ -188,12 +188,13 @@ describe('shortcutTarget', () => {
     ).toBeNull();
   });
 
-  it('does nothing alone or for the switcher shortcut', () => {
+  it('does nothing alone or for the switcher and toolbar shortcuts', () => {
     const alone = [screenOf('2', 200)];
     expect(shortcutTarget(alone, '2', { action: 'next' })).toBeNull();
     expect(shortcutTarget(alone, '2', { action: 'previous' })).toBeNull();
     expect(shortcutTarget([], null, { action: 'next' })).toBeNull();
     expect(shortcutTarget(screens, '1', { action: 'switcher' })).toBeNull();
+    expect(shortcutTarget(screens, '1', { action: 'toolbar' })).toBeNull();
   });
 
   it('starts from the ends while the page has no session yet', () => {

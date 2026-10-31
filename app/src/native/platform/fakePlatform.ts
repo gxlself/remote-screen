@@ -35,7 +35,25 @@ export class FakePlatform implements PlatformServices {
   };
   openUrlResult = true;
   info: FakeDeviceInfo = { ...DEFAULT_INFO };
-  clipboardText: string | null = null;
+  /** Like UIPasteboard.changeCount, bumped by every change; null models Android. */
+  clipboardCount: number | null = 0;
+  private text: string | null = null;
+
+  get clipboardText(): string | null {
+    return this.text;
+  }
+
+  /** A copy made in another app. */
+  set clipboardText(value: string | null) {
+    this.text = value;
+    this.bumpClipboard();
+  }
+
+  private bumpClipboard(): void {
+    if (this.clipboardCount !== null) {
+      this.clipboardCount += 1;
+    }
+  }
 
   private record(method: string, ...args: unknown[]): void {
     this.calls.push({ method, args });
@@ -54,11 +72,16 @@ export class FakePlatform implements PlatformServices {
   async copyText(text: string): Promise<void> {
     this.record('copyText', text);
     this.copied.push(text);
+    this.bumpClipboard();
   }
 
   async readText(): Promise<string | null> {
     this.record('readText');
     return this.clipboardText;
+  }
+
+  clipboardChangeCount(): number | null {
+    return this.clipboardCount;
   }
 
   async openUrl(url: string): Promise<boolean> {

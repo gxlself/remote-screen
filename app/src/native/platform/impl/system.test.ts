@@ -1,5 +1,6 @@
 import {
   appVersion,
+  clipboardChangeCount,
   copyText,
   haptic,
   maxFps,
@@ -27,6 +28,7 @@ let mockNativeModule: {
   getConstants: typeof mockGetConstants;
   copyText: typeof mockCopyText;
   hasText: jest.Mock<boolean, []>;
+  clipboardChangeCount: jest.Mock<number, []>;
   readText: typeof mockReadText;
   haptic: typeof mockHaptic;
   notificationStatus: typeof mockNotificationStatus;
@@ -53,6 +55,7 @@ beforeEach(() => {
     getConstants: mockGetConstants,
     copyText: mockCopyText,
     hasText: jest.fn(),
+    clipboardChangeCount: jest.fn(() => 7),
     readText: mockReadText,
     haptic: mockHaptic,
     notificationStatus: mockNotificationStatus,
@@ -67,6 +70,12 @@ it('forwards clipboard values, including null', async () => {
   await expect(readText()).resolves.toBe('hello');
   await copyText('hello');
   expect(mockCopyText).toHaveBeenCalledWith('hello');
+});
+
+it('reports the clipboard change count, null when the platform has none', () => {
+  expect(clipboardChangeCount()).toBe(7);
+  mockNativeModule?.clipboardChangeCount.mockReturnValue(-1);
+  expect(clipboardChangeCount()).toBeNull();
 });
 
 it('uses the 30 second local network timeout and normalizes results', async () => {
@@ -94,6 +103,7 @@ it('uses the P0 placeholders when the native module is missing', async () => {
   mockNativeModule = null;
   await expect(copyText('hello')).resolves.toBeUndefined();
   await expect(readText()).resolves.toBeNull();
+  expect(clipboardChangeCount()).toBeNull();
   expect(haptic('light')).toBeUndefined();
   await expect(requestNotifications()).resolves.toBe('denied');
   await expect(requestLocalNetwork()).resolves.toBe('unknown');

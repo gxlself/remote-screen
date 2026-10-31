@@ -75,6 +75,8 @@ pub trait DriverHost: Send + Sync {
     fn streaming(&self, width: u32, height: u32, server_name: &str);
     /// Remote clipboard text (UTF-8).
     fn clipboard(&self, text: &str);
+    /// The remote clipboard now holds something other than text → adapter.clipboardOther.
+    fn clipboard_other(&self) {}
     /// RDP certificate: SHA-256 of the leaf certificate DER as 64 lowercase hex
     /// chars. true = continue.
     async fn confirm_cert(&self, fp_hex: &str) -> bool;

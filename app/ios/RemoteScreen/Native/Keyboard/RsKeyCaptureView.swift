@@ -268,6 +268,14 @@ final class RsKeyCaptureView: UIView, UITextViewDelegate, UIGestureRecognizerDel
             othersEditing: !othersEditing.isEmpty)
         automaticallyCapturingHardware = shouldCapture && !wantsFirstResponder
         changingResponder = true
+        if textView.hardwareOnly != automaticallyCapturingHardware {
+            // UIKit decides on keyboard UI when the view becomes first responder.
+            if textView.isFirstResponder {
+                textView.releasePressedKeys()
+                textView.resignFirstResponder()
+            }
+            textView.hardwareOnly = automaticallyCapturingHardware
+        }
         if shouldCapture {
             if !textView.isFirstResponder { textView.becomeFirstResponder() }
         } else if textView.isFirstResponder {

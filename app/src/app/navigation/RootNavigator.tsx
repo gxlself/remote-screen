@@ -35,8 +35,8 @@ import type { RootStackParamList } from './routes';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 // Live sessions hide the home indicator and the Android navigation bar, so a
-// swipe up from the bottom edge first only reveals them (iOS defers the edge
-// gesture in RsRootViewController).
+// swipe up from the bottom edge first only reveals them. On iOS the same flag
+// also defers the top edge (ScreenEdgeDeferral in RsRootViewController.swift).
 const immersive = {
   autoHideHomeIndicator: true,
   navigationBarHidden: true,

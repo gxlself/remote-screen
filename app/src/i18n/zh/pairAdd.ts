@@ -10,7 +10,7 @@ export const pairAdd = {
     recognize: '识别',
     invalid: '这不是 Remote Screen 的配对码',
     cameraDenied: '没有相机权限',
-    cameraDeniedHint: '请在系统设置中允许远屏使用相机。',
+    cameraDeniedHint: '请在系统设置中允许 Remote Screen 使用相机。',
     openSettings: '去设置',
     cameraUnavailable: '这台手机没有可用的相机，改用配对码吧',
     useCode: '输入配对码',

@@ -24,6 +24,8 @@ export interface PlatformServices {
   copyText(text: string): Promise<void>;
   /** 07 未列，P12 实现；读手机剪贴板可能触发 iOS 粘贴授权。 */
   readText(): Promise<string | null>;
+  /** 手机剪贴板变了几次（iOS changeCount，不读内容、不触发授权）；拿不到时 null（Android）。 */
+  clipboardChangeCount(): number | null;
   /** 打开外部 App / 商店链接，返回是否成功。 */
   openUrl(url: string): Promise<boolean>;
   canOpenUrl(url: string): Promise<boolean>;

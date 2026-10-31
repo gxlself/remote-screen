@@ -5,6 +5,7 @@ import { authenticate } from './impl/auth';
 import { biometryType, canAuthenticate } from '../localAuth/localAuth';
 import {
   appVersion,
+  clipboardChangeCount,
   copyText,
   haptic,
   readText,
@@ -46,6 +47,7 @@ export function createRnPlatform(): PlatformServices {
     authCapability,
     copyText,
     readText,
+    clipboardChangeCount,
     async openUrl(url) {
       try {
         await Linking.openURL(url);

@@ -4,7 +4,6 @@ import UIKit
 final class LockedMouseInput {
     // Verify both signs with Magic Keyboard and a Bluetooth mouse on device.
     private static let movementYSign: CGFloat = -1
-    private static let scrollYSign: CGFloat = -1
     private static let logInterval: TimeInterval = 1
 
     private weak var coordinator: PointerLockCoordinator?
@@ -39,10 +38,12 @@ final class LockedMouseInput {
         return coordinator?.activeSurface
     }
 
-    private func bindCurrent() {
+    func bindCurrent() {
         precondition(Thread.isMainThread)
-        let current = GCMouse.current
+        // `current` can lag behind a reconnect; any attached mouse will do.
+        let current = GCMouse.current ?? GCMouse.mice().first
         guard current !== mouse else { return }
+        RsLog.marker("POINTER", ["gcBind": current != nil, "mice": GCMouse.mice().count])
         coordinator?.activeSurface?.cancelPointerInput()
         let wasSuppressing = suppressPrimary
         unbind()
@@ -62,14 +63,19 @@ final class LockedMouseInput {
             if let button = PointerButtons.auxiliary(index: index) { bind(auxiliary, button: button) }
         }
         input.scroll.valueChangedHandler = { [weak self, weak current] _, x, y in
-            guard let self, let current, self.mouse === current, let surface = self.surface else { return }
+            guard let self, let current, self.mouse === current else { return }
             let now = CACurrentMediaTime()
-            let deltaY = CGFloat(y) * Self.scrollYSign
-            surface.pointerLockedScroll(x: CGFloat(x), y: deltaY, now: now)
+            let surface = self.surface
             if self.lastScrollLog.map({ now - $0 >= Self.logInterval }) ?? true {
                 self.lastScrollLog = now
-                RsLog.marker("POINTER", ["scroll": ["x": Double(x), "y": Double(deltaY)]])
+                let scene = self.coordinator?.activeSurface?.window?.windowScene
+                RsLog.marker("POINTER", ["gcScroll": [Double(x), Double(y)], "locked": surface != nil,
+                                         "sysLocked": scene?.pointerLockState?.isLocked == true])
             }
+            // Magic Keyboard on iPadOS 26: GameController puts the trackpad's
+            // up/down scroll on x, positive as the fingers move down, and
+            // left/right on y. The surface takes UIKit's translation axes.
+            surface?.pointerLockedScroll(x: CGFloat(y), y: CGFloat(x), now: now)
         }
     }
 

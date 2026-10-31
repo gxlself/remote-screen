@@ -71,6 +71,9 @@ class RsSystemModule(
     }
   }
 
+  // ClipboardManager keeps no change count.
+  override fun clipboardChangeCount(): Double = -1.0
+
   override fun readText(promise: Promise) {
     try {
       val clipboard = reactApplicationContext.getSystemService(ClipboardManager::class.java)

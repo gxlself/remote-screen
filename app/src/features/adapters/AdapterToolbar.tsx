@@ -58,6 +58,8 @@ export type AdapterToolbarProps = {
   };
   /** 收成边上的小把手。 */
   collapsed: boolean;
+  /** 收起后连把手也不留；三指轻点或 ⌃⌥⌘T 再呼出。读屏打开时别传。 */
+  hideHandle?: boolean;
   /** 贴在哪条边；按设备记住（toolbarDock.ts）。 */
   dock: ToolbarDock;
   onCollapsedChange(collapsed: boolean): void;
@@ -123,7 +125,7 @@ function dockFromAction(event: AccessibilityActionEvent): ToolbarDock | null {
   );
 }
 
-export function AdapterToolbar(p: AdapterToolbarProps): JSX.Element {
+export function AdapterToolbar(p: AdapterToolbarProps): JSX.Element | null {
   const [pickerOpen, setPickerOpen] = useState(false);
   const insets = useSafeAreaInsets();
   const drag = useDockDrag(p.onDock);
@@ -164,6 +166,9 @@ export function AdapterToolbar(p: AdapterToolbarProps): JSX.Element {
     }
   };
 
+  if (p.collapsed && p.hideHandle === true) {
+    return null;
+  }
   if (p.collapsed) {
     return (
       <View

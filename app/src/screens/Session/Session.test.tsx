@@ -1037,6 +1037,17 @@ describe('session switcher (RS-MULTI1)', () => {
     expect(view.queryByTestId('session-switcher')).toBeNull();
   });
 
+  it('⌃⌥⌘T hides and shows the toolbar', async () => {
+    const view = await mount();
+    await stream(view.core);
+    const shortcut = keyboardProps().onShortcut;
+
+    await act(async () => shortcut?.({ action: 'toolbar' }));
+    expect(view.queryByTestId('layer-toolbar')).toBeNull();
+    await act(async () => keyboardProps().onShortcut?.({ action: 'toolbar' }));
+    expect(view.getByTestId('layer-toolbar')).toBeOnTheScreen();
+  });
+
   it('⌃⌥⌘← plays the swipe slide toward the target before switching (RS-SPACES1)', async () => {
     foldedWindows();
     const view = await mount();

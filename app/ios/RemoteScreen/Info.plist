@@ -25,7 +25,7 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
-			<string>远屏配对文件</string>
+			<string>Remote Screen 配对文件</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>CFBundleTypeRole</key>
@@ -42,7 +42,7 @@
 			<key>UTTypeIdentifier</key>
 			<string>ai.gxlself.remotescreen.pairfile</string>
 			<key>UTTypeDescription</key>
-			<string>远屏配对文件</string>
+			<string>Remote Screen 配对文件</string>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
@@ -120,11 +120,11 @@
 		<true/>
 	</dict>
 	<key>NSFaceIDUsageDescription</key>
-	<string>打开远屏时用 Face ID 确认是你本人，防止别人拿这台设备控制你的电脑。验证只在设备上完成，远屏拿不到你的面容数据。</string>
+	<string>打开 Remote Screen 时用 Face ID 确认是你本人，防止别人拿这台设备控制你的电脑。验证只在设备上完成，Remote Screen 拿不到你的面容数据。</string>
 	<key>NSCameraUsageDescription</key>
-	<string>扫描电脑屏幕上显示的配对二维码，把那台电脑添加到远屏。画面只在设备上识别，不会保存或上传。</string>
+	<string>扫描电脑屏幕上显示的配对二维码，把那台电脑添加到 Remote Screen。画面只在设备上识别，不会保存或上传。</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>远屏需要访问本地网络，才能找到同一网络里打开了屏幕共享的 Mac，并连接你在局域网里添加的电脑（屏幕共享、远程桌面或 SSH）。</string>
+	<string>Remote Screen 需要访问本地网络，才能找到同一网络里打开了屏幕共享的 Mac，并连接你在局域网里添加的电脑（屏幕共享、远程桌面或 SSH）。</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_rsp-probe._tcp</string>

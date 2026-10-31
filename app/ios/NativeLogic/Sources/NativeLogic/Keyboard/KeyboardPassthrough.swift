@@ -137,15 +137,16 @@ public enum KeyboardPassthrough {
     }
 }
 
-/// Control-Option-Command shortcuts that switch between open sessions. They
-/// stay on this device: the capture view hands them to JS instead of sending
-/// the key to the remote computer.
+/// Control-Option-Command shortcuts that switch between open sessions or show
+/// and hide the toolbar. They stay on this device: the capture view hands them
+/// to JS instead of sending the key to the remote computer.
 public enum SessionShortcut: Equatable, Sendable {
     case next
     case previous
     /// The Nth session in the switcher, 1...9.
     case index(Int)
     case switcher
+    case toolbar
 
     /// The `action` field of the JS event.
     public var action: String {
@@ -154,6 +155,7 @@ public enum SessionShortcut: Equatable, Sendable {
         case .previous: return "previous"
         case .index: return "index"
         case .switcher: return "switcher"
+        case .toolbar: return "toolbar"
         }
     }
 
@@ -168,7 +170,8 @@ public extension KeyboardPassthrough {
     /// Control + Option + Command, either side, nothing else.
     static let sessionShortcutMods: UInt8 = 0x0D
 
-    /// ⌃⌥⌘→ / ⌃⌥⌘← next / previous, ⌃⌥⌘1…9 the Nth session, ⌃⌥⌘S the switcher.
+    /// ⌃⌥⌘→ / ⌃⌥⌘← next / previous, ⌃⌥⌘1…9 the Nth session, ⌃⌥⌘S the switcher,
+    /// ⌃⌥⌘T the toolbar.
     static func sessionShortcut(usage: UInt16, mods: UInt8) -> SessionShortcut? {
         guard (mods & 0x0F) | (mods >> 4) == sessionShortcutMods else { return nil }
         switch usage {
@@ -176,6 +179,7 @@ public extension KeyboardPassthrough {
         case 0x50: return .previous
         case 0x1E...0x26: return .index(Int(usage - 0x1E) + 1)
         case 0x16: return .switcher
+        case 0x17: return .toolbar
         default: return nil
         }
     }

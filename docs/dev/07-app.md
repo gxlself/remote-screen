@@ -394,7 +394,7 @@ type NetworkStatus = {
 };
 ```
 
-`CoreEvent` 是带 `type` 字段的联合类型：`session.state`、`session.role`、`session.stats`（2 Hz）、`session.error`、`session.displays`、`session.vdisplay`、`session.clipboard`、`session.idleWarning`、`session.controlRequest`、`pairing.progress`、`pairing.done`、`probe.result`、`ssh.state`、`ssh.hostKeyPrompt`、`ssh.authUrl`（Tailscale SSH check 模式）、`tailnet.state`、`adapter.state`、`adapter.certPrompt`、`adapter.clipboard`、`adapter.screens`、`network.changed`。
+`CoreEvent` 是带 `type` 字段的联合类型：`session.state`、`session.role`、`session.stats`（2 Hz）、`session.error`、`session.displays`、`session.vdisplay`、`session.clipboard`、`session.idleWarning`、`session.controlRequest`、`pairing.progress`、`pairing.done`、`probe.result`、`ssh.state`、`ssh.hostKeyPrompt`、`ssh.authUrl`（Tailscale SSH check 模式）、`tailnet.state`、`adapter.state`、`adapter.certPrompt`、`adapter.clipboard`、`adapter.clipboardOther`、`adapter.screens`、`network.changed`。
 
 ```ts
 // 下列分支属于 CoreEvent 联合类型
@@ -432,6 +432,10 @@ type AdapterCertPromptEvent = {
 };
 type AdapterClipboardEvent = {
   type: 'adapter.clipboard'; sessionId: SessionId; text: string;
+};
+/** 电脑上复制了文字以外的内容（截图、文件）；内容不传过来。 */
+type AdapterClipboardOtherEvent = {
+  type: 'adapter.clipboardOther'; sessionId: SessionId;
 };
 type AdapterScreensEvent = {
   type: 'adapter.screens'; sessionId: SessionId; screens: AdapterScreen[];

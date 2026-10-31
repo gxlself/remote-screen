@@ -95,6 +95,8 @@ export function useAdapterSession(p: {
   target: AdapterTarget;
   opts: AdapterOpenOpts;
   onClipboard?: (text: string) => void;
+  /** The computer copied something other than text. */
+  onClipboardOther?: () => void;
   /** Picks this session up instead of opening one (V33). */
   resume?: AdapterResume;
   /**
@@ -121,6 +123,8 @@ export function useAdapterSession(p: {
   const ignoredIdsRef = useRef<Set<SessionId>>(new Set());
   const onClipboardRef = useRef(p.onClipboard);
   onClipboardRef.current = p.onClipboard;
+  const onClipboardOtherRef = useRef(p.onClipboardOther);
+  onClipboardOtherRef.current = p.onClipboardOther;
   const targetRef = useRef(p.target);
   const optsRef = useRef(p.opts);
   targetRef.current = p.target;
@@ -143,6 +147,12 @@ export function useAdapterSession(p: {
   useCoreEvent('adapter.clipboard', event => {
     if (idRef.current === event.sessionId) {
       onClipboardRef.current?.(event.text);
+    }
+  });
+
+  useCoreEvent('adapter.clipboardOther', event => {
+    if (idRef.current === event.sessionId) {
+      onClipboardOtherRef.current?.();
     }
   });
 

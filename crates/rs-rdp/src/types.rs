@@ -30,6 +30,9 @@ pub trait RdpSink: Send + Sync {
     fn clipboard(&self, text: &str) {
         let _ = text;
     }
+    /// The remote clipboard now holds something other than text, such as an
+    /// image or files; it is not fetched (clip.rs).
+    fn clipboard_other(&self) {}
     /// Monitor rectangles in desktop pixels, primary first (display.rs, ).
     /// Called once the layout is known and after every change.
     fn monitors(&self, layout: &[Rect]) {

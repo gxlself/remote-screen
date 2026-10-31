@@ -14,6 +14,7 @@ final class PointerLockCoordinator {
 
     private let surfaces = NSHashTable<RemoteSessionSurface>.weakObjects()
     private weak var requestedRoot: UIViewController?
+    private weak var requestedSurface: RemoteSessionSurface?
     private var observers: [NSObjectProtocol] = []
     private var mouseInput: LockedMouseInput?
     private var lastState: State?
@@ -42,11 +43,32 @@ final class PointerLockCoordinator {
                     guard let self else { return }
                     self.mouseConnected = !GCMouse.mice().isEmpty
                     if name == .GCMouseDidDisconnect || !self.mouseConnected { self.escaped = false }
+                    RsLog.marker("POINTER", ["gc": name == .GCMouseDidConnect ? "connect" : "disconnect",
+                                             "mice": GCMouse.mice().count])
                     self.refresh()
                 }
             })
         }
+        // Back from the background, GameController reconnects the mouse and
+        // can still report no mice on the turn after its notification. Look
+        // again once the scene is active, so the pointer is not left idle.
+        observers.append(center.addObserver(forName: UIScene.didActivateNotification,
+                                             object: nil, queue: .main) { [weak self] _ in
+            self?.resyncMouse()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in self?.resyncMouse() }
+        })
         mouseInput = LockedMouseInput(coordinator: self)
+    }
+
+    private func resyncMouse() {
+        precondition(Thread.isMainThread)
+        mouseInput?.bindCurrent()
+        let connected = !GCMouse.mice().isEmpty
+        guard connected != mouseConnected else { return }
+        mouseConnected = connected
+        if !connected { escaped = false }
+        RsLog.marker("POINTER", ["resync": true, "mouse": connected])
+        refresh()
     }
 
     func surfaceDidChange(_ surface: RemoteSessionSurface) {
@@ -128,6 +150,8 @@ final class PointerLockCoordinator {
         let root = activeSurface?.window?.rootViewController
         let oldRoot = requestedRoot
         requestedRoot = root
+        let surfaceChanged = requestedSurface !== activeSurface
+        requestedSurface = activeSurface
         if wantChanged { RsLog.marker("POINTER", ["want": wantsLock, "reason": next.reason.rawValue]) }
         if next != lastState {
             lastState = next
@@ -141,9 +165,19 @@ final class PointerLockCoordinator {
                                       reason: PointerLockPolicy.reason(state))
         }
         // Publish first: UIKit may notify observers while updating the lock.
-        if wantChanged || oldRoot !== root {
-            oldRoot?.setNeedsUpdateOfPrefersPointerLocked()
-            if root !== oldRoot { root?.setNeedsUpdateOfPrefersPointerLocked() }
+        if wantChanged || surfaceChanged || oldRoot !== root {
+            requestLockUpdate(from: oldRoot)
+            if root !== oldRoot { requestLockUpdate(from: root) }
         }
+    }
+
+    /// UIKit reads the preference from the topmost full-screen modal, which is
+    /// the RNSScreen holding a live session (see `ScreenEdgeDeferral`).
+    private func requestLockUpdate(from root: UIViewController?) {
+        guard let root else { return }
+        root.setNeedsUpdateOfPrefersPointerLocked()
+        var top = root
+        while let presented = top.presentedViewController { top = presented }
+        if top !== root { top.setNeedsUpdateOfPrefersPointerLocked() }
     }
 }

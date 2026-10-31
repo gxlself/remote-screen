@@ -64,6 +64,7 @@ import {
   withoutElsewhere,
 } from '../session/useSessionSwitcher';
 import { useAdapterPageLive } from '../session/useLiveSessionCount';
+import { useScreenReader } from '../session/useScreenReader';
 import { useSpaces } from '../session/useSpaces';
 import {
   NARROW_WINDOW,
@@ -81,6 +82,7 @@ import {
 import { useAdapterHistory } from '../sessions/useAdapterHistory';
 import type { AdapterHistoryTracker } from '../sessions/useAdapterHistory';
 import { useSetting } from '../settings/store';
+import { useKv } from '../storage/StorageContext';
 import { useTailnetEnabled } from '../tailnet/enabled';
 import { AdapterError } from './AdapterError';
 import { AdapterMoreSheet } from './AdapterMoreSheet';
@@ -104,7 +106,11 @@ import {
   type AdapterUiPhase,
   type CredInput,
 } from './logic';
-import { useToolbarDock } from './toolbarDock';
+import {
+  TOOLBAR_HIDDEN_HINT_KEY,
+  useToolbarDock,
+  useToolbarHandleHidden,
+} from './toolbarDock';
 import { useAdapterAudio } from './useAdapterAudio';
 import { useAdapterReconnect } from './useAdapterReconnect';
 import { useAdapterSession } from './useAdapterSession';
@@ -282,6 +288,11 @@ function AdapterSessionBody({
   const [collapsed, setCollapsed] = useState(false);
   const collapsedBeforeKeyboard = useRef<boolean | null>(null);
   const [dock, setDock] = useToolbarDock();
+  const [handleHidden, setHandleHidden] = useToolbarHandleHidden();
+  const screenReader = useScreenReader();
+  // VoiceOver needs something to focus to bring the toolbar back.
+  const hideHandle = handleHidden && !screenReader;
+  const kv = useKv();
   const [moreOpen, setMoreOpen] = useState(false);
   const [switcherOpen, setSwitcherOpen] = useState(false);
   // Before the first picture the page counts from when it opened.
@@ -300,20 +311,29 @@ function AdapterSessionBody({
   const [zoomed, setZoomed] = useState(false);
   const [page] = useState(() => Symbol('adapter-page'));
 
+  // This device's clipboard change count when the computer's clipboard was
+  // last as new as it: a sync either way, or a copy made on the computer.
+  // A paste brings this device's clipboard over only once it changed again,
+  // so it never replaces a screenshot taken on the computer.
+  const clipboardSynced = useRef<number | null>(null);
+  const markClipboardSynced = useCallback(() => {
+    clipboardSynced.current = platform.clipboardChangeCount();
+  }, [platform]);
   const onClipboard = useCallback(
     (text: string) => {
       if (!autoSync) {
         // V40: kept for 更多 › 复制电脑上的剪贴板.
         setRemoteClipboard(text);
+        markClipboardSynced();
         return;
       }
-      platform.copyText(text).catch(() => undefined);
+      platform.copyText(text).then(markClipboardSynced, markClipboardSynced);
       if (!clipboardNoticeShown.current) {
         clipboardNoticeShown.current = true;
         notify(adapters.toast.clipboardReceived);
       }
     },
-    [autoSync, notify, platform],
+    [autoSync, markClipboardSynced, notify, platform],
   );
   // V33: leaving a live picture folds the session away instead of closing it.
   const tracker = useRef<AdapterHistoryTracker | null>(null);
@@ -323,6 +343,7 @@ function AdapterSessionBody({
     target,
     opts,
     onClipboard,
+    onClipboardOther: markClipboardSynced,
     keepOnUnmount,
     ...(resume === undefined ? {} : { resume }),
   });
@@ -516,6 +537,15 @@ function AdapterSessionBody({
     setCertFlow('asked');
   }
 
+  // Collapsing with no handle left: say once how the toolbar comes back.
+  const changeCollapsed = (next: boolean) => {
+    setCollapsed(next);
+    if (next && hideHandle && kv.getString(TOOLBAR_HIDDEN_HINT_KEY) !== '1') {
+      kv.set(TOOLBAR_HIDDEN_HINT_KEY, '1');
+      notify(adapters.toast.toolbarHidden);
+    }
+  };
+
   const closeKeyboard = useCallback(() => {
     setKeyboardOpen(false);
     const before = collapsedBeforeKeyboard.current;
@@ -608,7 +638,7 @@ function AdapterSessionBody({
     } else if (keyboardOpen) {
       closeKeyboard();
     } else if (!collapsed) {
-      setCollapsed(true);
+      changeCollapsed(true);
     } else {
       // V33: the last step folds the session away; 断开 still asks first.
       onCollapse();
@@ -695,8 +725,13 @@ function AdapterSessionBody({
   };
 
   // A paste on the computer first gets this device's clipboard (setting
-  // keyboard.pasteSync). Screen Sharing only carries Latin-1.
+  // keyboard.pasteSync) when it is the newer one. Screen Sharing only
+  // carries Latin-1.
   const pushClipboardBeforePaste = async (): Promise<void> => {
+    const count = platform.clipboardChangeCount();
+    if (count !== null && count === clipboardSynced.current) {
+      return;
+    }
     let text: string | null;
     try {
       text = await platform.readText();
@@ -707,6 +742,9 @@ function AdapterSessionBody({
       return;
     }
     switch (session.sendClipboard(text)) {
+      case 'sent':
+        clipboardSynced.current = count;
+        break;
       case 'latin1Only':
         notify(adapters.toast.pasteLatin1Only);
         break;
@@ -917,6 +955,10 @@ function AdapterSessionBody({
       openSwitcher();
       return;
     }
+    if (event.action === 'toolbar') {
+      changeCollapsed(!collapsed);
+      return;
+    }
     // ⌃⌥⌘N counts as the switcher numbers; ←/→ skip other windows' ones.
     const next = shortcutTarget(
       event.action === 'index' ? switcherList.screens : spaceList.screens,
@@ -973,7 +1015,7 @@ function AdapterSessionBody({
             onFirstFrame={onFirstFrame}
             onGesture={({ kind }) => {
               if (kind === 'threeFingerTap') {
-                setCollapsed(value => !value);
+                changeCollapsed(!collapsed);
               } else if (kind === 'twoFingerDoubleTap') {
                 setMode(toggleMode);
               }
@@ -1004,10 +1046,11 @@ function AdapterSessionBody({
             canTypePassword={target.protocol === 'vnc' && saved.info.saved}
             collapsed={collapsed}
             dock={dock}
+            hideHandle={hideHandle}
             keyboardInset={keyboardOpen ? inset : 0}
             keyboardOpen={keyboardOpen}
             mode={mode}
-            onCollapsedChange={setCollapsed}
+            onCollapsedChange={changeCollapsed}
             onDisconnect={() => setConfirm('disconnect')}
             onCombo={sendCombo}
             onDock={setDock}
@@ -1236,6 +1279,7 @@ function AdapterSessionBody({
       {moreOpen && framed ? (
         <AdapterMoreSheet
           canForget={saved.info.saved}
+          handleHidden={handleHidden}
           hasRemoteClipboard={!autoSync && remoteClipboard !== null}
           onClose={() => setMoreOpen(false)}
           onCopyRemoteClipboard={copyRemoteClipboard}
@@ -1248,6 +1292,7 @@ function AdapterSessionBody({
             setMoreOpen(false);
             setCoachVisible(true);
           }}
+          onHandleHidden={setHandleHidden}
           {...(zoomed
             ? {
                 onFitScreen: () => {

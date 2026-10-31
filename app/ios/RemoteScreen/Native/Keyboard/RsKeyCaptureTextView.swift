@@ -4,6 +4,13 @@ import UIKit
 /// retain their HID identity. No key or text content is logged here.
 final class RsKeyCaptureTextView: UITextView {
     var captureMode: KeyboardInputMode = .text
+    /// A hardware keyboard captured while the on-screen keyboard is closed.
+    /// UIKit shows keyboard UI only for an editable text view; iPadOS would
+    /// otherwise float its shortcut bar over the bottom of the picture. Every
+    /// key goes out raw, so the computer's own IME composes text.
+    var hardwareOnly = false {
+        didSet { if hardwareOnly != oldValue { isEditable = !hardwareOnly } }
+    }
     var onRawKey: ((UInt16, Bool, UInt8) -> Void)?
     /// Cmd+V asks JS to push the clipboard first; JS then sends the paste.
     var syncPaste = false
@@ -222,7 +229,7 @@ final class RsKeyCaptureTextView: UITextView {
         if KeyboardPassthrough.commandCombo(usage: usage, mods: modifiers) != nil {
             return .command
         }
-        if captureMode == .keys || modifiers & 0xDD != 0 || Self.isNonPrintable(usage) {
+        if captureMode == .keys || hardwareOnly || modifiers & 0xDD != 0 || Self.isNonPrintable(usage) {
             return .raw
         }
         if usage == 0x2A, text.isEmpty, markedTextRange == nil { return .raw }

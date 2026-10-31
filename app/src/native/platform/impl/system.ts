@@ -11,6 +11,12 @@ export async function copyText(text: string): Promise<void> {
   NativeRsSystem?.copyText(text);
 }
 
+/** Null where unknown (Android, or no native module). */
+export function clipboardChangeCount(): number | null {
+  const count = NativeRsSystem?.clipboardChangeCount();
+  return count === undefined || count < 0 ? null : count;
+}
+
 export async function readText(): Promise<string | null> {
   if (NativeRsSystem == null) {
     return null;

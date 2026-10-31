@@ -72,6 +72,12 @@ final class SystemServices: NSObject {
         UIPasteboard.general.hasStrings
     }
 
+    /// Reading the count, unlike the contents, never asks to paste.
+    @objc(clipboardChangeCount)
+    func clipboardChangeCount() -> Int {
+        UIPasteboard.general.changeCount
+    }
+
     @objc(readTextWithCompletion:)
     func readText(completion: @escaping (String?) -> Void) {
         let pasteboard = UIPasteboard.general

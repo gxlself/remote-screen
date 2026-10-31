@@ -70,7 +70,7 @@ import {
   showAdapterSession,
 } from './liveStore';
 import type { CollapsedAdapter } from './liveStore';
-import { TOOLBAR_DOCK_KEY } from './toolbarDock';
+import { TOOLBAR_DOCK_KEY, TOOLBAR_HANDLE_HIDDEN_KEY } from './toolbarDock';
 import { installFakeAdapters } from './testing/fakeAdapters';
 import type { FakeAdapters } from './testing/fakeAdapters';
 
@@ -1215,6 +1215,51 @@ describe('toolbar and gestures', () => {
     expect(screen.getByTestId('adapter-tb-keyboard')).toBeOnTheScreen();
   });
 
+  it('⌃⌥⌘T folds and unfolds the toolbar', async () => {
+    const { core } = await mount();
+    await stream(core);
+
+    await act(async () =>
+      lastKeyboardProps().onShortcut?.({ action: 'toolbar' }),
+    );
+    expect(screen.getByTestId('adapter-tb-expand')).toBeOnTheScreen();
+    await act(async () =>
+      lastKeyboardProps().onShortcut?.({ action: 'toolbar' }),
+    );
+    expect(screen.getByTestId('adapter-tb-collapse')).toBeOnTheScreen();
+  });
+
+  it('can fold away with no handle left, remembered on this device', async () => {
+    const first = await mount();
+    await stream(first.core);
+
+    await fireEvent.press(screen.getByTestId('adapter-tb-more'));
+    await fireEvent(
+      screen.getByTestId('adapter-more-hideHandle'),
+      'valueChange',
+      true,
+    );
+    expect(first.kv.getJSON(TOOLBAR_HANDLE_HIDDEN_KEY)).toBe(true);
+    await fireEvent.press(screen.getByTestId('adapter-more-close'));
+    await fireEvent.press(screen.getByTestId('adapter-tb-collapse'));
+    expect(screen.queryByTestId('adapter-toolbar')).toBeNull();
+    expect(screen.getByText(adapters.toast.toolbarHidden)).toBeOnTheScreen();
+    await act(async () =>
+      lastVideoProps().onGesture?.({ kind: 'threeFingerTap' }),
+    );
+    expect(screen.getByTestId('adapter-tb-collapse')).toBeOnTheScreen();
+    await cleanup();
+
+    const second = await mount({}, { kv: first.kv });
+    await stream(second.core);
+    await act(async () =>
+      lastKeyboardProps().onShortcut?.({ action: 'toolbar' }),
+    );
+    expect(screen.queryByTestId('adapter-toolbar')).toBeNull();
+    // Said once.
+    expect(screen.queryByText(adapters.toast.toolbarHidden)).toBeNull();
+  });
+
   it('remembers the docked edge on this device (V04)', async () => {
     const first = await mount();
     await stream(first.core);
@@ -2004,12 +2049,48 @@ describe('iPad keyboard work (RS-IPAD1)', () => {
       args: [ID, '你好'],
     });
 
+    platform.clipboardText = '再见';
     core.failNext('sessions.clipboardSend', new Error('gone'));
     await act(async () => lastKeyboardProps().onBeforePaste?.());
     expect(core.calls).toContainEqual({
       method: 'logs.write',
       args: ['warn', 'adapters', 'clipboard sync before paste failed'],
     });
+  });
+
+  it('pastes over this device clipboard only when it is the newer one', async () => {
+    const platform = new FakePlatform();
+    const { core } = await mount({ target: rdp }, { platform });
+    await stream(core);
+    const sends = () =>
+      core.calls
+        .filter(call => call.method === 'sessions.clipboardSend')
+        .map(call => call.args[1]);
+
+    // A screenshot on the computer after the copy here.
+    platform.clipboardText = 'old';
+    await act(async () => {
+      core.emit({ type: 'adapter.clipboardOther', sessionId: ID });
+    });
+    await act(async () => lastKeyboardProps().onBeforePaste?.());
+    expect(sends()).toEqual([]);
+
+    platform.clipboardText = 'new';
+    await act(async () => lastKeyboardProps().onBeforePaste?.());
+    await act(async () => lastKeyboardProps().onBeforePaste?.());
+    expect(sends()).toEqual(['new']);
+
+    // Text copied on the computer comes here already; nothing to send back.
+    await act(async () => {
+      core.emit({ type: 'adapter.clipboard', sessionId: ID, text: 'remote' });
+    });
+    await act(async () => lastKeyboardProps().onBeforePaste?.());
+    expect(sends()).toEqual(['new']);
+
+    // Without a change count (Android) every paste brings it over.
+    platform.clipboardCount = null;
+    await act(async () => lastKeyboardProps().onBeforePaste?.());
+    expect(sends()).toEqual(['new', 'new']);
   });
 
   it('offers 适应屏幕 in 更多 only while zoomed in', async () => {

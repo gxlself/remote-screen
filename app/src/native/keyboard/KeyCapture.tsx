@@ -4,7 +4,7 @@ import RsKeyCapture from '../specs/RsKeyCaptureNativeComponent';
 
 /** ⌃⌥⌘ on a hardware keyboard: kept on this device, never sent to the computer. */
 export type SessionShortcutEvent =
-  | { action: 'next' | 'previous' | 'switcher' }
+  | { action: 'next' | 'previous' | 'switcher' | 'toolbar' }
   | { action: 'index'; index: number };
 
 /** The native event as a shortcut; null for anything this build does not know. */
@@ -16,6 +16,7 @@ export function parseSessionShortcut(event: {
     case 'next':
     case 'previous':
     case 'switcher':
+    case 'toolbar':
       return { action: event.action };
     case 'index':
       return Number.isInteger(event.index) && event.index >= 1

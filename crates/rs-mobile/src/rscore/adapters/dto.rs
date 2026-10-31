@@ -207,6 +207,9 @@ pub enum AdapterEvent {
     },
     #[serde(rename = "adapter.clipboard", rename_all = "camelCase")]
     Clipboard { session_id: String, text: String },
+    /// The computer copied something other than text (a screenshot, files).
+    #[serde(rename = "adapter.clipboardOther", rename_all = "camelCase")]
+    ClipboardOther { session_id: String },
     /// Monitor layout, primary (or, when guessed, top-left) first; sent once
     /// known and after every change.
     #[serde(rename = "adapter.screens", rename_all = "camelCase")]

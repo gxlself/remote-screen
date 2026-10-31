@@ -178,6 +178,7 @@ it('hands ⌃⌥⌘ session shortcuts to JS and sends nothing to the computer', 
     { action: 'previous', index: 0 },
     { action: 'index', index: 3 },
     { action: 'switcher', index: 0 },
+    { action: 'toolbar', index: 0 },
   ]) {
     await fireEvent(capture(), 'shortcut', { nativeEvent });
   }
@@ -186,6 +187,7 @@ it('hands ⌃⌥⌘ session shortcuts to JS and sends nothing to the computer', 
     [{ action: 'previous' }],
     [{ action: 'index', index: 3 }],
     [{ action: 'switcher' }],
+    [{ action: 'toolbar' }],
   ]);
   expect(core.calls).toEqual([]);
 });

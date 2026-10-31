@@ -96,8 +96,18 @@ final class RemoteSessionSurface: UIView, SessionCursorSink {
     private var pointerButtons: [Int32: UInt8] = [:]
     private var pointerScrollWork: DispatchWorkItem?
     private var pointerScrollGeneration: UInt64 = 0
+    private var pointerScrollMomentum = TrackpadScrollMomentum()
+    private var pointerMomentumLink: CADisplayLink?
+    private var lastPointerMomentumTime: CFTimeInterval?
+    private lazy var pointerMomentumTarget: PointerMomentumTarget = {
+        let target = PointerMomentumTarget()
+        target.surface = self
+        return target
+    }()
     private var lastPointerMoveLog: TimeInterval?
     private static let pointerMoveLogInterval: TimeInterval = 1
+    private var lastLockedScroll: TimeInterval?
+    private static let lockedScrollQuietAfter: TimeInterval = 0.5
     private var lastPointerLockState: PointerLockState?
 
     private struct PointerLockState: Equatable {
@@ -537,10 +547,10 @@ final class RemoteSessionSurface: UIView, SessionCursorSink {
             lastPointerMoveLog = now
             let length = hypot(raw.x, raw.y)
             let gain = length > 0 ? hypot(accelerated.x, accelerated.y) / length : 1
-            RsLog.marker("POINTER", ["move": ["raw": [Double(raw.x), Double(raw.y)], "gain": Double(gain)]])
+            RsLog.marker("POINTER", ["move": [Double(raw.x), Double(raw.y)], "gain": Double(gain)])
         }
         if pointerEscape.feed(atBottomEdge: cursorController.position.y >= 1 - 1e-4,
-                              viewDeltaY: delta.dy, now: now) {
+                              viewDelta: delta, now: now) {
             PointerLockCoordinator.shared.escape()
             return
         }
@@ -553,7 +563,11 @@ final class RemoteSessionSurface: UIView, SessionCursorSink {
     func pointerButton(_ button: Int32, down: Bool, now: TimeInterval) {
         let count: UInt8
         if down {
-            guard sessionInputReady, pointerButtons[button] == nil else { return }
+            guard sessionInputReady, pointerButtons[button] == nil else {
+                RsLog.marker("POINTER", ["drop": Int(button), "ready": sessionInputReady,
+                                         "held": pointerButtons[button] != nil])
+                return
+            }
             count = button == PointerButtons.left
                 ? UInt8(pointerClicks.register(position: cursorController.position, time: now)) : 1
             pointerButtons[button] = count
@@ -564,10 +578,18 @@ final class RemoteSessionSurface: UIView, SessionCursorSink {
         inputSender.button(button, down: down, at: cursorController.position, clicks: count)
     }
 
+    /// No GameController scroll lately; PointerGestureController may carry UIKit's.
+    var lockedScrollQuiet: Bool {
+        lastLockedScroll.map { CACurrentMediaTime() - $0 >= Self.lockedScrollQuietAfter } ?? true
+    }
+
     func pointerLockedScroll(x: CGFloat, y: CGFloat, now: TimeInterval) {
         guard sessionInputReady, PointerLockCoordinator.shared.activeSurface === self,
-              PointerLockCoordinator.shared.route == .relative,
-              let output = pointerScroll.feed(x: x, y: y, now: now) else { return }
+              PointerLockCoordinator.shared.route == .relative else { return }
+        lastLockedScroll = now
+        pointerGestures?.yieldScroll()
+        guard let output = pointerScroll.feed(x: x, y: y, now: now) else { return }
+        stopPointerMomentum()
         sendPointerScroll(output)
         schedulePointerScrollEnd()
     }
@@ -585,12 +607,53 @@ final class RemoteSessionSurface: UIView, SessionCursorSink {
             self.pointerScrollWork = nil
             if let output = self.pointerScroll.idle(now: CACurrentMediaTime()) {
                 self.sendPointerScroll(output)
+                self.startPointerMomentum(velocity: output.velocity)
             } else {
                 self.schedulePointerScrollEnd()
             }
         }
         pointerScrollWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + PointerScrollSynth.idleEnd, execute: work)
+    }
+
+    /// GameController scrolls stop dead when the fingers lift; carry a fast
+    /// one on the way UIKit's trackpad scrolls do.
+    private func startPointerMomentum(velocity: CGVector) {
+        let summary = pointerScroll.summary
+        RsLog.marker("POINTER", ["scrollEnd": summary.samples, "y": Double(summary.total.dy),
+                                 "peak": Double(summary.peak),
+                                 "ms": Int(summary.duration * 1000), "vy": Double(velocity.dy)])
+        // TrackpadScrollMomentum doubles what it is given (the pixel multiplier).
+        pointerScrollMomentum.start(velocity: CGPoint(x: velocity.dx / 2, y: velocity.dy / 2))
+        guard pointerScrollMomentum.isActive else { return }
+        let link = CADisplayLink(target: pointerMomentumTarget, selector: #selector(PointerMomentumTarget.tick(_:)))
+        link.preferredFrameRateRange = CAFrameRateRange(minimum: 60, maximum: 60, preferred: 60)
+        pointerMomentumLink = link
+        link.add(to: .main, forMode: .common)
+    }
+
+    fileprivate func stepPointerMomentum(_ link: CADisplayLink) {
+        guard sessionInputReady, PointerLockCoordinator.shared.activeSurface === self,
+              PointerLockCoordinator.shared.route == .relative else { stopPointerMomentum(); return }
+        let dt = lastPointerMomentumTime.map { link.timestamp - $0 } ?? 1 / 60
+        lastPointerMomentumTime = link.timestamp
+        let step = pointerScrollMomentum.step(dt: dt)
+        if step.phase != 0 {
+            let delta = prefs.scrollDelta(CGVector(dx: step.dx, dy: step.dy))
+            inputSender.scroll(dx: delta.dx, dy: delta.dy, momentum: step.phase)
+        }
+        if step.finished {
+            pointerMomentumLink?.invalidate()
+            pointerMomentumLink = nil
+            lastPointerMomentumTime = nil
+        }
+    }
+
+    private func stopPointerMomentum() {
+        if pointerScrollMomentum.stop() { inputSender.scroll(dx: 0, dy: 0, momentum: 3) }
+        pointerMomentumLink?.invalidate()
+        pointerMomentumLink = nil
+        lastPointerMomentumTime = nil
     }
 
     func cancelPointerInput() {
@@ -600,6 +663,7 @@ final class RemoteSessionSurface: UIView, SessionCursorSink {
         pointerScrollWork?.cancel()
         pointerScrollWork = nil
         if let output = pointerScroll.reset() { sendPointerScroll(output) }
+        stopPointerMomentum()
         pointerGestures?.cancel()
         for (button, count) in pointerButtons.sorted(by: { $0.key < $1.key }) {
             inputSender.button(button, down: false, at: cursorController.position, clicks: count)
@@ -782,4 +846,10 @@ final class RemoteSessionSurface: UIView, SessionCursorSink {
         attachment.detach()
         pipeline?.stop()
     }
+}
+
+/// The display link keeps its target; this one does not keep the surface.
+private final class PointerMomentumTarget: NSObject {
+    weak var surface: RemoteSessionSurface?
+    @objc func tick(_ link: CADisplayLink) { surface?.stepPointerMomentum(link) }
 }

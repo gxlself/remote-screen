@@ -11,6 +11,9 @@ export type AdapterMoreSheetProps = {
   /** RDP 的声音开关（设置 session.sound）。 */
   sound: boolean;
   onSound(on: boolean): void;
+  /** 收起工具栏时不留把手（toolbarDock.ts，按设备记住）。 */
+  handleHidden: boolean;
+  onHandleHidden(hidden: boolean): void;
   /** 自动同步关着、电脑上复制过东西时才有。 */
   hasRemoteClipboard: boolean;
   /** 这台电脑存了凭据。 */
@@ -71,6 +74,18 @@ export function AdapterMoreSheet(p: AdapterMoreSheetProps): JSX.Element {
               title={adapters.more.fitScreen}
             />
           )}
+          <ListRow
+            right={
+              <Switch
+                accessibilityLabel={adapters.more.hideHandle}
+                onValueChange={p.onHandleHidden}
+                testID="adapter-more-hideHandle"
+                value={p.handleHidden}
+              />
+            }
+            subtitle={adapters.more.hideHandleHint}
+            title={adapters.more.hideHandle}
+          />
           <ListRow
             onPress={p.onGestures}
             testID="adapter-more-gestures"

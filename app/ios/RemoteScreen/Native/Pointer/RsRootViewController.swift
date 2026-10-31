@@ -26,7 +26,7 @@ final class RsRootViewController: UIViewController {
     }
 
     // react-native-screens reports `autoHideHomeIndicator` changes to the key
-    // window's root; the bottom-edge deferral follows the same screens.
+    // window's root; the edge deferral follows the same screens.
     override func setNeedsUpdateOfHomeIndicatorAutoHidden() {
         super.setNeedsUpdateOfHomeIndicatorAutoHidden()
         setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
@@ -36,29 +36,45 @@ final class RsRootViewController: UIViewController {
     }
 }
 
-/// react-native-screens has no option for deferring system edge gestures.
-/// Screens that hide the home indicator (the live session screens) also defer
-/// the bottom edge, so the first swipe up only shows the indicator instead of
-/// leaving the app. UIKit asks a full-screen modal for this itself, and the
-/// preference goes away with the screen when it is dismissed.
+/// react-native-screens has no option for deferring system edge gestures or
+/// locking the pointer, and UIKit asks the topmost full-screen modal for both
+/// instead of the window's root. The live session screens are such modals.
+/// Screens that hide the home indicator (the live session screens) defer the
+/// top and bottom edges, so the first swipe only shows the grabber instead of
+/// opening Notification / Control Center or leaving the app. The screen that
+/// holds the active session surface asks for the pointer lock the coordinator
+/// wants; without it the iPad pointer reaches the corners and the Dock. Both
+/// preferences go away with the screen when it is dismissed.
 enum ScreenEdgeDeferral {
     private static var installed = false
 
     static func install() {
         guard !installed else { return }
         installed = true
-        let selector = #selector(getter: UIViewController.preferredScreenEdgesDeferringSystemGestures)
-        guard let screenClass = NSClassFromString("RNSScreen"),
-              let base = class_getInstanceMethod(UIViewController.self, selector) else {
+        guard let screenClass = NSClassFromString("RNSScreen") else {
             RsLog.marker("EDGES", ["install": "missing"])
             return
         }
         let edges: @convention(block) (UIViewController) -> UIRectEdge = { controller in
-            controller.prefersHomeIndicatorAutoHidden ? .bottom : []
+            controller.prefersHomeIndicatorAutoHidden ? [.top, .bottom] : []
         }
-        // Adds the getter to RNSScreen only; fails if the library ever defines it.
-        let added = class_addMethod(screenClass, selector, imp_implementationWithBlock(edges),
-                                    method_getTypeEncoding(base))
-        RsLog.marker("EDGES", ["install": added ? "ok" : "exists"])
+        let locked: @convention(block) (UIViewController) -> Bool = { controller in
+            let coordinator = PointerLockCoordinator.shared
+            guard coordinator.wantsLock, controller.isViewLoaded,
+                  let surface = coordinator.activeSurface else { return false }
+            return surface.isDescendant(of: controller.view)
+        }
+        RsLog.marker("EDGES", [
+            "install": add(screenClass, #selector(getter: UIViewController.preferredScreenEdgesDeferringSystemGestures),
+                           imp_implementationWithBlock(edges)),
+            "pointerLock": add(screenClass, #selector(getter: UIViewController.prefersPointerLocked),
+                               imp_implementationWithBlock(locked)),
+        ])
+    }
+
+    /// Adds the getter to RNSScreen only; fails if the library ever defines it.
+    private static func add(_ screenClass: AnyClass, _ selector: Selector, _ imp: IMP) -> String {
+        guard let base = class_getInstanceMethod(UIViewController.self, selector) else { return "missing" }
+        return class_addMethod(screenClass, selector, imp, method_getTypeEncoding(base)) ? "ok" : "exists"
     }
 }

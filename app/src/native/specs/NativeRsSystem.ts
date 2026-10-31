@@ -13,6 +13,8 @@ export interface Spec extends TurboModule {
   getConstants(): NativeSystemConstants;
   copyText(text: string): void;
   hasText(): boolean;
+  /** iOS UIPasteboard changeCount; -1 where the platform has none. */
+  clipboardChangeCount(): number;
   readText(): Promise<string | null>;
   haptic(kind: string): void;
   notificationStatus(): Promise<string>;

@@ -751,6 +751,8 @@ export type CoreEvent =
       oldFp?: string;
     }
   | { type: 'adapter.clipboard'; sessionId: SessionId; text: string }
+  /** The computer copied something other than text (a screenshot, files). */
+  | { type: 'adapter.clipboardOther'; sessionId: SessionId }
   | { type: 'adapter.screens'; sessionId: SessionId; screens: AdapterScreen[] }
   | { type: 'network.changed'; status: NetworkStatus }
   | {

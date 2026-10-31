@@ -23,3 +23,23 @@ export function useToolbarDock(): [ToolbarDock, (dock: ToolbarDock) => void] {
   );
   return [dock, save];
 }
+
+/** Collapsing leaves no handle; this device only, like the dock. */
+export const TOOLBAR_HANDLE_HIDDEN_KEY = 'adapters.toolbarHandleHidden';
+/** Set once the toast saying how to bring a hidden toolbar back has shown. */
+export const TOOLBAR_HIDDEN_HINT_KEY = 'adapters.toolbarHiddenHint';
+
+export function useToolbarHandleHidden(): [boolean, (hidden: boolean) => void] {
+  const kv = useKv();
+  const [hidden, setHidden] = useState(
+    () => kv.getJSON<unknown>(TOOLBAR_HANDLE_HIDDEN_KEY) === true,
+  );
+  const save = useCallback(
+    (next: boolean) => {
+      setHidden(next);
+      kv.setJSON(TOOLBAR_HANDLE_HIDDEN_KEY, next);
+    },
+    [kv],
+  );
+  return [hidden, save];
+}

@@ -31,6 +31,14 @@ final class SessionShortcutTests: XCTestCase {
         XCTAssertEqual(SessionShortcut.previous.action, "previous")
     }
 
+    func testTTogglesTheToolbar() {
+        let shortcut = KeyboardPassthrough.sessionShortcut(usage: 0x17, mods: leftControlOptionCommand)
+        XCTAssertEqual(shortcut, .toolbar)
+        XCTAssertEqual(shortcut?.action, "toolbar")
+        XCTAssertEqual(shortcut?.index, 0)
+        XCTAssertNil(KeyboardPassthrough.sessionShortcut(usage: 0x17, mods: 0x08))
+    }
+
     func testEitherSideOfEachModifierCounts() {
         XCTAssertEqual(KeyboardPassthrough.sessionShortcut(usage: 0x4F, mods: rightControlOptionCommand), .next)
         // Right Control, left Option, right Command.
@@ -48,7 +56,7 @@ final class SessionShortcutTests: XCTestCase {
     }
 
     func testOtherKeysReachTheComputer() {
-        for usage: UInt16 in [0x04, 0x15, 0x17, 0x27, 0x28, 0x29, 0x51, 0x52, 0xE3] {
+        for usage: UInt16 in [0x04, 0x15, 0x18, 0x27, 0x28, 0x29, 0x51, 0x52, 0xE3] {
             XCTAssertNil(KeyboardPassthrough.sessionShortcut(usage: usage, mods: leftControlOptionCommand))
         }
     }
@@ -56,7 +64,7 @@ final class SessionShortcutTests: XCTestCase {
     func testShortcutsAreNotRemoteCommandCombos() {
         // Not a Command / Shift-Command combo, so the key view does not hand
         // them to a UIKeyCommand that would send them to the computer.
-        for usage: UInt16 in [0x4F, 0x50, 0x1E, 0x26, 0x16] {
+        for usage: UInt16 in [0x4F, 0x50, 0x1E, 0x26, 0x16, 0x17] {
             XCTAssertNil(KeyboardPassthrough.commandCombo(usage: usage, mods: leftControlOptionCommand))
         }
     }

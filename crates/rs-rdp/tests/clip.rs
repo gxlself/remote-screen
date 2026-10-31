@@ -2,6 +2,7 @@
 
 use std::fmt;
 use std::future::Future;
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
@@ -60,6 +61,7 @@ impl tracing::Subscriber for LogRecorder {
 #[derive(Default)]
 struct RecSink {
     text: Mutex<Vec<String>>,
+    other: AtomicUsize,
     changed: Notify,
 }
 
@@ -88,6 +90,10 @@ impl RdpSink for RecSink {
     fn clipboard(&self, text: &str) {
         self.text.lock().unwrap().push(text.to_owned());
         self.changed.notify_one();
+    }
+
+    fn clipboard_other(&self) {
+        self.other.fetch_add(1, Ordering::SeqCst);
     }
 }
 
@@ -390,7 +396,7 @@ async fn phone_to_remote() {
 }
 
 #[tokio::test]
-async fn non_text_ignored() {
+async fn non_text_reported_not_fetched() {
     wall_clock(async {
         let (mut server, peer, sink, connection) = open(true).await;
         session(connection, |tx| async {
@@ -399,6 +405,7 @@ async fn non_text_ignored() {
             peer.until(|calls| calls.contains(&ServerCall::Accepted(true)))
                 .await;
             input_barrier(&mut server, &tx).await;
+            assert_eq!(sink.other.load(Ordering::SeqCst), 1);
             assert!(
                 tokio::time::timeout(Duration::from_millis(200), sink.received(1))
                     .await

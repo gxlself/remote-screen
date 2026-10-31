@@ -24,6 +24,8 @@ final class PointerGestureController: NSObject, UIGestureRecognizerDelegate, UIP
     private let momentumTarget = MomentumTarget()
     private var displayLink: CADisplayLink?
     private var lastMomentumTime: CFTimeInterval?
+    private var lastDropLog: CFTimeInterval?
+    private var lastRelativeScrollLog: CFTimeInterval?
 
     init(surface: RemoteSessionSurface, input: SessionInputSender, cursor: SessionCursorController) {
         self.surface = surface
@@ -129,13 +131,58 @@ final class PointerGestureController: NSObject, UIGestureRecognizerDelegate, UIP
         canInteract ? PointerLockCoordinator.shared.route : .idle
     }
 
+    private func logDroppedClick() {
+        let now = CACurrentMediaTime()
+        guard lastDropLog.map({ now - $0 >= 1 }) ?? true else { return }
+        lastDropLog = now
+        RsLog.marker("POINTER", ["drop": "click", "installed": installed, "suspended": suspended,
+                                 "ready": surface?.sessionInputReady == true,
+                                 "visible": surface?.pointerVisible == true,
+                                 "active": PointerLockCoordinator.shared.activeSurface === surface])
+    }
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer) -> Bool { true }
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive event: UIEvent) -> Bool {
-        guard canInteract else { return false }
+        guard canInteract else {
+            if gestureRecognizer is PointerButtonGestureRecognizer, event.type == .touches { logDroppedClick() }
+            return false
+        }
         if gestureRecognizer is PointerButtonGestureRecognizer { return route != .relative }
+        if gestureRecognizer is UIPanGestureRecognizer { return route != .idle }
         return route == .absolute
+    }
+
+    /// UIKit sends no trackpad scrolls while the pointer is locked; one in the
+    /// relative route means the system let go of the lock without saying so,
+    /// and GameController sends no scrolls then. Carry it until GameController
+    /// scrolls again.
+    private func takesScroll() -> Bool {
+        switch route {
+        case .absolute:
+            return true
+        case .relative:
+            guard surface?.lockedScrollQuiet == true else { return false }
+            let now = CACurrentMediaTime()
+            if lastRelativeScrollLog.map({ now - $0 >= 1 }) ?? true {
+                lastRelativeScrollLog = now
+                RsLog.marker("POINTER", ["uiScroll": "relative",
+                                         "sysLocked": surface?.window?.windowScene?.pointerLockState?.isLocked == true])
+            }
+            return true
+        case .idle:
+            return false
+        }
+    }
+
+    /// GameController scrolls again: end a scroll carried in the relative
+    /// route so the two never overlap.
+    func yieldScroll() {
+        guard route == .relative, scrolling || displayLink != nil else { return }
+        if scrolling { input.scroll(dx: 0, dy: 0, phase: 3) }
+        scrolling = false
+        stopMomentum()
     }
 
     func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
@@ -159,11 +206,12 @@ final class PointerGestureController: NSObject, UIGestureRecognizerDelegate, UIP
     }
 
     @objc private func onContinuousScroll(_ recognizer: UIPanGestureRecognizer) {
-        guard canInteract, route == .absolute else { return }
+        guard canInteract, route != .idle else { return }
         let delta = recognizer.translation(in: surface)
         recognizer.setTranslation(.zero, in: surface)
         switch recognizer.state {
         case .began:
+            guard takesScroll() else { return }
             stopMomentum()
             scrolling = true
             sendScroll(delta, phase: 1)
@@ -180,7 +228,7 @@ final class PointerGestureController: NSObject, UIGestureRecognizerDelegate, UIP
     }
 
     @objc private func onDiscreteScroll(_ recognizer: UIPanGestureRecognizer) {
-        guard canInteract, route == .absolute else { return }
+        guard canInteract, takesScroll() else { return }
         let delta = recognizer.translation(in: surface)
         recognizer.setTranslation(.zero, in: surface)
         // A single wheel notch can be delivered with began/ended and no
@@ -211,7 +259,7 @@ final class PointerGestureController: NSObject, UIGestureRecognizerDelegate, UIP
     }
 
     private func stepMomentum(_ link: CADisplayLink) {
-        guard canInteract, route == .absolute else { stopMomentum(); return }
+        guard canInteract, route != .idle else { stopMomentum(); return }
         let dt = lastMomentumTime.map { link.timestamp - $0 } ?? 1 / 60
         lastMomentumTime = link.timestamp
         let step = momentum.step(dt: dt)

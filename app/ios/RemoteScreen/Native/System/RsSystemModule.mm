@@ -53,6 +53,11 @@
   return @([[SystemServices shared] hasText]);
 }
 
+- (NSNumber *)clipboardChangeCount
+{
+  return @([[SystemServices shared] clipboardChangeCount]);
+}
+
 - (void)readText:(RCTPromiseResolveBlock)resolve
           reject:(RCTPromiseRejectBlock)reject
 {

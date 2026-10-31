@@ -110,37 +110,124 @@ final class PointerTests: XCTestCase {
                        accuracy: 0.000001)
     }
 
-    func testPointerEdgeEscapeThresholdAndReset() {
+    func testPointerEdgeEscapeNeedsSustainedPush() {
         var escape = PointerEdgeEscape()
-        // Eight pushes of 20 points reach the 160-point threshold exactly.
+        let down = { (dy: CGFloat) in CGVector(dx: 0, dy: dy) }
+        // A flick onto the taskbar overshoots far past the threshold but is
+        // over long before the minimum duration.
         for index in 0..<8 {
-            XCTAssertEqual(escape.feed(atBottomEdge: true, viewDeltaY: 20,
-                                       now: Double(index) * 0.01), index == 7)
+            XCTAssertFalse(escape.feed(atBottomEdge: true, viewDelta: down(60), now: Double(index) * 0.01))
         }
-        XCTAssertFalse(escape.feed(atBottomEdge: true, viewDeltaY: 20, now: 0.08))
+        // Pushes of 10 points every 20 ms: 260 points after 0.5 s.
+        for index in 0...25 {
+            XCTAssertEqual(escape.feed(atBottomEdge: true, viewDelta: down(10), now: 1 + Double(index) / 50),
+                           index == 25)
+        }
+        XCTAssertFalse(escape.feed(atBottomEdge: true, viewDelta: down(10), now: 1.52))
+    }
 
-        XCTAssertFalse(escape.feed(atBottomEdge: true, viewDeltaY: 100, now: 1))
-        XCTAssertFalse(escape.feed(atBottomEdge: true, viewDeltaY: -1, now: 1.1))
-        XCTAssertFalse(escape.feed(atBottomEdge: true, viewDeltaY: 100, now: 1.2))
-        XCTAssertTrue(escape.feed(atBottomEdge: true, viewDeltaY: 60, now: 1.3))
-
-        XCTAssertFalse(escape.feed(atBottomEdge: true, viewDeltaY: 100, now: 2))
-        XCTAssertFalse(escape.feed(atBottomEdge: true, viewDeltaY: 100, now: 2.7))
-        XCTAssertFalse(escape.feed(atBottomEdge: false, viewDeltaY: 1000, now: 2.8))
+    func testPointerEdgeEscapeStartsOver() {
+        var escape = PointerEdgeEscape()
+        let down = { (dy: CGFloat) in CGVector(dx: 0, dy: dy) }
+        // A pause longer than maxGap starts the push over.
+        for index in 0...20 {
+            XCTAssertFalse(escape.feed(atBottomEdge: true, viewDelta: down(20), now: Double(index) / 50))
+        }
+        for index in 0...15 {
+            XCTAssertFalse(escape.feed(atBottomEdge: true, viewDelta: down(20), now: 0.6 + Double(index) / 50))
+        }
+        // Moving along the edge, moving up and leaving the edge all start over.
+        let interruptions = [(true, CGVector(dx: 30, dy: 10)), (true, down(-1)), (false, down(20))]
+        for (atBottomEdge, delta) in interruptions {
+            let start = 2.0
+            for index in 0...20 {
+                XCTAssertFalse(escape.feed(atBottomEdge: true, viewDelta: down(20), now: start + Double(index) / 50))
+            }
+            XCTAssertFalse(escape.feed(atBottomEdge: atBottomEdge, viewDelta: delta, now: start + 0.42))
+            for index in 0...20 {
+                XCTAssertFalse(escape.feed(atBottomEdge: true, viewDelta: down(20), now: start + 0.44 + Double(index) / 50))
+            }
+            escape.reset()
+        }
+        XCTAssertFalse(escape.feed(atBottomEdge: true, viewDelta: CGVector(dx: CGFloat.nan, dy: 10), now: 3))
     }
 
     func testPointerScrollPhasesAndIdleEnd() {
         var scroll = PointerScrollSynth()
-        // One scroll unit is 10 points; the first sample starts phase 1.
-        XCTAssertEqual(scroll.feed(x: 0, y: 1, now: 0),
-                       .init(dx: 0, dy: 10, phase: 1))
+        let unit = PointerScrollSynth.pointsPerUnit
+        // The first sample starts phase 1.
+        XCTAssertEqual(scroll.feed(x: 0, y: 2, now: 0),
+                       .init(dx: 0, dy: 2 * unit, phase: 1))
         XCTAssertEqual(scroll.feed(x: 0, y: 1, now: 0.01),
-                       .init(dx: 0, dy: 10, phase: 2))
+                       .init(dx: 0, dy: unit, phase: 2))
         XCTAssertNil(scroll.idle(now: 0.05))
-        XCTAssertEqual(scroll.idle(now: 0.2), .init(dx: 0, dy: 0, phase: 3))
+        let end = scroll.idle(now: 0.2)
+        XCTAssertEqual(end?.phase, 3)
+        XCTAssertEqual(end?.dy, 0)
         XCTAssertNil(scroll.idle(now: 0.3))
         XCTAssertNil(scroll.feed(x: 0, y: 0, now: 0.4))
         XCTAssertNil(scroll.reset())
+        XCTAssertEqual(scroll.summary.samples, 2)
+        XCTAssertEqual(scroll.summary.total.dy, 3 * unit)
+        XCTAssertEqual(scroll.summary.peak, 2)
+        XCTAssertEqual(scroll.summary.duration, 0.01, accuracy: 1e-9)
+    }
+
+    func testPointerScrollKeepsToOneAxis() {
+        var scroll = PointerScrollSynth()
+        let unit = PointerScrollSynth.pointsPerUnit
+        // Held back until it has gone far enough to tell, then sent at once.
+        XCTAssertEqual(scroll.feed(x: 0.3, y: 1, now: 0), .init(dx: 0, dy: 0, phase: 1))
+        XCTAssertEqual(scroll.feed(x: 0.2, y: 1.5, now: 0.01), .init(dx: 0, dy: 2.5 * unit, phase: 2))
+        // Sideways drift later in an up/down swipe is dropped.
+        XCTAssertEqual(scroll.feed(x: 2, y: 0.5, now: 0.02), .init(dx: 0, dy: unit / 2, phase: 2))
+        XCTAssertEqual(scroll.summary.peak, 2)
+        _ = scroll.idle(now: 0.2)
+
+        XCTAssertEqual(scroll.feed(x: -3, y: 0.2, now: 1), .init(dx: -3 * unit, dy: 0, phase: 1))
+        XCTAssertEqual(scroll.feed(x: 0, y: 1, now: 1.01), .init(dx: 0, dy: 0, phase: 2))
+    }
+
+    func testPointerScrollFlickLeavesItsSpeed() {
+        var scroll = PointerScrollSynth()
+        let unit = PointerScrollSynth.pointsPerUnit
+        // One unit every 10 ms: 100 units a second.
+        for step in 0..<10 {
+            _ = scroll.feed(x: 0, y: -1, now: Double(step) * 0.01)
+        }
+        let end = scroll.idle(now: 0.25)
+        XCTAssertEqual(end?.velocity.dx ?? 1, 0, accuracy: 1e-6)
+        XCTAssertEqual(end?.velocity.dy ?? 0, -100 * unit, accuracy: 1)
+        XCTAssertEqual(scroll.summary.samples, 10)
+        XCTAssertEqual(scroll.summary.total.dy, -10 * unit)
+    }
+
+    func testPointerScrollSlowingDownLeavesLittleSpeed() {
+        var scroll = PointerScrollSynth()
+        for step in 0..<10 {
+            _ = scroll.feed(x: 0, y: 2, now: Double(step) * 0.01)
+        }
+        // The fingers slow to a crawl before they stop: 3 units a second.
+        for step in 0..<10 {
+            _ = scroll.feed(x: 0, y: 0.03, now: 0.1 + Double(step) * 0.01)
+        }
+        let end = scroll.idle(now: 0.4)
+        XCTAssertLessThan(abs(end?.velocity.dy ?? .infinity), 4 * PointerScrollSynth.pointsPerUnit)
+    }
+
+    func testPointerScrollSpeedNeedsTwoSamplesAndIsCapped() {
+        var scroll = PointerScrollSynth()
+        _ = scroll.feed(x: 0, y: 5, now: 0)
+        XCTAssertEqual(scroll.idle(now: 0.2)?.velocity, .zero)
+
+        _ = scroll.feed(x: 0, y: 500, now: 1)
+        _ = scroll.feed(x: 0, y: 500, now: 1.001)
+        XCTAssertEqual(scroll.idle(now: 1.2)?.velocity.dy ?? 0, PointerScrollSynth.maxVelocity, accuracy: 1e-6)
+
+        // A cancelled scroll does not fling.
+        _ = scroll.feed(x: 0, y: 1, now: 2)
+        _ = scroll.feed(x: 0, y: 1, now: 2.01)
+        XCTAssertEqual(scroll.reset(), .init(dx: 0, dy: 0, phase: 3))
     }
 
     func testPointerButtonsMapMasksAndAuxiliaryButtons() {

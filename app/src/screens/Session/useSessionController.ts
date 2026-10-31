@@ -640,6 +640,10 @@ export function useSessionController({
       setSheet('switcher');
       return;
     }
+    if (event.action === 'toolbar') {
+      toggleToolbar();
+      return;
+    }
     // ⌃⌥⌘N counts as the switcher numbers; ←/→ skip other windows' ones.
     const target = shortcutTarget(
       event.action === 'index' ? switcherList.screens : spaceList.screens,

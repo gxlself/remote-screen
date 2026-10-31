@@ -32,7 +32,7 @@ export const native = {
     lanMacs: '同一网络里的 Mac',
     lanSearching: '正在查找…',
     lanEmpty: '没找到打开了屏幕共享的 Mac',
-    lanEmptyHint: '一直找不到的话，看看有没有允许远屏访问本地网络。',
+    lanEmptyHint: '一直找不到的话，看看有没有允许 Remote Screen 访问本地网络。',
     openSettings: '去设置',
     scan: '扫描局域网',
     scanning: '正在扫描…',

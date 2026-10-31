@@ -145,7 +145,8 @@ export function showsManyNote(list: SwitcherList): boolean {
 /**
  * Where a ⌃⌥⌘ shortcut goes from `currentId`: next / previous wrap around,
  * a number past the list or the session already shown does nothing (null).
- * `switcher` opens the overlay and has no target either.
+ * `switcher` opens the overlay and `toolbar` shows or hides the toolbar;
+ * neither has a target.
  */
 export function shortcutTarget(
   screens: readonly SwitcherItem[],
@@ -171,6 +172,7 @@ export function shortcutTarget(
       target = screens[event.index - 1];
       break;
     case 'switcher':
+    case 'toolbar':
       return null;
   }
   return target === undefined || target.id === currentId ? null : target;

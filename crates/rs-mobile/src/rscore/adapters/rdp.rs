@@ -213,6 +213,10 @@ impl RdpSink for SinkBridge {
         self.host.clipboard(text);
     }
 
+    fn clipboard_other(&self) {
+        self.host.clipboard_other();
+    }
+
     fn monitors(&self, layout: &[Rect]) {
         let screens = layout
             .iter()

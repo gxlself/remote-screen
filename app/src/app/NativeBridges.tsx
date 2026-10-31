@@ -1,6 +1,5 @@
 // 无界面的原生 Bridge 都放这里，AppRoot 只挂这一个。
 import NetInfoBridge from '../native/netinfo/NetInfoBridge';
-import PrivacyCoverBridge from '../native/localAuth/PrivacyCoverBridge';
 import LifecycleBridge from '../native/lifecycle/LifecycleBridge';
 import AutoConnect from '../features/autoconnect/AutoConnect';
 import PowerSync from '../features/session/PowerSync';
@@ -12,7 +11,6 @@ export default function NativeBridges(): React.JSX.Element {
   return (
     <>
       <NetInfoBridge />
-      <PrivacyCoverBridge />
       <LifecycleBridge />
       <PowerSync />
       <TailnetSync />

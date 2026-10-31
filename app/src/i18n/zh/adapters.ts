@@ -100,6 +100,8 @@ export const adapters = {
     sound: '播放电脑的声音',
     remoteClipboard: '复制电脑上的剪贴板',
     remoteClipboardHint: '自动同步关着，电脑上复制的内容在这里取',
+    hideHandle: '收起时隐藏工具栏把手',
+    hideHandleHint: '三指轻点画面或按 ⌃⌥⌘T 呼出工具栏',
     gestures: '手势说明',
     fitScreen: '适应屏幕',
     fitScreenHint: '取消放大，整个画面放回屏幕里',
@@ -112,6 +114,7 @@ export const adapters = {
     cancel: '取消',
   },
   toast: {
+    toolbarHidden: '工具栏已隐藏，三指轻点画面或按 ⌃⌥⌘T 呼出',
     clipboardSent: '已发送到电脑的剪贴板',
     clipboardEmpty: '手机剪贴板是空的',
     clipboardLatin1Only: '屏幕共享的剪贴板只支持西文字符',

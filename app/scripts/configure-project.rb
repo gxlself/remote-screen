@@ -146,9 +146,9 @@ target.build_configurations.each do |cfg|
     'ai.gxlself.remotescreen'
   end
   cfg.build_settings['APP_DISPLAY_NAME'] = if cfg.name == 'Debug'
-    '远屏 Dev'
+    'Remote Screen Dev'
   else
-    '远屏'
+    'Remote Screen'
   end
   cfg.build_settings['PRODUCT_MODULE_NAME'] = 'RemoteScreen'
   cfg.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '16.0'

@@ -97,6 +97,7 @@ export function checkExhaustiveEvent(event: CoreEvent): void {
     case 'adapter.state':
     case 'adapter.certPrompt':
     case 'adapter.clipboard':
+    case 'adapter.clipboardOther':
     case 'adapter.screens':
       return;
     case 'network.changed':

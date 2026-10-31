@@ -359,6 +359,12 @@ impl DriverHost for SessionHost {
         });
     }
 
+    fn clipboard_other(&self) {
+        self.core.events().emit(&AdapterEvent::ClipboardOther {
+            session_id: self.entry.id.to_string(),
+        });
+    }
+
     fn screens(&self, screens: &[AdapterScreen]) {
         {
             let mut view = lock(&self.screens);

@@ -120,6 +120,11 @@ impl CliprdrBackend for TextClipboard {
             .any(|format| format.id == ClipboardFormatId::CF_UNICODETEXT);
         if !self.remote_text_pending {
             self.last_text = None;
+            // A screenshot on the computer: a paste there must not bring this
+            // device's older text over it.
+            if !formats.is_empty() {
+                self.sink.clipboard_other();
+            }
         } else if self.ready {
             self.remote_text_pending = false;
             self.enqueue(Message::RequestText);
