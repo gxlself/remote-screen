@@ -400,7 +400,7 @@ impl RdpConnection {
                     }
                 }
                 incoming = read_frame(&mut framed, activation.as_ref().and_then(|sequence| sequence.next_pdu_hint())) => {
-                    let (action, frame) = incoming.map_err(map_read_error)?;
+                    let (action, frame) = incoming.map_err(map_io_error)?;
                     if let Some(sequence) = activation.as_mut() {
                         advance_activation(sequence, &frame, framed.last_read_at(), &mut buf)?;
                         write_frame(&mut framed, buf.filled()).await?;
@@ -503,7 +503,8 @@ async fn write_frame(framed: &mut Framed, frame: &[u8]) -> Result<(), RdpError> 
         framed
             .write_all(frame)
             .await
-            .map_err(|error| RdpError::Io(error.to_string()))?;
+            // A server that hangs up mid-write is closed, like on a read.
+            .map_err(map_io_error)?;
     }
     Ok(())
 }
@@ -761,7 +762,7 @@ fn drain_shutdown<'a>(
         let outputs = stage.graceful_shutdown().map_err(map_session_error)?;
         dispatch_outputs(framed, image, ctx, outputs).await?;
         loop {
-            let (action, frame) = read_frame(framed, None).await.map_err(map_read_error)?;
+            let (action, frame) = read_frame(framed, None).await.map_err(map_io_error)?;
             let outputs = without_protocol_logs(|| {
                 stage.process(image, action, &frame, framed.last_read_at())
             })
@@ -772,7 +773,7 @@ fn drain_shutdown<'a>(
     })
 }
 
-fn map_read_error(error: io::Error) -> RdpError {
+fn map_io_error(error: io::Error) -> RdpError {
     match error.kind() {
         io::ErrorKind::UnexpectedEof => RdpError::Closed("eof".into()),
         io::ErrorKind::ConnectionReset
@@ -1054,9 +1055,13 @@ mod tests {
     #[test]
     fn eof_and_wheel_boundaries() {
         assert_eq!(
-            map_read_error(io::Error::from(io::ErrorKind::UnexpectedEof)),
+            map_io_error(io::Error::from(io::ErrorKind::UnexpectedEof)),
             RdpError::Closed("eof".into())
         );
+        assert!(matches!(
+            map_io_error(io::Error::from(io::ErrorKind::BrokenPipe)),
+            RdpError::Closed(_)
+        ));
         for units in [-255, -120, -1, 0, 1, 120, 255] {
             let Some(FastPathInputEvent::MouseEvent(event)) = input_event(RdpInput::Wheel {
                 horizontal: false,

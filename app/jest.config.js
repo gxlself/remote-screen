@@ -3,10 +3,14 @@
 // Set here, before Jest starts its workers, so every worker inherits it.
 process.env.TZ = 'UTC';
 
+const os = require('os');
+
 module.exports = {
   preset: '@react-native/jest-preset',
   watchman: false,
-  maxWorkers: 4,
+  // No more workers than cores: four on a 2-core CI runner pushed first
+  // renders past Jest's 5 s test timeout.
+  maxWorkers: Math.min(4, os.availableParallelism()),
   setupFiles: ['<rootDir>/src/test/setup.ts'],
   // SVG, safe-area, TanStack Query and Zustand ship runnable CommonJS entry
   // points. Only transform packages that still publish Flow, JSX or ESM.

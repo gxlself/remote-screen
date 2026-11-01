@@ -146,6 +146,9 @@ func (n *Node) Login(ctx context.Context) error {
 	if lc == nil {
 		return Errorf(CodeState, "not started")
 	}
+	if _, err := dropStaleNetmap(ctx, lc); err != nil {
+		return operationError(CodeIO, "restart interactive login", err)
+	}
 	// Restart the local backend to discard an in-progress auth URL (otherwise
 	// StartLoginInteractive reuses it). UpdatePrefs preserves Persist, and also
 	// restores our ControlURL if a canceled Logout left an empty profile.
@@ -174,7 +177,44 @@ func (n *Node) Logout(ctx context.Context) error {
 	if err := lc.Start(ctx, ipn.Options{UpdatePrefs: n.loginPrefs()}); err != nil {
 		return operationError(CodeIO, "restore configuration after logout", err)
 	}
+	if dropped, err := dropStaleNetmap(ctx, lc); err != nil {
+		return operationError(CodeIO, "restore configuration after logout", err)
+	} else if dropped {
+		if err := lc.Start(ctx, ipn.Options{UpdatePrefs: n.loginPrefs()}); err != nil {
+			return operationError(CodeIO, "restore configuration after logout", err)
+		}
+	}
 	return nil
+}
+
+// dropStaleNetmap works around a race in tailscale v1.94.2 (still on main):
+// SetControlClientStatus unlocks for the TKA sync and, after relocking, does
+// not check that its control client is still current. A netmap the old client
+// received during Logout can therefore land after the profile reset, and the
+// logged-out node then reports Stopped or Starting instead of NeedsLogin. An
+// empty profile clears that netmap; the old client is shut down by then, so
+// it cannot happen twice. Reports whether it switched profiles.
+func dropStaleNetmap(ctx context.Context, lc *local.Client) (bool, error) {
+	prefs, err := lc.GetPrefs(ctx)
+	if err != nil {
+		return false, err
+	}
+	if prefs.Persist != nil && prefs.Persist.NodeID != "" {
+		return false, nil // logged in: the netmap is ours
+	}
+	st, err := lc.StatusWithoutPeers(ctx)
+	if err != nil {
+		return false, err
+	}
+	switch st.BackendState {
+	case ipn.Stopped.String(), ipn.Starting.String(), ipn.Running.String():
+	default:
+		return false, nil
+	}
+	if err := lc.SwitchToEmptyProfile(ctx); err != nil {
+		return false, err
+	}
+	return true, nil
 }
 
 func (n *Node) loginPrefs() *ipn.Prefs {
