@@ -203,7 +203,7 @@ export type OpenOpts = {
   maxFps?: number;
   /** 期望的最大编码宽度（像素）；省略时 Rust 用 1920。手机 App 不传（07 · RsCore）。 */
   maxWidth?: number;
-  /** 唯一的解码能力；省略时 HEVC。手机 App 不传。 */
+  /** 唯一的解码能力；省略时 HEVC。手机 App 只在设备没有 HEVC 硬解时传 h264。 */
   codec?: 'hevc' | 'h264';
 };
 /** 07 未定义；按 03 §4、§10 和画布 SessionConnecting 约定，待 07 补登。 */

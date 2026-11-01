@@ -7,6 +7,8 @@ export type NativeSystemConstants = {
   bundleId: string;
   modelId: string;
   maxFps: CodegenTypes.Int32;
+  /** iOS only: VideoToolbox can decode HEVC in hardware. */
+  hevcHardwareDecode?: boolean;
 };
 
 export interface Spec extends TurboModule {

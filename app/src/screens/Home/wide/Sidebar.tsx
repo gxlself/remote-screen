@@ -26,6 +26,8 @@ import { SearchField } from '../SearchField';
 import { ServerRow } from '../ServerRow';
 
 const CONTENT_TOP = 20;
+/** Two clicks on one row this close together connect, as on a computer. */
+const DOUBLE_PRESS_MS = 400;
 
 export type SidebarProps = {
   cards: HomeCard[];
@@ -34,7 +36,7 @@ export type SidebarProps = {
   selectedId: string | null;
   servers: HomeScreenViewProps['servers'];
   setQuery(q: string): void;
-  actions: Pick<HomeActions, 'add' | 'longPressCard' | 'openServer'>;
+  actions: Pick<HomeActions, 'add' | 'longPressCard' | 'openCard' | 'openServer'>;
   /** Called with `cardKey(card)`. */
   onSelect(key: string): void;
   onRefresh?(): void;
@@ -136,6 +138,7 @@ export function Sidebar({
 }: SidebarProps) {
   const insets = useSafeAreaInsets();
   const previousCardCount = useRef(cards.length);
+  const lastPress = useRef<{ key: string; at: number } | null>(null);
 
   useEffect(() => {
     const becameEmpty =
@@ -147,6 +150,20 @@ export function Sidebar({
     }
     previousCardCount.current = cards.length;
   }, [cards.length, query]);
+
+  // The first click selects; a second one on the same row connects.
+  const pressCard = (card: HomeCard) => {
+    const key = cardKey(card);
+    const now = Date.now();
+    const last = lastPress.current;
+    if (last !== null && last.key === key && now - last.at <= DOUBLE_PRESS_MS) {
+      lastPress.current = null;
+      actions.openCard(card);
+      return;
+    }
+    lastPress.current = { key, at: now };
+    onSelect(key);
+  };
 
   return (
     <View style={styles.sidebar} testID="wide-sidebar">
@@ -217,7 +234,7 @@ export function Sidebar({
                   card={card}
                   key={cardKey(card)}
                   onLongPress={() => actions.longPressCard(card)}
-                  onPress={() => onSelect(cardKey(card))}
+                  onPress={() => pressCard(card)}
                   selected={cardKey(card) === selectedId}
                 />
               ))}

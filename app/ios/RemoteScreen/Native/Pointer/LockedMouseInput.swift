@@ -87,7 +87,11 @@ final class LockedMouseInput {
                 if !down { self.suppressPrimary = false }
                 return
             }
-            self.surface?.pointerButton(button, down: down, now: CACurrentMediaTime())
+            guard let surface = self.surface else {
+                if down { self.coordinator?.strayClick() }
+                return
+            }
+            surface.pointerButton(button, down: down, now: CACurrentMediaTime())
         }
     }
 

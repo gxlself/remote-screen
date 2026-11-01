@@ -2,6 +2,7 @@ import Foundation
 import Darwin
 import UIKit
 import UserNotifications
+import VideoToolbox
 
 @objc(SystemServices)
 final class SystemServices: NSObject {
@@ -57,6 +58,8 @@ final class SystemServices: NSObject {
             "bundleId": Bundle.main.bundleIdentifier ?? "",
             "modelId": modelIdentifier(),
             "maxFps": UIScreen.main.maximumFramesPerSecond,
+            // A8 (iPad mini 4) and older decode HEVC in software only.
+            "hevcHardwareDecode": VTIsHardwareDecodeSupported(kCMVideoCodecType_HEVC),
         ]
         cachedConstants = constants
         return constants

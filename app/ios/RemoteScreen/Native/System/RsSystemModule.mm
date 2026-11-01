@@ -35,6 +35,7 @@
     .bundleId = values[@"bundleId"],
     .modelId = values[@"modelId"],
     .maxFps = [values[@"maxFps"] doubleValue],
+    .hevcHardwareDecode = [values[@"hevcHardwareDecode"] boolValue],
   });
 }
 

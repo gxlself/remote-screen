@@ -63,6 +63,7 @@ jest.mock('../../native/session/RemoteSessionView', () =>
 jest.mock('../../native/platform/impl/system', () => ({
   ...jest.requireActual('../../native/platform/impl/system'),
   maxFps: jest.fn(),
+  hevcHardwareDecode: jest.fn(),
 }));
 
 jest.mock('../../native/keyboard/SessionKeyboard', () => {
@@ -276,6 +277,20 @@ it('passes the native maximum frame rate when opening a session', async () => {
       },
     ],
   });
+});
+
+it('asks for H.264 when the device has no HEVC hardware decoder', async () => {
+  jest.mocked(system.hevcHardwareDecode).mockReturnValueOnce(false);
+  const view = await mount();
+  const open = view.core.calls.find(call => call.method === 'sessions.open');
+  expect(open?.args[1]).toMatchObject({ codec: 'h264' });
+});
+
+it('leaves the codec to the core when HEVC decodes in hardware', async () => {
+  jest.mocked(system.hevcHardwareDecode).mockReturnValueOnce(true);
+  const view = await mount();
+  const open = view.core.calls.find(call => call.method === 'sessions.open');
+  expect(open?.args[1]).not.toHaveProperty('codec');
 });
 
 it('uses view intent, tablet defaults and an explicit display', async () => {

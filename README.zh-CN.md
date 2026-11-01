@@ -51,7 +51,7 @@
 
 | 组件 | 平台 | 状态 |
 |---|---|---|
-| 手机 App（`app/`） | iOS / iPadOS 16+、Android 8.0+（API 26） | iOS 1.0 已提交 App Store 审核；Android 需自行构建 |
+| 手机 App（`app/`） | iOS / iPadOS 15.1+、Android 8.0+（API 26） | iOS 1.0 已提交 App Store 审核；Android 需自行构建 |
 | 电脑端控制端（`desktop/`） | macOS 13+、Windows 10/11 | 可用，未正式发布，需自行构建 |
 | Remote Host 被控端（`crates/rs-host-agent`） | macOS 13+、Windows 10/11、Linux（X11；Wayland 经 portal 只看不控） | 可用，未正式发布，需自行构建 |
 | 系统原生协议 | macOS 屏幕共享（VNC/ARD）、Windows RDP、SSH | 主连接方式 |

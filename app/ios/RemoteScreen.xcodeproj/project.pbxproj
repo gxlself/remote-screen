@@ -1311,7 +1311,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				HERMES_CLI_PATH = "$(PODS_ROOT)/../../node_modules/hermes-compiler/hermesc/osx-bin/hermesc";
 				INFOPLIST_FILE = RemoteScreen/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1347,7 +1347,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				HERMES_CLI_PATH = "$(PODS_ROOT)/../../node_modules/hermes-compiler/hermesc/osx-bin/hermesc";
 				INFOPLIST_FILE = RemoteScreen/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

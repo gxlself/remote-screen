@@ -3,6 +3,7 @@ import {
   clipboardChangeCount,
   copyText,
   haptic,
+  hevcHardwareDecode,
   maxFps,
   modelId,
   readText,
@@ -22,6 +23,7 @@ const mockGetConstants = jest.fn(() => ({
   bundleId: 'ai.gxlself.remotescreen',
   modelId: 'iPhone16,2',
   maxFps: 120,
+  hevcHardwareDecode: true,
 }));
 
 let mockNativeModule: {
@@ -96,7 +98,16 @@ it('normalizes notification results', async () => {
 it('reads constants and exposes display information', () => {
   expect(appVersion()).toBe('1.2.3');
   expect(maxFps()).toBe(120);
+  expect(hevcHardwareDecode()).toBe(true);
   expect(modelId()).toBe('iPhone16,2');
+});
+
+it('reports a device without an HEVC hardware decoder', () => {
+  mockGetConstants.mockReturnValueOnce({
+    ...mockGetConstants(),
+    hevcHardwareDecode: false,
+  });
+  expect(hevcHardwareDecode()).toBe(false);
 });
 
 it('uses the P0 placeholders when the native module is missing', async () => {
@@ -109,5 +120,6 @@ it('uses the P0 placeholders when the native module is missing', async () => {
   await expect(requestLocalNetwork()).resolves.toBe('unknown');
   expect(appVersion()).toBe('0.0.0');
   expect(maxFps()).toBe(60);
+  expect(hevcHardwareDecode()).toBeNull();
   expect(modelId()).toBe('unknown');
 });

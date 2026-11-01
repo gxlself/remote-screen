@@ -4,7 +4,7 @@ import UIKit
 final class RsRootViewController: UIViewController {
     private var loggedAppearance = false
 
-    override var prefersPointerLocked: Bool { PointerLockCoordinator.shared.wantsLock }
+    override var prefersPointerLocked: Bool { PointerLockCoordinator.shared.wantsLock(in: self) }
     override var childViewControllerForPointerLock: UIViewController? { nil }
 
     // React Native assigns `view` directly, so `viewDidLoad` never runs here.
@@ -59,10 +59,7 @@ enum ScreenEdgeDeferral {
             controller.prefersHomeIndicatorAutoHidden ? [.top, .bottom] : []
         }
         let locked: @convention(block) (UIViewController) -> Bool = { controller in
-            let coordinator = PointerLockCoordinator.shared
-            guard coordinator.wantsLock, controller.isViewLoaded,
-                  let surface = coordinator.activeSurface else { return false }
-            return surface.isDescendant(of: controller.view)
+            PointerLockCoordinator.shared.wantsLock(in: controller)
         }
         RsLog.marker("EDGES", [
             "install": add(screenClass, #selector(getter: UIViewController.preferredScreenEdgesDeferringSystemGestures),

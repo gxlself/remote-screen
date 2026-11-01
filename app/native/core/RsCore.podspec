@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.license = package['license']
   s.author = package['author']
   s.source = { :git => package['repository']['url'], :tag => s.version.to_s }
-  s.platform = :ios, '17.0'
+  s.platform = :ios, '15.1'
 
   # CocoaPods restricts globs to the pod root. These in-root symlinks expose
   # the app-owned generated glue and framework without duplicating either.

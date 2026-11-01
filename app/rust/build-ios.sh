@@ -74,7 +74,7 @@ for RS_TARGET in aarch64-apple-ios aarch64-apple-ios-sim; do
     CC_aarch64_apple_ios_sim="$RS_CC_IOS_SIM" \
     CXX_aarch64_apple_ios_sim="$RS_CXX_IOS_SIM" \
     ${RS_TAILNET_ENV[@]+"${RS_TAILNET_ENV[@]}"} \
-    IPHONEOS_DEPLOYMENT_TARGET=16.0 RUSTC="$RS_RUSTC" \
+    IPHONEOS_DEPLOYMENT_TARGET=15.1 RUSTC="$RS_RUSTC" \
     "$RS_RUSTUP" run stable cargo build --locked \
       --manifest-path "$RS_REPO_ROOT/Cargo.toml" -p rs-mobile \
       --target "$RS_TARGET" "${RS_PROFILE_ARGS[@]}" ${RS_FEATURE_ARGS[@]+"${RS_FEATURE_ARGS[@]}"}

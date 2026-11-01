@@ -338,9 +338,17 @@ async fn cancelled_dial_closes_fd() {
         .await
         .is_err());
     tokio::time::sleep(Duration::from_millis(250)).await;
+    // Kernels report a closed datagram peer differently. Linux fails the send
+    // with ECONNREFUSED (ENOTCONN on later sends). macOS sets ECONNRESET on
+    // this end when the peer closes and returns it from the next send.
     let error = right.send(b"closed").await.unwrap_err();
-    assert!(matches!(
-        error.kind(),
-        io::ErrorKind::ConnectionRefused | io::ErrorKind::NotConnected
-    ));
+    assert!(
+        matches!(
+            error.kind(),
+            io::ErrorKind::ConnectionRefused
+                | io::ErrorKind::NotConnected
+                | io::ErrorKind::ConnectionReset
+        ),
+        "{error:?}"
+    );
 }

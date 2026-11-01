@@ -76,6 +76,12 @@ export function maxFps(): number {
     : 60;
 }
 
+/** Null where unknown (Android, or no native module). */
+export function hevcHardwareDecode(): boolean | null {
+  const value = constants()?.hevcHardwareDecode;
+  return typeof value === 'boolean' ? value : null;
+}
+
 export function modelId(): string {
   const value = constants()?.modelId;
   return typeof value === 'string' ? value : 'unknown';

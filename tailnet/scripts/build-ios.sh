@@ -8,7 +8,7 @@ Build ios-arm64 and ios-arm64-simulator slices of RsTailnet.xcframework on macOS
 Environment:
   RS_TAILNET_OUT                output root (default: <repo>/tailnet/out)
   RS_TAILNET_TAGS               additional Go build tags (default: empty)
-  IPHONEOS_DEPLOYMENT_TARGET    minimum iOS version (default: 16.0)
+  IPHONEOS_DEPLOYMENT_TARGET    minimum iOS version (default: 15.1)
   DEVELOPER_DIR / TOOLCHAINS    optional Xcode selection
 Requires Go >= 1.26, Xcode, and iPhoneOS/iPhoneSimulator SDKs in PATH.
 HELP
@@ -28,9 +28,9 @@ for RS_TOOL in go git xcrun xcodebuild lipo otool nm; do
     printf 'error: %s not found; set PATH and DEVELOPER_DIR to Go/Xcode\n' "$RS_TOOL" >&2; exit 2
   fi
 done
-RS_TARGET="${IPHONEOS_DEPLOYMENT_TARGET:-16.0}"
+RS_TARGET="${IPHONEOS_DEPLOYMENT_TARGET:-15.1}"
 if [[ ! "$RS_TARGET" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
-  echo 'error: set IPHONEOS_DEPLOYMENT_TARGET to an iOS version such as 16.0' >&2; exit 2
+  echo 'error: set IPHONEOS_DEPLOYMENT_TARGET to an iOS version such as 15.1' >&2; exit 2
 fi
 RS_ENV=(env -u SDKROOT -u LIBRARY_PATH -u CPATH -u CFLAGS -u CXXFLAGS)
 if ! RS_DEVICE_CC="$("${RS_ENV[@]}" xcrun --sdk iphoneos -f clang)" ||

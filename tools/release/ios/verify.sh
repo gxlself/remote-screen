@@ -145,11 +145,11 @@ try:
     while len(parts) < 2:
         parts.append(0)
     actual = tuple(parts)
-    raise SystemExit(0 if actual >= (16, 0) else 1)
+    raise SystemExit(0 if actual >= (15, 1) else 1)
 except (ValueError, IndexError):
     raise SystemExit(1)
 PY
-    then pass_check 'MinimumOSVersion (>= 16.0)'; else fail_check 'MinimumOSVersion (>= 16.0)' 'missing or below 16.0'; fi
+    then pass_check 'MinimumOSVersion (>= 15.1)'; else fail_check 'MinimumOSVersion (>= 15.1)' 'missing or below 15.1'; fi
     [[ -n "$executable" ]] || executable=RemoteScreen
     if [[ -f "$app_path/$executable" ]]; then
         local archs

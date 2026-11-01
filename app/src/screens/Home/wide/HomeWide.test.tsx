@@ -255,6 +255,30 @@ it('lists a tailnet Mac without Host, shows its pane and connects natively', asy
   });
 });
 
+it('connects a sidebar computer clicked twice in a row', async () => {
+  const core = createFakeCore();
+  installFakeAdapters(core);
+  const { navigation } = await renderHome({
+    core,
+    localDirectory: { peers: [officeMac] },
+  });
+
+  const row = screen.getByTestId('wide-computer-tailnet:office-mac');
+  await fireEvent.press(row);
+  await jest.advanceTimersByTimeAsync(500);
+  await fireEvent.press(row);
+  expect(navigation.navigate).not.toHaveBeenCalled();
+
+  await fireEvent.press(row);
+  expect(navigation.navigate).toHaveBeenCalledTimes(1);
+  expect(navigation.navigate).toHaveBeenLastCalledWith('AdapterSession', {
+    target: { protocol: 'vnc', addr: '100.64.0.40' },
+    name: 'office-mac',
+    addrKind: 'tailnet',
+    context: 'native',
+  });
+});
+
 it('shows the external-app guide from the native pane when the app is missing', async () => {
   const core = createFakeCore();
   const platform = new FakePlatform();

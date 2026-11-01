@@ -18,6 +18,7 @@ final class PointerLockCoordinator {
     private var observers: [NSObjectProtocol] = []
     private var mouseInput: LockedMouseInput?
     private var lastState: State?
+    private var lastStrayClickLog: CFTimeInterval?
 
     private struct State: Equatable {
         let mouse: Bool
@@ -32,9 +33,12 @@ final class PointerLockCoordinator {
         observers.append(center.addObserver(forName: UIPointerLockState.didChangeNotification,
                                              object: nil, queue: .main) { [weak self] note in
             guard let self,
-                  let scene = note.userInfo?[UIPointerLockState.sceneUserInfoKey] as? UIWindowScene,
-                  scene === self.activeSurface?.window?.windowScene else { return }
-            self.refresh()
+                  let scene = note.userInfo?[UIPointerLockState.sceneUserInfoKey] as? UIWindowScene else { return }
+            if scene === self.activeSurface?.window?.windowScene {
+                self.refresh()
+            } else {
+                self.releaseStrayLocks("notify")
+            }
         })
         for name in [Notification.Name.GCMouseDidConnect, .GCMouseDidDisconnect] {
             observers.append(center.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
@@ -106,6 +110,46 @@ final class PointerLockCoordinator {
         refresh()
     }
 
+    /// Whether `controller` should ask UIKit for the lock: only the screen
+    /// that holds the session wanting it, never another window's root or the
+    /// home screen under a session page that is going away.
+    func wantsLock(in controller: UIViewController) -> Bool {
+        guard wantsLock, controller.isViewLoaded, let surface = activeSurface else { return false }
+        return surface.isDescendant(of: controller.view)
+    }
+
+    /// A GameController click no session took. While the system still holds
+    /// the lock, UIKit gets no trackpad clicks at all, so let go of it.
+    func strayClick() {
+        precondition(Thread.isMainThread)
+        let now = CACurrentMediaTime()
+        let stray = strayLockedScenes()
+        // Off the session pages every click also reaches GameController; log
+        // those sparingly, to tell a held lock from a click UIKit dropped.
+        if !stray.isEmpty || (activeSurface == nil && lastStrayClickLog.map({ now - $0 >= 1 }) ?? true) {
+            lastStrayClickLog = now
+            RsLog.marker("POINTER", ["strayClick": true, "route": route.rawValue, "want": wantsLock,
+                                     "strayLocked": stray.count])
+        }
+        releaseStrayLocks("click")
+    }
+
+    /// Scenes the system keeps locked although no session there wants it.
+    private func strayLockedScenes() -> [UIWindowScene] {
+        let wanted = wantsLock ? activeSurface?.window?.windowScene : nil
+        return UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            .filter { $0 !== wanted && $0.pointerLockState?.isLocked == true }
+    }
+
+    private func releaseStrayLocks(_ trigger: String) {
+        let stray = strayLockedScenes()
+        guard !stray.isEmpty else { return }
+        RsLog.marker("POINTER", ["strayLock": trigger, "scenes": stray.count])
+        for scene in stray {
+            for window in scene.windows { requestLockUpdate(from: window.rootViewController) }
+        }
+    }
+
     private func isFullScreen(_ surface: RemoteSessionSurface?) -> Bool {
         guard let window = surface?.window, let scene = window.windowScene else { return false }
         return PointerLockPolicy.isFullScreen(window: window.bounds.size, screen: scene.screen.bounds.size)
@@ -168,6 +212,13 @@ final class PointerLockCoordinator {
         if wantChanged || surfaceChanged || oldRoot !== root {
             requestLockUpdate(from: oldRoot)
             if root !== oldRoot { requestLockUpdate(from: root) }
+        }
+        // A session page leaving with its dismissal animation can leave the
+        // system lock on the screen below. Look again once it has settled.
+        if wantChanged && !wantsLock {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+                self?.releaseStrayLocks("settle")
+            }
         }
     }
 

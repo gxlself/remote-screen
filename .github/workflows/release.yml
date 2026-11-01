@@ -1,0 +1,272 @@
+name: Release builds
+
+# Builds the mobile app on GitHub-hosted runners with tools/release/{android,ios}.sh.
+# Signing comes from repository secrets (see tools/release/README.md). Without
+# them, Android is signed with a throwaway key and iOS is archived unsigned, so
+# the build itself is still checked.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      build:
+        description: Build number (0-99) appended to the Cargo.toml version
+        type: number
+        default: 0
+      testflight:
+        description: Upload the signed iOS build to TestFlight
+        type: boolean
+        default: false
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: "0"
+
+jobs:
+  meta:
+    name: Version
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      build: ${{ steps.version.outputs.build }}
+      upload: ${{ steps.version.outputs.upload }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the version and build number
+        id: version
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_BUILD: ${{ inputs.build }}
+          INPUT_TESTFLIGHT: ${{ inputs.testflight }}
+        run: |
+          version="$(bash -c 'source tools/release/ios/common.sh && read_workspace_version Cargo.toml')"
+          build="${INPUT_BUILD:-0}"
+          upload="${INPUT_TESTFLIGHT:-false}"
+          if [[ "$REF_TYPE" == tag ]]; then
+            # v1.2.3 is build 0; v1.2.3-b4 is build 4. A tag uploads to TestFlight.
+            if [[ ! "$REF_NAME" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)(-b([0-9]{1,2}))?$ ]]; then
+              echo "::error::Tag $REF_NAME must look like v1.2.3 or v1.2.3-b4"
+              exit 1
+            fi
+            if [[ "${BASH_REMATCH[1]}" != "$version" ]]; then
+              echo "::error::Tag $REF_NAME does not match version $version in Cargo.toml"
+              exit 1
+            fi
+            build="${BASH_REMATCH[3]:-0}"
+            upload=true
+          fi
+          if [[ ! "$build" =~ ^[0-9]+$ ]] || ((10#$build > 99)); then
+            echo "::error::Build number must be 0-99, got $build"
+            exit 1
+          fi
+          build=$((10#$build))
+          echo "version=$version build=$build upload=$upload"
+          {
+            echo "version=$version"
+            echo "build=$build"
+            echo "upload=$upload"
+          } >> "$GITHUB_OUTPUT"
+
+  android:
+    name: Android · APK and AAB
+    needs: meta
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      BUILD: ${{ needs.meta.outputs.build }}
+    steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /usr/share/swift \
+            /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          df -h /
+      - uses: actions/checkout@v4
+      - name: Install the pinned Rust toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: android
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-ndk
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - name: Install the NDK that app/android/build.gradle pins
+        run: |
+          ndk="$(sed -nE 's/^[[:space:]]*ndkVersion[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' app/android/build.gradle | head -n1)"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;$ndk" > /dev/null
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$ndk" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/$ndk" >> "$GITHUB_ENV"
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: app/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - name: Write signing material
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}
+          KEY_ALIAS: ${{ secrets.MYAPP_UPLOAD_KEY_ALIAS }}
+          STORE_PASSWORD: ${{ secrets.MYAPP_UPLOAD_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.MYAPP_UPLOAD_KEY_PASSWORD }}
+        run: |
+          umask 077
+          signing_dir="$RUNNER_TEMP/android-signing"
+          mkdir -p "$signing_dir"
+          keystore="$signing_dir/release.keystore"
+          if [[ -n "$KEYSTORE_BASE64" && -n "$KEY_ALIAS" && -n "$STORE_PASSWORD" && -n "$KEY_PASSWORD" ]]; then
+            printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$keystore"
+            signing=release
+          else
+            # The release path still runs end to end, but this APK cannot
+            # update an installed release build.
+            echo "::warning::No Android signing secrets: signing with a throwaway key"
+            KEY_ALIAS=ci
+            STORE_PASSWORD="$(openssl rand -hex 16)"
+            KEY_PASSWORD="$STORE_PASSWORD"
+            keytool -genkeypair -noprompt -keystore "$keystore" -storetype PKCS12 \
+              -alias "$KEY_ALIAS" -keyalg RSA -keysize 2048 -validity 3650 \
+              -dname 'CN=Remote Screen CI' -storepass "$STORE_PASSWORD" -keypass "$KEY_PASSWORD"
+            signing=throwaway
+          fi
+          {
+            echo "MYAPP_UPLOAD_STORE_FILE=$keystore"
+            echo "MYAPP_UPLOAD_KEY_ALIAS=$KEY_ALIAS"
+            echo "MYAPP_UPLOAD_STORE_PASSWORD=$STORE_PASSWORD"
+            echo "MYAPP_UPLOAD_KEY_PASSWORD=$KEY_PASSWORD"
+          } > "$signing_dir/keystore.properties"
+          echo "ANDROID_SIGNING=$signing" >> "$GITHUB_ENV"
+      - name: Build, sign and verify
+        run: >-
+          bash tools/release/android.sh --build "$BUILD" --out "$RUNNER_TEMP/out/android"
+          --keystore-properties "$RUNNER_TEMP/android-signing/keystore.properties"
+      - name: Remove signing material
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/android-signing"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RemoteScreen-android-${{ needs.meta.outputs.version }}-${{ needs.meta.outputs.build }}${{ env.ANDROID_SIGNING == 'throwaway' && '-throwaway-key' || '' }}
+          path: |
+            ${{ runner.temp }}/out/android/*.apk
+            ${{ runner.temp }}/out/android/*.aab
+            ${{ runner.temp }}/out/android/*.json
+            ${{ runner.temp }}/out/android/SHA256SUMS
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: android-logs
+          path: ${{ runner.temp }}/out/android/logs
+          if-no-files-found: ignore
+
+  ios:
+    name: iOS · App Store archive
+    needs: meta
+    runs-on: macos-26
+    timeout-minutes: 150
+    env:
+      BUILD: ${{ needs.meta.outputs.build }}
+      UPLOAD: ${{ needs.meta.outputs.upload }}
+      # app/rust/build-ios.sh builds with the stable toolchain.
+      RUSTUP_TOOLCHAIN: stable
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the iOS Rust targets
+        run: rustup toolchain install stable --profile minimal --target aarch64-apple-ios --target aarch64-apple-ios-sim
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ios
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: app/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - uses: actions/cache@v4
+        with:
+          path: app/ios/build/pod-cache
+          key: pods-${{ hashFiles('app/ios/Podfile.lock') }}
+      - name: Write signing material
+        env:
+          KEY_ID: ${{ secrets.IOS_ASC_API_KEY_ID }}
+          ISSUER_ID: ${{ secrets.IOS_ASC_API_ISSUER_ID }}
+          P8_BASE64: ${{ secrets.IOS_ASC_API_KEY_P8_BASE64 }}
+          TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+          CERT_P12_BASE64: ${{ secrets.IOS_SIGNING_CERT_P12_BASE64 }}
+          CERT_PASSWORD: ${{ secrets.IOS_SIGNING_CERT_PASSWORD }}
+        run: |
+          if [[ -z "$KEY_ID" || -z "$ISSUER_ID" || -z "$P8_BASE64" || -z "$TEAM_ID" ]]; then
+            echo "::warning::No App Store Connect secrets: archiving unsigned"
+            echo "IOS_SIGNED=false" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          umask 077
+          printf 'ASC_API_KEY_ID=%s\nASC_API_ISSUER_ID=%s\n' "$KEY_ID" "$ISSUER_ID" > app/ios/asc-api-key.properties
+          printf '%s' "$P8_BASE64" | base64 --decode > "app/AuthKey_${KEY_ID}.p8"
+          chmod 600 "app/AuthKey_${KEY_ID}.p8"
+          if [[ -n "$CERT_P12_BASE64" ]]; then
+            # An existing Apple Development identity, so automatic signing
+            # does not create a new certificate on every fresh runner.
+            keychain="$RUNNER_TEMP/signing.keychain-db"
+            keychain_password="$(openssl rand -hex 16)"
+            security create-keychain -p "$keychain_password" "$keychain"
+            security set-keychain-settings -lut 21600 "$keychain"
+            security unlock-keychain -p "$keychain_password" "$keychain"
+            printf '%s' "$CERT_P12_BASE64" | base64 --decode > "$RUNNER_TEMP/signing.p12"
+            security import "$RUNNER_TEMP/signing.p12" -k "$keychain" -P "$CERT_PASSWORD" -f pkcs12 -A
+            rm -f "$RUNNER_TEMP/signing.p12"
+            security set-key-partition-list -S apple-tool:,apple: -s -k "$keychain_password" "$keychain" > /dev/null
+            # shellcheck disable=SC2046
+            security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
+          fi
+          echo "IOS_SIGNED=true" >> "$GITHUB_ENV"
+      - name: Build and archive
+        env:
+          RS_IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+        run: |
+          args=(--build "$BUILD" --out "$RUNNER_TEMP/out/ios")
+          if [[ "$IOS_SIGNED" == true ]]; then
+            args+=(--skip-secrets-pull)
+            [[ "$UPLOAD" == true ]] && args+=(--upload)
+          else
+            [[ "$UPLOAD" != true ]] || echo "::warning::TestFlight upload skipped: the build is unsigned"
+            args+=(--dry-run)
+          fi
+          RS_POD="$(command -v pod)" bash tools/release/ios.sh "${args[@]}"
+      - name: Remove signing material
+        if: always()
+        run: |
+          rm -f app/AuthKey_*.p8 app/ios/asc-api-key.properties
+          if [[ -f "$RUNNER_TEMP/signing.keychain-db" ]]; then
+            security delete-keychain "$RUNNER_TEMP/signing.keychain-db"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RemoteScreen-ios-${{ needs.meta.outputs.version }}-${{ needs.meta.outputs.build }}${{ env.IOS_SIGNED != 'true' && '-unsigned' || '' }}
+          path: |
+            ${{ runner.temp }}/out/ios/*.ipa
+            ${{ runner.temp }}/out/ios/*-dSYMs.zip
+            ${{ runner.temp }}/out/ios/*.json
+            ${{ runner.temp }}/out/ios/SHA256SUMS
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ios-logs
+          path: ${{ runner.temp }}/out/ios/logs
+          if-no-files-found: ignore

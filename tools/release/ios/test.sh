@@ -138,7 +138,7 @@ make_archive() {
     python3 - "$app/Info.plist" "$encryption" "$version" "$bundle" <<'PY'
 import plistlib
 import sys
-info = {'CFBundleIdentifier': 'ai.gxlself.remotescreen', 'CFBundleShortVersionString': sys.argv[3], 'CFBundleVersion': sys.argv[4], 'DTPlatformName': 'iphoneos', 'MinimumOSVersion': '16.0', 'CFBundleExecutable': 'RemoteScreen'}
+info = {'CFBundleIdentifier': 'ai.gxlself.remotescreen', 'CFBundleShortVersionString': sys.argv[3], 'CFBundleVersion': sys.argv[4], 'DTPlatformName': 'iphoneos', 'MinimumOSVersion': '15.1', 'CFBundleExecutable': 'RemoteScreen'}
 if sys.argv[2] == 'true': info['ITSAppUsesNonExemptEncryption'] = False
 with open(sys.argv[1], 'wb') as stream: plistlib.dump(info, stream)
 PY
@@ -325,7 +325,7 @@ info = {
     'CFBundleShortVersionString': sys.argv[2],
     'CFBundleVersion': sys.argv[3],
     'DTPlatformName': 'iphoneos',
-    'MinimumOSVersion': '16.0',
+    'MinimumOSVersion': '15.1',
     'CFBundleExecutable': 'RemoteScreen',
 }
 with open(sys.argv[1], 'wb') as stream:

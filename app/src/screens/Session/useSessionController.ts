@@ -50,7 +50,7 @@ import { session } from '../../i18n/zh/session';
 import { sessionHud } from '../../i18n/zh/sessionHud';
 import { useKeyboardInset } from '../../native/keyboard/keyboardInset';
 import { usePlatform } from '../../native/platform/PlatformContext';
-import { maxFps } from '../../native/platform/impl/system';
+import { hevcHardwareDecode, maxFps } from '../../native/platform/impl/system';
 import {
   activateWindow,
   windowsSupported,
@@ -280,6 +280,9 @@ export function useSessionController({
         mode,
         audio: sound,
         maxFps: maxFps(),
+        // HEVC without a hardware decoder (A8) cannot keep up; the host
+        // encodes whatever single codec the app lists.
+        ...(hevcHardwareDecode() === false ? { codec: 'h264' as const } : {}),
         ...(displayId === undefined ? {} : { displayId }),
       };
       const id = await core.sessions.open(hostId, opts);

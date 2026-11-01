@@ -70,3 +70,31 @@ bash tools/release/ios/test.sh
 bash tools/release/android/test.sh
 bash tools/release/mac/test.sh
 ```
+
+## GitHub Actions
+
+`.github/workflows/release.yml` builds both apps on GitHub-hosted runners:
+Android on `ubuntu-24.04`, iOS on `macos-26`. Start it from the Actions tab
+(Run workflow, with a build number and an optional TestFlight upload), or push
+a tag `v<version>` or `v<version>-b<N>` that matches `[workspace.package]
+version` in `Cargo.toml`. A tag uploads the signed iOS build to TestFlight.
+The APK, AAB, IPA, dSYMs and release summaries are kept as workflow artifacts.
+
+Signing comes from repository secrets, named like the Nacos fields:
+
+| Secret | Value |
+|---|---|
+| `ANDROID_RELEASE_KEYSTORE_BASE64` | `base64 < release.keystore` |
+| `MYAPP_UPLOAD_KEY_ALIAS`, `MYAPP_UPLOAD_STORE_PASSWORD`, `MYAPP_UPLOAD_KEY_PASSWORD` | as in `keystore.local.properties` |
+| `IOS_ASC_API_KEY_ID`, `IOS_ASC_API_ISSUER_ID` | as in `asc-api-key.properties` |
+| `IOS_ASC_API_KEY_P8_BASE64` | `base64 < AuthKey_<KEY_ID>.p8` |
+| `IOS_TEAM_ID` | the Apple Developer team ID |
+| `IOS_SIGNING_CERT_P12_BASE64`, `IOS_SIGNING_CERT_PASSWORD` | optional: an exported Apple Development certificate and its password |
+
+For example: `base64 < release.keystore | gh secret set ANDROID_RELEASE_KEYSTORE_BASE64`.
+
+Without the Android secrets, the APK is signed with a throwaway key (the
+artifact name ends in `-throwaway-key`), so it cannot update an installed
+release. Without the iOS secrets, the archive is unsigned (`-unsigned`) and
+nothing is uploaded. Archiving needs an Apple Development identity; without the
+optional `.p12`, Xcode creates one through the API key on each fresh runner.

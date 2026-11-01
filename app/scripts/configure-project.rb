@@ -151,7 +151,7 @@ target.build_configurations.each do |cfg|
     'Remote Screen'
   end
   cfg.build_settings['PRODUCT_MODULE_NAME'] = 'RemoteScreen'
-  cfg.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '16.0'
+  cfg.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.1'
   cfg.build_settings['SWIFT_OBJC_BRIDGING_HEADER'] = 'RemoteScreen/Native/RemoteScreen-Bridging-Header.h'
   # pnpm hoists hermes-compiler; the RN podspec's .pnpm store path is not
   # present with node-linker=hoisted.

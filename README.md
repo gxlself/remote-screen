@@ -53,7 +53,7 @@ their servers. Remote Screen goes the other way:
 
 | Component | Platforms | State |
 |---|---|---|
-| Mobile app (`app/`) | iOS / iPadOS 16+, Android 8.0+ (API 26) | iOS 1.0 submitted to the App Store; Android builds from source |
+| Mobile app (`app/`) | iOS / iPadOS 15.1+, Android 8.0+ (API 26) | iOS 1.0 submitted to the App Store; Android builds from source |
 | Desktop controller (`desktop/`) | macOS 13+, Windows 10/11 | Works, pre-release — build from source |
 | Remote Host agent (`crates/rs-host-agent`) | macOS 13+, Windows 10/11, Linux (X11; Wayland via portal, view only) | Works, pre-release — build from source |
 | Native protocols | macOS Screen Sharing (VNC/ARD), Windows RDP, SSH | Main connection path |

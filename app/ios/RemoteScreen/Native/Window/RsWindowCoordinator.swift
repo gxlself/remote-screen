@@ -110,7 +110,7 @@ final class RsWindowCoordinator: NSObject {
             requestActivation(session, activity: nil, windowId: request.windowId)
             return
         }
-        // iOS 16 API on purpose: the deployment target is 16, and iOS 17's
+        // Pre-iOS 17 API on purpose: the deployment target is 15.1, and iOS 17's
         // UISceneSessionActivationRequest adds nothing needed here.
         requestActivation(nil, activity: Self.activity(for: request), windowId: request.windowId)
     }

@@ -7,7 +7,7 @@ require Pod::Executable.execute_command('node', ['-p',
 
 ENV['RCT_NEW_ARCH_ENABLED'] = '1'
 Pod::Config.instance.cache_root = Pathname.new(File.join(__dir__, 'build', 'pod-cache'))
-platform :ios, '16.0'
+platform :ios, '15.1'
 prepare_react_native_project!
 
 linkage = ENV['USE_FRAMEWORKS']

@@ -47,7 +47,7 @@ def configure_rust_build(installer)
 
   project = installer.pods_project
   rust = project.targets.find { |t| t.name == 'RsMobileBuild' } ||
-    project.new_aggregate_target('RsMobileBuild', [], :ios, '17.0')
+    project.new_aggregate_target('RsMobileBuild', [], :ios, '15.1')
   phase = rust.shell_script_build_phases.find { |p| p.name == 'Build rs-mobile and UniFFI bindings' } ||
     rust.new_shell_script_build_phase('Build rs-mobile and UniFFI bindings')
   phase.shell_script = "set -e\n\"$PODS_ROOT/../../rust/build-ios.sh\"\n"
