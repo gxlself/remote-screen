@@ -54,6 +54,8 @@ pub fn set_last_good(core: &Arc<Core>, host: &TestHost, addr: &str, path: &str) 
 }
 
 pub fn collect(core: &Arc<Core>) -> Arc<EventCollector> {
+    // The hub picks subscribers at delivery, so let earlier events go first.
+    assert!(core.events().flush(Duration::from_secs(1)));
     let events = EventCollector::new();
     core.events().subscribe(events.clone());
     events

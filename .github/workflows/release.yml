@@ -38,7 +38,7 @@ jobs:
       build: ${{ steps.version.outputs.build }}
       upload: ${{ steps.version.outputs.upload }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Read the version and build number
         id: version
         env:
@@ -88,7 +88,7 @@ jobs:
           sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /usr/share/swift \
             /opt/hostedtoolcache/CodeQL /usr/local/share/boost
           df -h /
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install the pinned Rust toolchain (rust-toolchain.toml)
         run: rustup toolchain install
       - uses: Swatinem/rust-cache@v2
@@ -97,7 +97,7 @@ jobs:
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-ndk
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 17
@@ -108,10 +108,10 @@ jobs:
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;$ndk" > /dev/null
           echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$ndk" >> "$GITHUB_ENV"
           echo "ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/$ndk" >> "$GITHUB_ENV"
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           package_json_file: app/package.json
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -156,7 +156,7 @@ jobs:
       - name: Remove signing material
         if: always()
         run: rm -rf "$RUNNER_TEMP/android-signing"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: RemoteScreen-android-${{ needs.meta.outputs.version }}-${{ needs.meta.outputs.build }}${{ env.ANDROID_SIGNING == 'throwaway' && '-throwaway-key' || '' }}
           path: |
@@ -165,7 +165,7 @@ jobs:
             ${{ runner.temp }}/out/android/*.json
             ${{ runner.temp }}/out/android/SHA256SUMS
           if-no-files-found: error
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: android-logs
@@ -183,21 +183,21 @@ jobs:
       # app/rust/build-ios.sh builds with the stable toolchain.
       RUSTUP_TOOLCHAIN: stable
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install the iOS Rust targets
         run: rustup toolchain install stable --profile minimal --target aarch64-apple-ios --target aarch64-apple-ios-sim
       - uses: Swatinem/rust-cache@v2
         with:
           key: ios
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           package_json_file: app/package.json
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
           cache-dependency-path: app/pnpm-lock.yaml
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: app/ios/build/pod-cache
           key: pods-${{ hashFiles('app/ios/Podfile.lock') }}
@@ -255,7 +255,7 @@ jobs:
           if [[ -f "$RUNNER_TEMP/signing.keychain-db" ]]; then
             security delete-keychain "$RUNNER_TEMP/signing.keychain-db"
           fi
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: RemoteScreen-ios-${{ needs.meta.outputs.version }}-${{ needs.meta.outputs.build }}${{ env.IOS_SIGNED != 'true' && '-unsigned' || '' }}
           path: |
@@ -264,7 +264,7 @@ jobs:
             ${{ runner.temp }}/out/ios/*.json
             ${{ runner.temp }}/out/ios/SHA256SUMS
           if-no-files-found: error
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: ios-logs

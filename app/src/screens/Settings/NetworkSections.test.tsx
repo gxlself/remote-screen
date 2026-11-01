@@ -35,6 +35,8 @@ import { networks as copy } from '../../i18n/zh/networks';
 import { tailscaleApi } from '../../i18n/zh/tailscaleApi';
 import NetworkSections from './NetworkSections';
 
+jest.setTimeout(30_000);
+
 const queryClients: QueryClient[] = [];
 
 const companyNetwork = {

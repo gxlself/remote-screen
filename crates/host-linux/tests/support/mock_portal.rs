@@ -539,7 +539,10 @@ impl ScreenCast {
 
 struct RemoteDesktop(Shared);
 
-#[zbus::interface(name = "org.freedesktop.portal.RemoteDesktop")]
+// zbus spawns a task per method call by default, so two Notify* calls (or a
+// Notify* and the injector's Peer.Ping) could be recorded out of order on a
+// small runner. Dispatch inline, in receive order, like a real portal.
+#[zbus::interface(name = "org.freedesktop.portal.RemoteDesktop", spawn = false)]
 impl RemoteDesktop {
     #[zbus(property, name = "version")]
     fn version(&self) -> u32 {
